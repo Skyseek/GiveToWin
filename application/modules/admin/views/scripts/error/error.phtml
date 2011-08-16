@@ -1,0 +1,264 @@
+<?php
+
+$this->layout()->setLayout('minimal');
+$this->bodyClasses = 'error-bg red dark';
+
+$this->headTitle('System Error - ', 'PREPEND');
+
+
+
+
+$stackDesc[] ='</ul>';
+
+
+
+function shortenFilePath($file, $maxLength)
+{
+	if (strlen($file) > $maxLength)
+	{
+		$slashPos = strpos($file, '/', strlen($file)-$maxLength);
+		if ($slashPos !== false)
+		{
+			$file = '...'.substr($file, $slashPos);
+		}
+		else
+		{
+			$file = '...'.substr($file, strlen($file)-$maxLength);
+		}
+	}
+
+	return $file;
+}
+
+function trimDocumentRoot($file, $maxLength = 0)
+{
+	// Windows systems
+	$file = str_replace('\\', '/', $file);
+
+	if (isset($_SERVER['DOCUMENT_ROOT']))
+	{
+		if (strpos($file, $_SERVER['DOCUMENT_ROOT']) === 0)
+		{
+			$file = substr($file, strlen($_SERVER['DOCUMENT_ROOT']));
+		}
+	}
+
+	if ($maxLength > 0)
+	{
+		$file = shortenFilePath($file, $maxLength);
+	}
+
+	return $file;
+}
+
+function buildVarList($vars, $level = 0)
+{
+	$output = '';
+	$indent = str_repeat('	', 6+($level*2));
+	$prefix = ($level == 0) ? '' : '\'';
+	$suffix = ($level == 0) ? '' : '\'';
+
+	foreach ($vars as $key => $value)
+	{
+		if ($level == 0)
+		{
+			$key = $prefix.$key;
+		}
+		elseif (!is_numeric($key))
+		{
+			$key = $prefix.$key.$suffix;
+		}
+
+		if (is_array($value))
+		{
+			$length = count($value);
+
+			$output .= '<li class="close">'."\n".$indent;
+			$output .= '	<b class="toggle"></b>'."\n".$indent;
+			$output .= '	<span><b>'.$key.':</b> array('.$length.')</span>'."\n".$indent;
+			$output .= '	<ul>'."\n".$indent;
+
+			if ($level > 5)
+			{
+				// Prevent infinite recursion
+				$output .= '		<li><span><em>(too much levels)</em></span></li>'."\n".$indent;
+			}
+			elseif ($length > 0)
+			{
+				$output .= '		'.buildVarList($value, $level+1)."\n".$indent;
+			}
+			else
+			{
+				$output .= '	<li><span><em>(empty)</em></span></li>'."\n".$indent;
+			}
+
+			$output .= '	</ul>'."\n".$indent;
+			$output .= '</li>'."\n".$indent;
+		}
+		else
+		{
+			$output .= '<li><span><b>'.$key.':</b> '.describeVar($value).'</span></li>'."\n".$indent;
+		}
+	}
+
+	return rtrim($output);
+}
+
+function describeVar($var)
+{
+	if (is_array($var))
+	{
+		return 'array('.count($var).')';
+	}
+	elseif (is_object($var))
+	{
+		$id = method_exists($var, 'getId') ? $var->getId() : (property_exists($var, 'id') ? $var->id : '');
+		return get_class($var).'('.$id.')';
+	}
+	elseif (is_bool($var))
+	{
+		return ($var ? 'true' : 'false');
+	}
+	elseif (is_string($var))
+	{
+		return '\''.$var.'\'';
+	}
+	else
+	{
+		return $var;
+	}
+}
+
+?>
+<section id="error-desc">
+
+	<ul class="action-tabs with-children-tip children-tip-left">
+		<li><a href="javascript:history.back()" title="Go back"><img src="/skins/admin/assets/img/icons/fugue/navigation-180.png" width="16" height="16"></a></li>
+		<li><a href="javascript:window.location.reload()" title="Reload page"><img src="/skins/admin/assets/img/icons/fugue/arrow-circle.png" width="16" height="16"></a></li>
+	</ul>
+
+	<? if($this->exception): ?>
+	<ul class="action-tabs right with-children-tip children-tip-right">
+		<li><a href="#" title="Show/hide<br>error details" onClick="$(document.body).toggleClass('with-log'); return false;">
+			<img src="/skins/admin/assets/img/icons/fugue/application-monitor.png" width="16" height="16">
+		</a></li>
+	</ul>
+	<? endif;?>
+
+	<div class="block-border"><div class="block-content">
+
+
+		<div class="block-header"><?php echo $this->message ?></div>
+
+		<h2>Error description</h2>
+
+		<p>An error occurred while processing your request. Please return to the previous page and check everything before trying again. If the same error occurs again, please contact your system administrator or report error (see below).</p>
+
+
+
+		<b>Page:</b> <?php echo isset($_SERVER['REQUEST_URI']) ? htmlspecialchars($_SERVER['REQUEST_URI']) : '(undefined)'; ?></p>
+
+		<form class="form" id="send-report" method="post" action="_errors/sendReport.php">
+			<input type="hidden" name="report" id="report" value="<?php echo htmlspecialchars($encodedReport); ?>">
+			<fieldset class="grey-bg no-margin collapse">
+				<legend><a href="#">Report error</a></legend>
+
+				<p>
+					<label for="description" class="light float-left">To report this error, please explain how it happened and click below:</label>
+					<textarea name="description" id="description" class="full-width" rows="4"></textarea>
+				</p>
+
+				<p>
+					<label for="report-sender" class="grey">Your e-mail address (optional)</label>
+					<span class="float-left"><button type="submit" class="full-width">Report</button></span>
+					<input type="text" name="sender" id="sender" value="" class="full-width">
+				</p>
+			</fieldset>
+		</form>
+	</div></div>
+</section>
+
+
+
+<? if($this->exception): ?>
+
+<section id="error-log">
+	<div class="block-border"><div class="block-content">
+		<h1>Error details</h1>
+
+		<div class="fieldset grey-bg with-margin">
+			<p><b>Message</b><br>
+			<?php echo $this->exception->getMessage() ?></p>
+		</div>
+
+		<ul class="picto-list">
+			<li class="icon-tag-small"><b>Php error level:</b> <?= $this->exception->getCode(); ?></li>
+			<li class="icon-doc-small"><b>File:</b> <?= trimDocumentRoot($this->exception->getFile(), 40); ?></li>
+			<li class="icon-pin-small"><b>Line:</b> <?= $this->exception->getLine(); ?></li>
+		</ul>
+
+		<ul class="collapsible-list with-bg">
+			<li class="close">
+				<b class="toggle"></b>
+				<span><b>Context:</b></span>
+				<ul class="with-icon no-toggle-icon">
+					<?php
+
+
+
+					if (count($this->request->getParams()))
+					{
+						echo buildVarList($this->request->getParams());
+					}
+					else
+					{
+						echo '<li><span><em>(empty)</em></span></li>';
+					}
+
+					// Preserve indentation
+					echo "\n";
+
+					?>
+				</ul>
+			</li>
+		</ul>
+
+		<ul class="collapsible-list with-bg">
+			<li class="close">
+				<b class="toggle"></b>
+				<span><b>Back Trace:</b></span>
+				<ul class="with-icon no-toggle-icon">
+					<? foreach($this->exception->getTrace() as $trace):?>
+					<li class="close">
+						<b class="toggle"></b>
+
+						<span><b><?=$trace['function'];?>(<?=count($trace['args']);?>)</b></span>
+						<ul>
+							<li><span><b>File:</b> <?=trimDocumentRoot($trace['file'], 40); ?></span></li>
+							<li><span><b>Line:</b> <?=$trace['line']; ?></span></li>
+							<li><span><b>Class:</b> <?=$trace['class'];?></span></li>
+							<li><span><b>Function:</b> <?=$trace['function'];?></span></li>
+							<? if(count($trace['args'])): ?>
+							<li class="close">
+								<b class="toggle"></b>
+
+								<span><b>Arguments:</b> (<?=count($trace['args']);?>)</span>
+								<ul>
+									<?= buildVarList($trace['args']); ?>
+								</ul>
+							</li>
+							<? endif; ?>
+						</ul>
+					</li>
+					<? endforeach; ?>
+				</ul>
+			</li>
+		</ul>
+
+
+
+	</div></div>
+</section>
+
+<?php endif; ?>
+

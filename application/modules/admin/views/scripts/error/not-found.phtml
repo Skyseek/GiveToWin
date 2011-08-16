@@ -1,0 +1,29 @@
+<?php
+
+$this->layout()->setLayout('minimal');
+$this->bodyClasses = 'code-page dark';
+
+$this->headTitle('Page Not Found - ', 'PREPEND');
+
+?>
+<br /><br />
+
+
+
+<h1>404</h1>
+<p>Page not found</p>
+<section>
+
+	<ul class="action-tabs on-form with-children-tip children-tip-left">
+		<li><a href="javascript:history.back()" title="Go back"><img alt="Go Back" src="/skins/admin/assets/img/icons/fugue/navigation-180.png" width="16" height="16"></a></li>
+	</ul>
+
+	<ul class="action-tabs right on-form with-children-tip children-tip-right">
+		<li><a href="/" title="Go to homepage"><img alt="Go Home" src="/skins/admin/assets/img/icons/fugue/home.png" width="16" height="16"></a></li>
+	</ul>
+
+	<div class="block-content no-title dark-bg">
+		Please check and make sure the URL<br /> you entered is correct.
+	</div>
+
+</section>

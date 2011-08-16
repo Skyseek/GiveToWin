@@ -1,0 +1,28 @@
+
+img {
+	border: 0px;
+}
+
+.content-box .give .shadow {
+	color: #4d5915;
+	display:block;
+	position: absolute;
+	font-size:30pt;
+	top:3px;
+	left:1px;
+	z-index: 20;
+	text-align: center;
+	width:188px;
+}
+
+.content-box .win .shadow {
+	color: #4d5915;
+	display:block;
+	position: absolute;
+	font-size:30pt;
+	top:3px;
+	left:417px;
+	z-index: 20;
+	text-align: center;
+	width:188px;
+}

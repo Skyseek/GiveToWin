@@ -1,0 +1,55 @@
+<?php
+
+//Default Styles/Icons
+$this->headLink()->appendStylesheet('/skins/admin/assets/css/mini.php?files=reset,common,form,standard,special-pages,simple-lists');
+
+$this->headLink()->headLink(array('rel' => 'shortcut', 'href' => '/favicon.ico'));
+$this->headLink()->headLink(array('rel' => 'icon', 'href' => '/favicon-large.png'));
+
+
+//In Reverse Order
+$this->headScript()->prependFile(
+    '/skins/admin/assets/js/standard-ie.js',
+    'text/javascript',
+    array('conditional' => 'lt IE 8')
+);
+
+$this->headScript()->prependFile('/skins/admin/assets/js/mini.php?files=html5,jquery-1.4.2.min,common,standard,jquery.tip.js,list');
+
+?>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<?php echo $this->headTitle(); ?>
+	<meta charset="utf-8">
+
+	<!-- Style Sheets -->
+	<?php echo $this->headLink() ?>
+
+
+
+</head>
+
+<!-- the 'special-page' class is only an identifier for scripts -->
+<body class="special-page <?=$this->bodyClasses; ?>">
+<!-- The template uses conditional comments to add wrappers div for ie8 and ie7 - just add .ie, .ie7 or .ie6 prefix to your css selectors when needed -->
+<!--[if lt IE 9]><div class="ie"><![endif]-->
+<!--[if lt IE 8]><div class="ie7"><![endif]-->
+
+
+	<?= $this->layout()->content; ?>
+
+<!--[if lt IE 8]></div><![endif]-->
+<!--[if lt IE 9]></div><![endif]-->
+
+
+	<!-- Scripts -->
+	<?php echo $this->headScript() ?>
+
+
+</body>
+</html>

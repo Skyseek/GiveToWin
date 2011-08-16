@@ -1,0 +1,210 @@
+<?php
+
+$this->layout()->setLayout('minimal');
+$this->headTitle('Welcome - ', 'PREPEND');
+
+
+?>
+<style>
+
+    #step1, #step2 {
+        width:400px;
+        padding:10px;
+        position:fixed;
+        left: 3000px;
+        top:250px;
+        float: left;
+    }
+
+    input.invalid {
+        border: 1px solid red;
+    }
+
+	.facebookLoginLong {
+		background-image: url(/skins/default/image/social_login/facebook_signin.png);
+		width: 150px;
+		height: 23px;
+		display:inline-block;
+	}
+
+	.facebookLoginLong:hover {
+		background-position: left 46px;
+	}
+
+	.facebookLoginLong:active {
+		background-position: left 23px;
+	}
+}
+
+</style>
+
+
+<form method="post" id="registerForm" action="/" onsubmit="validateStep2();return false; " >
+
+	<div class="content-box" style="width:420px;" id="step1" onclick="centerStep1()">
+		<table width="100%" cellpadding="0" cellspacing="0" border="0">
+			<tr class="header">
+				<td class="left"></td>
+				<td class="center" width="402"></td>
+				<td class="right"></td>
+			</tr>
+			<tr>
+				<td class="title" colspan="3">
+					<b>Step 1</b>: Select Your City
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" class="body">
+
+					<table width="100%">
+						<tr>
+							<td>
+								<select name="city_id" style="width:100%">
+									<?php foreach ($this->cities as $city): ?>
+										<option value="<?php echo $city->id; ?>"><?php echo $city->city; ?>, <?php echo $city->state->state; ?></option>
+									<?php endforeach; ?>
+								</select>
+							</td>
+							<td align="right"><a href="javascript:centerStep2()">Next Step&gt;&gt;</a>&nbsp;&nbsp;&nbsp;</td>
+						</tr>
+
+						<tr>
+							<td width="325" colspan="2" align="center" style="text-align:center;">
+								<hr style="border: 1px solid #cccccc; margin:8px;"/>
+
+								<center>
+								<table>
+									<tr valign="top">
+										<td><a href="/User/Login#mb_login" rell="lightbox[login 640 270]" >Sign In</a></td>
+										<td>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;</td>
+										<td><a href="/User/Register#mb_register" rell="lightbox[register 640 515]" >Register</a></td>
+										<td>&nbsp;&nbsp;&nbsp;Or&nbsp;&nbsp;</td>
+										<td>
+											<a href="#facebookLogin!" onclick="loginWithFacebook()">
+												<div class="facebookLoginLong"></div>
+											</a>
+										</td>
+									</tr>
+								</table>
+								</center>
+							</td>
+						</tr>
+					</table>
+
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="content-box" style="width:420px;" id="step2" onclick="centerStep2()">
+		<table width="100%" cellpadding="0" cellspacing="0" border="0">
+			<tr class="header">
+				<td class="left"></td>
+				<td class="center" width="402"></td>
+				<td class="right"></td>
+			</tr>
+			<tr>
+				<td class="title" colspan="3">
+					<b>Step 2</b>: Enter Your Email Address
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" class="body">
+
+					<table width="100%">
+						<tr>
+							<td>
+								<input type="text" name="email" id="email" style="width:100%" />
+							</td>
+							<td align="right"><a href="javascript:validateStep2()">Next Step &gt;&gt;</a>&nbsp;&nbsp;&nbsp;</td>
+						</tr>
+						<tr>
+							<td style="color:red; display: none;" id="emailError" align="center">Please enter a valid email address.</td>
+						</tr>
+					</table>
+
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+
+
+<script type="text/javascript">
+
+    var currentStep = 1;
+
+    function centerStep1() {
+        currentStep = 1;
+        size = window.getSize();
+
+        $('step1').morph({
+            'left': (size.x / 2) - 220,
+            'opacity': 1
+        });
+
+        $('step2').morph({
+            'left': size.x - 220,
+            'opacity': .3
+        });
+    }
+
+    function centerStep2() {
+        currentStep = 2;
+        size = window.getSize();
+
+        $('step1').morph({
+            'left': -220,
+            'opacity': .3
+        });
+
+        $('step2').morph({
+            'left': (size.x / 2) - 220,
+            'opacity': 1
+        });
+    }
+
+    function validateStep2() {
+        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        var address = $('email').value;
+        if(!reg.test(address)) {
+            $('email').className = 'invalid';
+            $('emailError').setStyle('display', '');
+        } else {
+            $('step1').morph({
+                'left': -2000,
+                'opacity': .3
+            });
+
+            $('step2').morph({
+                'left': -200,
+                'opacity': 0
+            });
+
+            setTimeout(submitForm, 200);
+        }
+    }
+
+    function submitForm() {
+        $('registerForm').submit();
+    }
+
+    function centerCurrentStep() {
+        if(currentStep == 1) {
+            centerStep1();
+        } else {
+            centerStep2();
+        }
+    }
+
+	$(window).addEvent( 'domready', centerStep1);
+	$(window).addEvent( 'resize', centerCurrentStep);
+
+</script>
+
+
+<center>
+	<div style="margin-top:180px;font-size:8pt;width: 400px;">
+		<p>Give to Win is an online community network that allows you to support local nonprofits solving issues that are important to you. When you give to these organizations, local businesses show their support by offering you special deals. Give back to your community, give back to yourself.</p>
+	</div>
+</center>
