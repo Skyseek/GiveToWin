@@ -1,0 +1,18 @@
+
+
+<table style="width:800px;">
+	<thead>
+		<th>ID</th>
+		<th>First Name</th>
+		<th>Status</th>
+	</thead>
+	<tbody>
+		<? foreach($this->users as $user):?>
+		<tr>
+			<td><?=$user->id;?></td>
+			<td><?=$user->first_name;?></td>
+			<td><?=$user->status->status;?></td>
+		</tr>
+		<? endforeach; ?>
+	</tbody>
+</table>
