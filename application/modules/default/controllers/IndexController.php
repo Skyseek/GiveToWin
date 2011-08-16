@@ -24,4 +24,8 @@ class Default_IndexController extends Zend_Controller_Action
     public function newVisitorAction() {
         $this->view->cities = $this->_cityService->getAllCities();
     }
+
+	public function emailTestAction() {
+		
+	}
 }
