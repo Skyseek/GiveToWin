@@ -1,7 +1,7 @@
 <?php
 
 //Default Styles/Icons
-$this->headLink()->appendStylesheet('/skins/admin/assets/css/mini.php?files=reset,common,form,standard,960.gs.fluid,simple-lists,block-lists');
+$this->headLink()->appendStylesheet('/skins/admin/assets/css/mini.php?files=reset,common,form,standard,960.gs.fluid,simple-lists,block-lists,table');
 
 $this->headLink()->headLink(array('rel' => 'shortcut', 'href' => '/favicon.ico'));
 $this->headLink()->headLink(array('rel' => 'icon', 'href' => '/favicon-large.png'));
@@ -109,8 +109,8 @@ $this->headScript()->prependFile('/skins/admin/assets/js/mini.php?files=html5,jq
 	<!-- Server status -->
 	<header>
 		<div class="container_12">
-			<div class="server-info">GC Version: <strong>0.1</strong></div>
-			<div class="server-info">Build: <strong>1</strong></div>
+			<div class="server-info">GTW Version: <strong>0.9</strong></div>
+			<div class="server-info">Rev: <strong>1</strong></div>
 		</div>
 	</header>
 	<!-- End server status -->
@@ -118,17 +118,17 @@ $this->headScript()->prependFile('/skins/admin/assets/js/mini.php?files=html5,jq
 	<!-- Main nav -->
 	<nav id="main-nav">
 		<ul class="container_12">
-			<li class="home current"><a href="#" title="Admin"></a>
+			<?=$this->navCategory('home', 'Admin', '/admin/')?>
 				<ul>
-					<li class="current"><a href="#" title="Dashboard">My Dashboard</a></li>
+					<?=$this->navLink('dashboard', 'Dashboard', '/admin/email/browse-templates');?>
 				</ul>
 			</li>
-			<li class="write"><a href="#" title="Certificates">Certificates</a>
+			<?=$this->navCategory('email', 'Email', '/admin/email/')?>
 				<ul>
-					<li><a href="#" title="Articles">Browse Certificates</a></li>
-					<li><a href="#" title="Add article">Add New Certificate</a></li>
+					<?=$this->navLink('emailTemplates', 'Templates', '/admin/email/browse-templates');?>
 				</ul>
 			</li>
+			<!--
 			<li class="users"><a href="#" title="Users">Users</a>
 				<ul>
 					<li><a href="#" title="Browse">Browse Users</a></li>
@@ -136,6 +136,7 @@ $this->headScript()->prependFile('/skins/admin/assets/js/mini.php?files=html5,jq
 				</ul>
 			</li>
 			<li class="stats"><a href="#" title="Redemptions">Redemptions</a></li>
+			-->
 		</ul>
 	</nav>
 	<!-- End main nav -->

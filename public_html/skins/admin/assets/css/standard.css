@@ -237,6 +237,7 @@ nav {
 				transition: opacity 2s;
 			}
 			nav > ul > li.home, nav > ul > li.home > a { background-image: url(../img/icons/home_2states.png); }
+			nav > ul > li.email, nav > ul > li.email > a { background-image: url(../img/icons/write_2states.png); }
 			nav > ul > li.write, nav > ul > li.write > a { background-image: url(../img/icons/write_2states.png); }
 			nav > ul > li.comments, nav > ul > li.comments > a { background-image: url(../img/icons/comments_2states.png); }
 			nav > ul > li.medias, nav > ul > li.medias > a { background-image: url(../img/icons/medias_2states.png); }
