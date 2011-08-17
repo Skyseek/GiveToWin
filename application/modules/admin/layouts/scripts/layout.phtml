@@ -174,7 +174,13 @@ $this->headScript()->prependFile('/skins/admin/assets/js/mini.php?files=html5,jq
 	<!-- End status bar -->
 
 	<div id="header-shadow"></div>
+
+	<? if($this->controlBar): ?>
+		<?=$this->controlBar;?>
+	<? endif;?>
+
 	<!-- End header -->
+
 
 
 

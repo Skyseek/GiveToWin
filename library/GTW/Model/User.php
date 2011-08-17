@@ -35,6 +35,8 @@ class GTW_Model_User extends Skyseek_Model_Entity {
 	public $password;
 	public $first_name;
 	public $last_name;
+	public $gender;
+	public $birth_date;
 
 	private $_status;
 	private $_statusMapper;
