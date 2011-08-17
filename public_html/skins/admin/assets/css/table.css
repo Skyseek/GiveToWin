@@ -262,8 +262,12 @@
 			.table .black-cell span.error, .with-head .black-cell span.error { background-image: url(../img/icons/fugue/cross-circle.png); }
 			.table .black-cell span.success, .with-head .black-cell span.success { background-image: url(../img/icons/fugue/tick-circle-blue.png); }
 	
+	.table tbody .table-actions{
+		text-align: center;
+	}
+	
 	.table-actions a img {
-		margin: -2px 0;
+		margin: -2px 10px 2px 0;
 	}
 	
 /************ Sort arrows ************/

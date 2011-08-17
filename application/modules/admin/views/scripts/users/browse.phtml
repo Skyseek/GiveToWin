@@ -1,18 +1,68 @@
-
-
-<table style="width:800px;">
-	<thead>
-		<th>ID</th>
-		<th>First Name</th>
-		<th>Status</th>
-	</thead>
-	<tbody>
-		<? foreach($this->users as $user):?>
-		<tr>
-			<td><?=$user->id;?></td>
-			<td><?=$user->first_name;?></td>
-			<td><?=$user->status->status;?></td>
-		</tr>
-		<? endforeach; ?>
-	</tbody>
-</table>
+<script type="text/javascript" src="/skins/admin/assets/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/skins/admin/assets/js/jquery.modal.js"></script>
+<script type="text/javascript">
+		alert("kjasdjasd");
+	function openModalDelete()
+	{
+		$.modal({
+			content: '<p>Yes, Permanently delete user. <br> No, don't delete user.</p>',
+			title: 'Are you sure you want to delete this user?',
+			maxWidth: 500
+		});
+	}
+</script>
+<?php
+	$this->category = 'users';
+	$this->page = 'browse';
+	$this->breadCrumbs = array(
+	array('title'=>'Admin', 'url'=>'/admin'),
+	array('title'=>'Users', 'url'=>'/admin/users'),
+	array('title'=>'Browse', 'url'=>'/admin/users/browse')
+	);
+?>
+		<section class="grid_12">
+			<div class="block-border"><form class="block-content form" id="table_form" method="post" action="">
+				<h1>Users</h1>
+				<div class="block-controls">					
+					<ul class="controls-buttons">
+						<li><a href="#" title="Previous"><img src="/skins/admin/assets/img/icons/fugue/navigation-180.png" width="16" height="16"> Prev</a></li>
+						<li><a href="#" title="Page 1"><b>1</b></a></li>
+						<li><a href="#" title="Page 2" class="current"><b>2</b></a></li>
+						<li><a href="#" title="Page 3"><b>3</b></a></li>
+						<li><a href="#" title="Page 4"><b>4</b></a></li>
+						<li><a href="#" title="Page 5"><b>5</b></a></li>
+						<li><a href="#" title="Next">Next <img src="/skins/admin/assets/img/icons/fugue/navigation.png" width="16" height="16"></a></li>
+					</ul>					
+				</div>			
+				<div class="no-margin"><table class="table" cellspacing="0" width="100%">				
+					<thead>
+						<tr>
+							<th scope="col">ID</th>
+							<th scope="col">First Name</th>
+							<th scope="col">Last Name</th>
+							<th scope="col">Email</th>
+							<th scope="col">Status</th>
+							<th scope="col">Actions</th>
+						</tr>
+					</thead>					
+					<tbody>			
+						<? foreach($this->users as $user):?>			
+						<tr>
+							<td><?=$user->id;?></td>
+							<td><?=$user->first_name;?></td>
+							<td><?=$user->last_name;?></td>
+							<td><?=$user->email;?></td>
+							<td><?=$user->status->status;?></td>
+							<td class="table-actions">
+								<a href="/admin/users/edit/id/<?=$user->id;?>" title="Edit" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/user-edit.png" width="16" height="16"></a>
+								<a href="javascript:void(0);" onClick="openModalDelete();" title="Delete" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/user-delete.png" width="16" height="16"></a>
+							</td>
+						</tr>
+						<? endforeach; ?>						
+					</tbody>				
+				</table></div>				
+				<ul class="message no-margin">
+					<li>Results 1 - 5 out of 23</li>
+				</ul>
+			</form></div>
+		</section>
