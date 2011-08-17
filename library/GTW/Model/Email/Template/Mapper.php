@@ -108,5 +108,4 @@ class GTW_Model_Email_Template_Mapper extends Skyseek_Model_Mapper {
 
 		return $entity;
 	}
-
 }

@@ -42,7 +42,7 @@ class GTW_Service_User {
 		return self::$_instance;
 	}
 
-	public static function getSubscriberByEmail($email, $createIfNonExistant=true) {
+	public function getSubscriberByEmail($email, $createIfNonExistant=true) {
 		$user = $this->getUserByEmail($email);
 
 		if(!$user && $createIfNonExistant)
@@ -51,7 +51,7 @@ class GTW_Service_User {
 		return $user;
 	}
 
-	public static function createSubscriber($email) {
+	public function createSubscriber($email) {
 		$user = new GTW_Model_User(array('email'=>$email));
 		$user->referenceId('role_id', GTW_Model_User_Role::SUBSCRIBER);
 		$user->referenceId('status_id', GTW_Model_User_Status::SUBSCRIBER);
@@ -60,10 +60,14 @@ class GTW_Service_User {
 		return $user;
 	}
 
-	public static function getUserByEmail($email) {
+	public function getUserByEmail($email) {
 		$request = new Skyseek_Model_Entity_Collection_Request(1, 1);
 		$request->addFilter('email', '=', $email);
 
 		return GTW_Model_User_Mapper::getInstance()->getUserCollection($request)->current();
+	}
+
+	public function getEditForm() {
+		return new GTW_Model_User_Form();
 	}
 }

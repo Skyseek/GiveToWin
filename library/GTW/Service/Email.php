@@ -48,4 +48,12 @@ class GTW_Service_Email {
 	public function getAllTemplates() {
 		return GTW_Model_Email_Template_Mapper::getInstance()->getTemplateCollection();
 	}
+
+	public function getTemplate($id) {
+		return GTW_Model_Email_Template_Mapper::getInstance()->getTemplate($id);
+	}
+
+	public function getTemplateForm() {
+		return new GTW_Model_Email_Template_Form();
+	}
 }

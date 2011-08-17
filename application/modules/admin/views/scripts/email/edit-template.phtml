@@ -1,4 +1,89 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Email</b> and script/action name <b>editTemplate</b></p>
+<?php
+
+$this->category = 'email';
+$this->page = 'browseEmailTemplates';
+
+$this->breadCrumbs = array(
+	array('title'=>'Admin', 'url'=>'/admin'),
+	array('title'=>'Email', 'url'=>'/admin/email'),
+	array('title'=>'Templates', 'url'=>'/admin/email/browse-templates'),
+	array('title'=>"Edit #{$this->template->id}", 'url'=>"/admin/email/edit-template/id/{$this->template->id}")
+);
+
+$time = time();
+$this->controlBar = <<<HTML
+<div id="control-bar" class="grey-bg clearfix" style="opacity: 1; ">
+	<div class="container_12">
+		<div class="float-left">
+			<button onclick="window.location='/admin/email/browse-templates'" type="button"><img src="/skins/admin/assets/img/icons/fugue/navigation-180.png" width="16" height="16"> Back to list</button>
+		</div>
+
+		<div class="float-right">
+			<button onclick="window.location='/admin/email/browse-templates'" type="button" class="red">Cancel</button>
+			<button type="button" onclick="window.location='/admin/email/edit-template/id/{$this->template->id}/time/$time'" class="grey">Reset</button>
+			<button type="button"><img src="/skins/admin/assets/img/icons/fugue/tick-circle.png" width="16" height="16"> Save Template</button>
+		</div>
+	</div>
 </div>
+HTML;
+?>
+
+<section class="grid_12">
+	<div class="block-border"><form class="block-content form" id="complex_form" method="post" action="">
+		<h1>Edit Template</h1>
+
+		<div class="block-controls">
+			<ul class="controls-tabs js-tabs">
+				<li><a href="#" title="Template Settings"><img src="/skins/admin/assets/img/icons/oxygen/22/configure.png" width="24" height="24"></a></li>
+			</ul>
+		</div>
+
+
+		<div class="columns">
+			<div class="col200pxL-left">
+				<h2>Settings</h2>
+				<ul class="side-tabs js-tabs same-height">
+					<li><a href="#tab-settings" title="Setting">Setting</a></li>
+					<li><a href="#tab-text" title="Text Version">Text Version</a></li>
+					<li><a href="#tab-html" title="HTML Version">HTML Version</a></li>
+				</ul>
+
+			</div>
+			<div class="col200pxL-right">
+				<?=$this->form;?>
+			</div>
+		</div>
+	</form></div>
+</section>
+
+
+
+
+<?php
+
+$this->headScript()->appendFile(
+    '/skins/admin/assets/js/ckeditor/ckeditor.js',
+    'text/javascript'
+);
+
+$this->headScript()->appendFile(
+    '/skins/admin/assets/js/ckeditor/adapters/jquery.js',
+    'text/javascript'
+);
+?>
+
+
+<?php $this->headScript()->captureStart() ?>
+		$(function()
+		{
+			var	config = {
+				skin : 'office2003',
+				fullPage : true,
+				extraPlugins : 'docprops',
+				height:565
+			}
+
+			
+			$('#html_body').ckeditor(config);
+		});
+<?php $this->headScript()->captureEnd() ?>

@@ -7,7 +7,11 @@
 		$.modal({
 			content: '<p>Yes, Permanently delete user. <br> No, don't delete user.</p>',
 			title: 'Are you sure you want to delete this user?',
-			maxWidth: 500
+			maxWidth: 500,
+			buttons: {
+				'Yes': function(win) { openModalDelete(); },
+				'No': function(win) { win.closeModal(); }
+			}
 		});
 	}
 </script>
@@ -55,7 +59,7 @@
 							<td><?=$user->status->status;?></td>
 							<td class="table-actions">
 								<a href="/admin/users/edit/id/<?=$user->id;?>" title="Edit" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/user-edit.png" width="16" height="16"></a>
-								<a href="javascript:void(0);" onClick="openModalDelete();" title="Delete" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/user-delete.png" width="16" height="16"></a>
+								<a href="javascript:void(0);" onClick="openModalDelete(); return false;" title="Delete" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/user-delete.png" width="16" height="16"></a>
 							</td>
 						</tr>
 						<? endforeach; ?>						

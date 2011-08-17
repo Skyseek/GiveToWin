@@ -38,4 +38,6 @@ class GTW_Model_Email_Template extends Skyseek_Model_Entity {
 	public $subject;
 	public $text_body;
 	public $html_body;
+	public $from_email;
+	public $from_alias;
 }
