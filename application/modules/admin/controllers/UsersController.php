@@ -9,9 +9,12 @@ class Admin_UsersController extends Zend_Controller_Action
 		$this->_userService = new GTW_Service_User();
     }
 
-    public function indexAction()
-    {
-		
+    public function indexAction() {
+		$this->_forward('browse');
+    }
+
+	public function deleteUserAction() {
+		$this->_forward('browse');
     }
 
     public function browseAction() {
