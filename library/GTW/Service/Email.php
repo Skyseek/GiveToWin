@@ -53,7 +53,19 @@ class GTW_Service_Email {
 		return GTW_Model_Email_Template_Mapper::getInstance()->getTemplate($id);
 	}
 
-	public function getTemplateForm() {
-		return new GTW_Model_Email_Template_Form();
+	/**
+	 *
+	 * @param GTW_Model_Email_Template $template
+	 * @return GTW_Model_Email_Template_Form
+	 */
+	public function getTemplateForm(GTW_Model_Email_Template $template) {
+		$form = GTW_Model_Email_Template_Mapper::getInstance()->getForm();
+		$form->setTemplate($template);
+		
+		return $form;
+	}
+
+	public function save(GTW_Model_Email_Template $template) {
+		return GTW_Model_Email_Template_Mapper::getInstance()->save($template);
 	}
 }

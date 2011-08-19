@@ -32,6 +32,21 @@
  * @author     Sean Thayne <sean@skyseek.com
  */
 class GTW_Model_Email_Template_Form extends Zend_Form {
+
+	protected $_template;
+
+	public function setTemplate(GTW_Model_Email_Template $template) {
+		$this->populate($template->toArray());
+		$this->_template = $template;
+	}
+
+	public function getTemplate() {
+		foreach($this->getValues() as $subValues)
+			$this->_template->setPropertiesFromArray($subValues);
+
+		return $this->_template;
+	}
+
     public function  __construct($options = null) {
 		parent::__construct($options);
 
@@ -61,6 +76,8 @@ class GTW_Model_Email_Template_Form extends Zend_Form {
 		$this->addSubForm($tabOne, 'settings');
 		$this->addSubForm($tabTwo, 'text_form');
 		$this->addSubForm($tabThree, 'html_form');
+
+		$this->removeDecorator('Form');
 
 
 		//$this->setDisableLoadDefaultDecorators(false);
@@ -109,12 +126,6 @@ class GTW_Model_Email_Template_Form extends Zend_Form {
 				->addValidator('StringLength', false,array(5,128))
 				->setRequired(true),
 
-			$this->createElement('text', 'from_email')
-				->setLabel('From Email Address')
-				->setAttrib('class', 'full-width')
-				->addValidator('StringLength', false,array(5,256))
-				->addValidator('EmailAddress')
-				->setRequired(true),
 
 			$this->createElement('text', 'from_email')
 				->setLabel('From Email Address')
@@ -143,6 +154,7 @@ class GTW_Model_Email_Template_Form extends Zend_Form {
 
 			new Skyseek_Form_Message('adminNotes', array(
 				'message'		=> "These settings <strong>don't affect</strong> the emails sent out. They are only used for sanity's sake of keeping the templates organized.",
+				'messageType'	=> 'info',
 				'showClose'		=> 'true'
 			))
 		));

@@ -17,19 +17,87 @@ class Admin_EmailController extends Zend_Controller_Action
         $this->view->templates = $this->_emailService->getAllTemplates();
     }
 
-    public function editTemplateAction() {
+	public function previewTemplateAction() {
         $id = (int) $this->_getParam('id');
-
-		if(!$id)
+		$template = $this->_emailService->getTemplate($id);
+		if(!$template)
 			$this->_forward('browse-templates');
 
-		$this->view->form = $this->_emailService->getTemplateForm();
 
-		echo $this->view->form;
-		exit;
+		$this->view->city = $this->createCity();
+		$this->view->user = $this->createTestUser();
+		$this->view->template = $template;
+	}
 
-		$this->view->template = $this->_emailService->getTemplate($id);
+    public function editTemplateAction() {
+
+
+        $id = (int) $this->_getParam('id');
+		$template = $this->_emailService->getTemplate($id);
+		if(!$template) 
+			$this->_forward('browse-templates');
+
+		$request = $this->getRequest();
+		$form = $this->_emailService->getTemplateForm($template);
+
+		if($request->isPost()) {
+			if($form->isValid($request->getPost())) {
+				$this->_emailService->save($form->getTemplate());
+				$this->view->saveSuccess = true;
+			} else
+				$this->view->saveError = true;
+		}
+		
+		$this->view->form = $form;
+		$this->view->template = $template;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+	private function createCity() {
+		$city = new GTW_Model_City();
+		$city->city = 'Atlanta';
+		$city->id = 123;
+		$city->setState(new GTW_Model_State(array(
+			'state' => 'Georgia',
+			'id' => 1
+		)));
+
+		return $city;
+	}
+
+
+
+	private function createTestUser() {
+		return new GTW_Model_User(array(
+			'id'			=> 1,
+			'first_name'	=> "John",
+			'last_name'		=> "Doe",
+			'email'			=> 'john_doe@gmail.com',
+			'status'		=> $this->createTestStatus(),
+			'gender'		=> "Male",
+			'birth_date'	=> "2000-12-25"
+		));
+	}
+
+	private function createTestStatus() {
+		return new GTW_Model_User_Status(
+			array(
+				'id'			=> 1,
+				'status'		=> 'Active',
+				'description'	=> 'User is active.'
+			)
+		);
+	}
 }
 
 

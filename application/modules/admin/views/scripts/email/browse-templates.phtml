@@ -34,7 +34,7 @@ $this->breadCrumbs = array(
 					<th scope="col">
 						Subject
 					</th>
-					<th scope="col" width="50" class="table-actions">Actions</th>
+					<th scope="col" width="100" class="table-actions">Actions</th>
 				</tr>
 			</thead>
 
@@ -42,7 +42,7 @@ $this->breadCrumbs = array(
 				<? foreach($this->templates as $template): ?>
 				<tr>
 					<td><?=$template->id;?></td>
-					<td><?=$template->name;?></td>
+					<td><a href="/admin/email/edit-template/id/<?=$template->id;?>"><b><?=$template->name;?></b></a></td>
 					<td><?=$template->subject;?></td>
 					<td class="table-actions">
 						<a href="/admin/email/preview-template/id/<?=$template->id;?>" title="Preview" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/magnifier.png" width="16" height="16"></a>

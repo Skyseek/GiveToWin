@@ -99,7 +99,9 @@ class GTW_Model_Email_Template_Mapper extends Skyseek_Model_Mapper {
 			'description'	=> $data['description'],
 			'subject'		=> $data['subject'],
 			'text_body'		=> $data['text_body'],
-			'html_body'		=> $data['html_body']
+			'html_body'		=> $data['html_body'],
+			'from_alias'	=> $data['from_alias'],
+			'from_email'	=> $data['from_email']
 		));
 
 		if (!$lazyLoad) {
@@ -107,5 +109,35 @@ class GTW_Model_Email_Template_Mapper extends Skyseek_Model_Mapper {
 		}
 
 		return $entity;
+	}
+
+	public function save(GTW_Model_Email_Template $template) {
+
+		$validator = $this->getForm();
+
+		if(!$validator->isValid($template->toArray()))
+			throw new Exception("Invalid Data made it all the way down here... smh.");
+
+		$data = array(
+			'name'			=> $template->name,
+			'description'	=> $template->description,
+			'subject'		=> $template->subject,
+			'text_body'		=> $template->text_body,
+			'html_body'		=> $template->html_body,
+			'from_alias'	=> $template->from_alias,
+			'from_email'	=> $template->from_email
+		);
+
+		if($template->id == null) {
+			$template->id =  $this->_getGateway()->insert($data);
+		} else {
+			$this->_getGateway()->update($data, 'id=' . ((int)$template->id));
+		}
+
+		return $template;
+	}
+
+	public function getForm() {
+		return new GTW_Model_Email_Template_Form();
 	}
 }

@@ -1,0 +1,20 @@
+<?php
+
+$this->layout()->setLayout('email');
+
+$user = $this->user;
+$city = $this->city->city;
+$state = $this->city->state->state;
+
+$pattern = '/%%(.*)-&gt;(.*)%%/';
+$replacement = '<?php echo $${1}->${2}; ?>';
+$html =  preg_replace($pattern, $replacement, $this->template->html_body);
+
+
+$pattern = '/%%([a-z,A-Z]*)%%/';
+$replacement = '<?php echo $${1}; ?>';
+$html = preg_replace($pattern, $replacement, $html);
+
+eval('?>' . $html);
+
+?>

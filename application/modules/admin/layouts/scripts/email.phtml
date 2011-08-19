@@ -1,0 +1,218 @@
+<?php
+$this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+$this->headTitle()->setSeparator(' - ');
+$this->headTitle('Give to Win');
+echo $this->doctype();
+?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<?php echo $this->headTitle(); ?>
+		<?php echo $this->headMeta(); ?>
+		<style type="text/css"> 
+			body,.backgroundTable{
+				background-color:#eeeeee;
+			}
+			#contentTable{
+				border:0px none #000000;
+				margin-top:10px;
+			}
+			.headerTop{
+				background-color:#2C6789;
+				border-top:0px none #000000;
+				border-bottom:0px none #FFFFFF;
+				text-align:center;
+				padding:0px;
+			}
+			.adminText{
+				font-size:10px;
+				color:#ffffff;
+				line-height:200%;
+				font-family:Helvetica;
+				text-decoration:none;
+			}
+			.headerBar{
+				background-color:#2C6789;
+				border-top:0px none #333333;
+				border-bottom:0px none #FFFFFF;
+				padding:0px;
+			}
+			.headerBarText{
+				color:#333333;
+				font-size:30px;
+				font-family:Helvetica;
+				font-weight:normal;
+				text-align:left;
+			}
+			.title{
+				font-size:24px;
+				font-weight:bold;
+				color:#FFFFFF;
+				font-family:Helvetica;
+				line-height:110%;
+			}
+			.subTitle{
+				font-size:14px;
+				font-weight:bold;
+				color:#B9D432;
+				font-style:normal;
+				font-family:Helvetica;
+			}
+			.defaultText{
+				font-size:12px;
+				color:#FFFFFF;
+				line-height:150%;
+				font-family:Helvetica;
+				width:400px;
+				background-color:#404043;
+				padding:20px;
+			}
+			.sideColumn{
+				background-color:#404043;
+				border-left:1px solid #DDDDDD;
+				text-align:left;
+				width:200px;
+				padding:20px;
+				margin:0px;
+			}
+			.sideColumnText{
+				font-size:11px;
+				font-weight:normal;
+				color:#FFFFFF;
+				font-family:Helvetica;
+				line-height:150%;
+			}
+			.sideColumnTitle{
+				font-size:15px;
+				font-weight:bold;
+				color:#FFFFFF;
+				font-family:Helvetica;
+				line-height:150%;
+			}
+			.footerRow{
+				background-color:#404043;
+				border-top:0px none #FFFFFF;
+				padding:20px;
+			}
+			.footerText{
+				font-size:10px;
+				color:#FFFFFF;
+				line-height:100%;
+				font-family:Helvetica;
+			}
+			a,a:link,a:visited{
+				color:#17488a;
+				text-decoration:underline;
+				font-weight:normal;
+			}
+			.headerTop a{
+				color:#51AEC9;
+				text-decoration:none;
+				font-weight:normal;
+			}
+			.footerRow a{
+				color:#FFFFFF;
+				text-decoration:underline;
+				font-weight:normal;
+			}
+			#templateHeader{
+				background-color:#eae8e7;
+			}
+			.headerContent{
+				font-family:Arial;
+			}
+			.headerContent a{
+				color:#ffffff;
+				text-decoration:none;
+			}
+			body,.backgroundTable{
+				background-color:#2C6789;
+			}
+			a,a:link,a:visited{
+				color:#51AEC9;
+				font-weight:bold;
+			}
+		</style>
+	</head>
+	<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="background-color: #2C6789;">  
+		<table width="100%" cellpadding="10" cellspacing="0" class="backgroundTable" style="background-color: #2C6789;">
+			<tr><td valign="top" align="center">  
+				<table id="contentTable" cellspacing="0" cellpadding="0" width="600" style="border: 0px none #000000;margin-top: 10px;">
+					<tr><td>  
+						<table width="600" cellpadding="0" cellspacing="0"> 
+							<!-- Header -->
+							<tr> 
+								<td class="headerTop" align="right" style="background-color: #2C6789;border-top: 0px none #000000;border-bottom: 0px none #FFFFFF;text-align: center;padding: 0px;">
+									<div class="adminText" style="font-size: 10px;color: #ffffff;line-height: 200%;font-family: Helvetica;text-decoration: none;"> 
+									Email not displaying correctly?	<a href="#" class="adminText" style="color: #51AEC9;text-decoration: none;font-weight: normal;font-size: 10px;line-height: 200%;font-family: Helvetica;">View it in your browser.</a> 
+									</div>
+								</td> 
+							</tr>  
+							<!-- //Header -->
+							<tr> 
+								<td align="left" valign="middle" class="headerBar" style="background-color: #2C6789;border-top: 0px none #333333;border-bottom: 0px none #FFFFFF;padding: 0px;"><div class="headerBarText" style="color: #333333;font-size: 30px;font-family: Helvetica;font-weight: normal;text-align: left;"> 
+									<div style="text-align: left;"><a href="http://www.givetowin.org" style="color: #51AEC9;text-decoration: underline;font-weight: bold;"><img src="http://gallery.mailchimp.com/60d649b2e466b743ce07d3f63/images/GivetoWin_Logo1_BluBkgrnd.1.1.png" alt="Give to Win" border="0" style="margin: 0; padding: 0;max-width: 600px;" width="240" height="102"></a></div> 
+									</div>
+								</td> 
+							</tr> 
+						</table>  
+						<table width="600" cellpadding="20" cellspacing="0" class="bodyTable"> 
+							<!-- Content -->
+							<tr> 		 
+								<td valign="top" class="defaultText" align="left" style="font-size: 12px;color: #FFFFFF;line-height: 150%;font-family: Helvetica;width: 400px;background-color: #404043;padding: 20px;"><meta charset="utf-8"> 
+									<?php echo $this->layout()->content; ?>										
+								</td> 		 
+								<td valign="top" class="sideColumn" align="left" style="margin: 0px;background-color: #404043;border-left: 1px solid #DDDDDD;text-align: left;width: 200px;padding: 20px;"> 
+									<div class="sideColumnText" style="font-size: 11px;font-weight: normal;color: #FFFFFF;font-family: Helvetica;line-height: 150%;"><div style="text-align: center; "> 
+										<span class="Apple-style-span" style="font-size: 15px; line-height: 22px;"><b>Connect with us online</b></span></div> 
+									<div style="text-align: left; "> 
+										<a href="www.facebook.com/givetowin" style="color: #51AEC9;text-decoration: underline;font-weight: bold;"><img alt="Connect with us on Facebook" border="0" height="32" src="http://gallery.mailchimp.com/60d649b2e466b743ce07d3f63/images/facebook_32.png" width="32"></a>&nbsp; &nbsp;<a href="www.twitter.com/givetowin" style="color: #51AEC9;text-decoration: underline;font-weight: bold;"><img alt="Check us out on Twitter!" border="0" height="32" src="http://gallery.mailchimp.com/60d649b2e466b743ce07d3f63/images/twitter_32.png" width="32"></a></div> 
+									<div style="text-align: center; "> 
+										<br> 
+										<span style="font-family:arial,helvetica,sans-serif;"><span style="font-size:14px;"><strong>Share with your friends</strong></span></span><br> 
+										<span style="font-size:12px;">*|MC:TOPSHARE|*<br> 
+										*|FORWARD|*</span></div> 
+									<br> 
+									<meta charset="utf-8"> 
+									<div style="text-align: center; "> 
+										<strong><span style="font-size:14px;"><span style="font-family:arial,helvetica,sans-serif;">Got any ideas?</span></span></strong></div> 
+									<div style="text-align: center; "> 
+										<span style="font-size:12px;"><span style="font-family:arial,helvetica,sans-serif;"><a href="http://givetowin.org" style="color: #51AEC9;text-decoration: underline;font-weight: bold;"> Suggest a charity<br> 
+										Suggest a business<br> 
+										Suggest a city</a></span></span></div> 
+									</div> 
+								</td> 		 
+							</tr> 		 
+							<!-- //Content -->
+							<!-- Footer -->
+							<tr> 
+								<td class="footerRow" valign="top" colspan="2" align="left" style="background-color: #404043;border-top: 0px none #FFFFFF;padding: 20px;"> 														
+									<div class="footerText" style="font-size: 10px;color: #FFFFFF;line-height: 100%;font-family: Helvetica;"> 
+										<br> 
+										<br> 
+										<a href="#" style="color: #FFFFFF;text-decoration: underline;font-weight: normal;">Unsubscribe</a> from this list.<br> 
+										<br> 
+										Our mailing address is:<br>
+										<br> 
+										Copyright (C) All rights reserved.<br> 
+										<br> 
+										<a href="#" style="color: #FFFFFF;text-decoration: underline;font-weight: normal;">Forward</a> this email to a friend<br> 
+										<a href="#" style="color: #FFFFFF;text-decoration: underline;font-weight: normal;">Update your profile</a> 
+										<!-- *|IFNOT:ARCHIVE_PAGE|* --> 
+										Our mailing address is:<br> 
+										*|USER:ADDRESS_HTML|*<br> 
+										<!-- *|END:IF|* --> 
+										Copyright (C) All rights reserved.
+									</div> 
+									<div id="monkeyRewards" style="margin-top: 10px; text-align: right;"> 
+									</div> 
+								</td> 
+							</tr> 
+							<!-- //Footer -->
+						</table>  
+					</td></tr>
+				</table>  
+			</td></tr> 
+		</table> 
+		<span style="padding: 0px;"></span> 
+	</body> 
+</html>
