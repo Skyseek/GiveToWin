@@ -49,11 +49,13 @@ class GTW_Model_City_Status_Mapper extends Skyseek_Model_Mapper {
 	/**
 	 * @return GTW_Model_City_Status_Collection
 	 */
-	public function getStatusCollection(Skyseek_Model_Entity_Collection_Request $request) {
+	public function getCollection(Skyseek_Model_Entity_Collection_Request $request = null) {
 		$select = $this->_getGateway()->select();
 
-		$filterAdapter = new Skyseek_Model_Entity_Collection_Request_Adapter_DbSelect($request);
-		$filterAdapter->applyRequest($select);
+		if($request !== null) {
+			$filterAdapter = new Skyseek_Model_Entity_Collection_Request_Adapter_DbSelect($request);
+			$filterAdapter->applyRequest($select);
+		}
 
 		$collection = new GTW_Model_City_Status_Collection();
 

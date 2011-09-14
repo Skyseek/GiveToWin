@@ -1,35 +1,32 @@
 <?php
-/** 
+/**
  * Givetowin.org License, Version 1.0
- * 
- * You may not modify or use this file except with written permission 
- * from Givetowin.org.
- * 
+ *
+ * You may not modify or use this file except with written permission
+ * from Give to Win, Inc.
+ *
  * The Original Code and all software distributed under the License are
  * distributed on an 'AS IS' basis, WITHOUT WARRANTY OF ANY KIND, EITHER
- * EXPRESS OR IMPLIED, AND APPLE HEREBY DISCLAIMS ALL SUCH WARRANTIES,
+ * EXPRESS OR IMPLIED, AND Give to Win HEREBY DISCLAIMS ALL SUCH WARRANTIES,
  * INCLUDING WITHOUT LIMITATION, ANY WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE, QUIET ENJOYMENT OR NON-INFRINGEMENT.
  * Please see the License for the specific language governing rights and
  * limitations under the License.
- * 
+ *
  * @package    Givetowin
- * @copyright  Copyright (c) 2011, Givetowin.org
+ * @copyright  Copyright (c) 2011, Give to Win, Inc
  */
-
-
-require_once 'GTW/Model/Mapper/Abstract.php';
-
 
 
 /**
- * Mapper
+ * User Mapper
  *
- * @package    Skyseek
- * @copyright  Copyright (c) 2011, Skyseek.com
+ * @package    Givetowin
+ * @copyright  Copyright (c) 2011, Give to Win, Inc
  * @author     Sean Thayne <sean@skyseek.com
  */
-class GTW_Model_User_Mapper extends Skyseek_Model_Mapper {
+class GTW_Model_User_Mapper extends Skyseek_Model_Mapper 
+{
 
 	protected $_tableName = 'user';
 	protected static $_instance;
@@ -60,10 +57,25 @@ class GTW_Model_User_Mapper extends Skyseek_Model_Mapper {
 
 		return $collection;
 	}
+	
+	
+	public function getPaginator(Skyseek_Model_Entity_Collection_Request $request) 
+	{
+		$select = $this->_getGateway()->select();
+
+		$filterAdapter = new Skyseek_Model_Entity_Collection_Request_Adapter_DbSelect($request);
+		$filterAdapter->applyRequest($select);
+
+		$paginator = Zend_Paginator::factory($select);
+		$paginator->setFilter(new GTW_Model_User_Collection());
+		
+		
+		return $paginator;
+	}
 
 	public function getUser($id, $lazyLoad=true, $useIdentityMap=true) {
 		if ($useIdentityMap && $this->hasIdentity($id)) {
-			return $this->getIdentityMap($id);
+			return $this->getIdentity($id);
 		}
 
 
@@ -94,9 +106,11 @@ class GTW_Model_User_Mapper extends Skyseek_Model_Mapper {
 			'last_name'		=> $data['last_name'],
 			'email'			=> $data['email'],
 			'password'		=> $data['password'],
+			'gender'		=> $data['gender']
 		));
 
 		$entity->referenceId('status_id', $data['status_id']);
+		$entity->referenceId('role_id', $data['role_id']);
 
 		if (!$lazyLoad) {
 			$entity->getStatus();
@@ -124,11 +138,10 @@ class GTW_Model_User_Mapper extends Skyseek_Model_Mapper {
 		if($user->id == null) {
 			$user->id =  $this->_getGateway()->insert($data);
 		} else {
-			$this->_getGateway()->update($data, $this->getWhereSQL($user->id));
+			$this->_getGateway()->update($data, "id='{$user->id}'");
 		}
 
 		return $user;
 	}
-
 }
 

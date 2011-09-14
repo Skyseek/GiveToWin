@@ -1,0 +1,341 @@
+<?php
+
+// ----------------------------------
+// 	Var Name Shortening
+// ----------------------------------
+
+$fundraiserSchedule = $this->fundraiserSchedule;
+$fundraiser 		= $this->fundraiserSchedule->fundraiser;
+
+$offerSchedule 		= $this->offerSchedule;
+$offer 				= $this->offerSchedule->offer;
+
+$charity 			= $this->fundraiserSchedule->fundraiser->charity;
+$company 			= $this->offerSchedule->offer->company;
+
+$city				= $this->city;
+
+$this->headTitle('Goal of the Week');
+
+function makeMoreLink($name, $text, $maxChars) {
+	if (strlen($text) > $maxChars) {
+		$md5 = md5($name);
+		echo "<div id='mb_$md5' style='display: none; background-color: white; '>";
+		echo "<div style='color: white; padding:10px;'><h1>$name</h1>";
+		echo '<div class="popup-body" style=" height:400px; color: black; padding:10px; padding-bottom:25px;  overflow:auto;">';
+		echo nl2br($text);
+		echo "</div>";
+		echo "</div>";
+		echo "</div>";
+
+		return "<p>" .substr($text, 0, $maxChars) . "...</p><a href='#mb_$md5' rel='lightbox[$md5 640 480]'>&gt; read more&nbsp;</a>";
+	} else {
+		return "<p>" . nl2br($text) . "</p>";
+	}
+}
+
+function seeMore($txt, $cutOff=250) {
+	if(strlen($txt) > $cutOff) {
+		$return  = "<span><span>" . substr($txt, 0, $cutOff) . "...<br /><br />";
+		$return .= "<a href='javascript:void()' onclick='showMore(this)'>&gt; read more&nbsp;</a></span>";
+		$return .= "<span style='display:none;'>$txt<br /><br /><a href='javascript:void()' onclick='showLess(this)'>&gt; show less&nbsp;</a></span><span>";
+
+		return $return;
+	} else {
+		return $txt;
+	}
+}
+
+
+
+$endDate	= new Zend_Date($offerSchedule->end_date, Zend_Date::ISO_8601);
+$timeLeft	= $endDate->sub(Zend_Date::now());
+
+?>
+
+<script type="text/javascript">
+
+	function showMore(link) {
+		link.parentNode.parentNode.childNodes[0].style.display = 'none';
+		link.parentNode.parentNode.childNodes[1].style.display = '';
+	}
+
+	function showLess(link) {
+		link.parentNode.parentNode.childNodes[0].style.display = '';
+		link.parentNode.parentNode.childNodes[1].style.display = 'none';
+	}
+
+</script>
+
+<div class="content-box" style="width:620px;">
+	<table width="100%" cellpadding="0" cellspacing="0" border="0">
+		<tr class="header">
+			<td class="left"></td>
+			<td class="center" width="602"></td>
+			<td class="right"></td>
+		</tr>
+		<tr>
+			<td class="title" colspan="3">
+				<b>Today:</b>Give $<?= $fundraiser->cost; ?> to <?= $charity->name; ?> and win <?= $offer->title; ?>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<div class="graphic">
+					<div class="give">
+						<div class="shadow">Give<br/><div class="amount">$<?= $fundraiser->cost; ?></div></div>
+						<div class="overlay">Give<br/><div class="amount">$<?= $fundraiser->cost; ?></div>
+							<div style="height:76px;">
+								<img src="<?= $charity->imageURL; ?>" />
+							</div>
+							<div style="height:125px;">
+								<img src="<?= $fundraiser->imageURL; ?>" />
+							</div>
+						</div>
+					</div>
+					<div class="deal">
+						<center>
+							<a href="/Offer/Purchase?cityId=<?= $city->id?>">
+								<img src="/skins/default/image/v2/logo_secondary_trans_158.png" />
+							</a>
+							<table style="color:black;" cellpadding="0" cellspacing="2">
+								<tr>
+									<td>Click the</td>
+									<td><img width="20" src="/skins/default//image/v2/logo_secondary_trans_158.png" /></td>
+									<td>to Donate!</td>
+								</tr>
+							</table>
+
+							<div class="stats">
+								<table cellpadding="2" cellspacing="0">
+									<tr>
+										<td>Donations Made:</td>
+										<td class="green"><?= $offer->totalDonationsCount; ?></td>
+									</tr>
+
+									<tr>
+										<td>Needed to win:</td>
+										<td class="purp"><?= $offer->minimum; ?></td>
+									</tr>
+								</table>
+
+								<div class="time">
+															Time Left: <b><?= $timeLeft->get(Zend_Date::DAY_OF_YEAR); ?></b> days
+															<b><?= $timeLeft->get(Zend_Date::HOUR_SHORT);; ?></b> Hours
+								</div>
+								<div style="width:130px;">
+									</span><span  class='st_twitter' ></span><span  class='st_facebook' ></span><span  class='st_email' ></span><span  class='st_myspace' >
+								</div>
+							</div>
+
+						</center>
+					</div>
+					<div class="win" style="height:343px; width: 100px;">
+						<div class="shadow">to Win<br/><div class="amount">$50</div></div>
+						<div class="overlay">to Win<br/><div class="amount">$50</div>
+							<div style="height:76px;">
+								<img src="<?= $company->imageURL; ?>" />
+							</div>
+							<div style="height:125px;">
+								<img src="<?= $offer->imageURL; ?>" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="body" colspan="3">
+
+				<table cellpadding="0" cellspacing="0">
+					<tr>
+						<td>
+							<h3 style="color:#eae8e7; ">Details</h3>
+						</td>
+						<td width="210px">
+							<table>
+								<tr>
+									<td width="112">
+										<h3 style="color:#eae8e7; padding-left: 8px;">Location</h3>
+									</td>
+									<td>
+										<a href="#mb_map" rel="lightbox[map 660 525]">map &gt;</a>
+									</td>
+								</tr>
+							</table>
+
+
+						</td>
+					</tr>
+					<tr>
+						<td style="padding-top:10px; border-right: 1px solid #5a5a5d; border-bottom: 1px solid #7f7f82">
+							<?= seeMore($offer->fine_print); ?>
+							<br /><br />
+						</td>
+						<td rowspan="4" style="border-left: 1px solid #6e6e71; padding: 10px;" valign="top">
+							<?= ''//nl2br($offer->redeem_location); ?><br /><br />
+							<?= $company->phone; ?>
+							<!--
+							<h3 style="padding-top:30px;padding-bottom: 10px;">GIVERS SO FAR</h3>
+							<table cellpadding="2">
+								<tr>
+									<td><img width="30" src="/image/v2/user.png"></td>
+									<td><img width="30" src="/image/v2/user.png"></td>
+									<td><img width="30" src="/image/v2/user.png"></td>
+									<td><img width="30" src="/image/v2/user.png"></td>
+									<td><img width="30" src="/image/v2/user.png"></td>
+								</tr>
+								<tr>
+									<td><img width="30" src="/image/v2/user.png"></td>
+									<td><img width="30" src="/image/v2/user.png"></td>
+									<td><img width="30" src="/image/v2/user.png"></td>
+									<td><img width="30" src="/image/v2/user.png"></td>
+									<td><img width="30" src="/image/v2/user.png"></td>
+								</tr>
+								<tr>
+									<td><img width="30" src="/image/v2/user.png"></td>
+									<td><img width="30" src="/image/v2/user.png"></td>
+									<td><img width="30" src="/image/v2/user.png"></td>
+									<td><img width="30" src="/image/v2/user.png"></td>
+									<td><img width="30" src="/image/v2/user.png"></td>
+								</tr>
+							</table>
+							<a style="float:right; padding-right:15px;padding-bottom:30px;" href="#">see all &gt;</a>
+							-->
+							<table  style="padding-top:20px;padding-bottom: 10px;">
+								<tr>
+									<td width="120">
+										<h3>COMMENTS</h3>
+									</td>
+									<td>
+										<a href="#mb_add_comment" rel="lightbox[comment 660 195]" style="color:#a09fa2; font-size: 9pt;" href="#">+&nbsp;comment</a>
+									</td>
+								</tr>
+							</table>
+							<?php if(false && $this->comments->stats->totalCount > 0): ?>
+							<?php foreach($this->comments->results as $comment): ?>
+							<div class="comment">
+								<table>
+									<tr>
+										<td rowspan="2" valign="top"><img width="30" src="/image/v2/user.png"></td>
+										<td class="name"><?= $comment->first_name . ' ' . $comment->last_name{0}; ?>.</td>
+									</tr>
+									<tr>
+										<td class="msg"><?= seeMore($comment->comments,150); ?></td>
+									</tr>
+								</table>
+							</div>
+							<?php endforeach; ?>
+							<?php else: ?>
+							<div class="comment">
+							<b>No comments yet</b>
+							</div>
+							<?php endif; ?>
+							<a style="float:right; padding-right:15px;padding-bottom:30px;" href="/Offer/Comments?fundraiser_id=<?= $fundraiser->id; ?>&offer_id=<?= $offer->id; ?>">see all &gt;</a>
+							<h3 style="padding-top:30px;padding-bottom: 10px;">REFERRALS</h3>
+							<a href="#mb_suggest_charity" rel="lightbox[suggest_charity 660 525]"><b>SUGGEST A LOCAL CHARITY OR ORGANIZATION &gt;</b></a><br /><br />
+							<a href="#mb_suggest_company" rel="lightbox[suggest_company 660 525]"><b>SUGGEST A BUSINESS &gt;</b></a><br /><br />
+							<b style="font-size:10pt;">
+								<a href="/CompanyAdmin">OWN A BUSINESS? SIGN UP!</a>
+							</b><br /><br />
+							<a href="#mb_suggest_friend" rel="lightbox[suggest_friend 660 325]"><b>REFER A FRIEND &gt;</b></a>
+						</td>
+					</tr>
+					<tr>
+						<td class="green" style="padding-top:10px; border-right: 1px solid #5a5a5d; border-bottom: 1px solid #7f7f82">
+
+							<table>
+								<tr>
+									<td>
+										<div class="arrow">
+											<div class="fill" />
+											<div class="mask" >
+												<img src="/skins/default//image/v2/fill_arrow.png" />
+											</div>
+										</div>
+									</td>
+									<td>
+										<b>$<?= $fundraiser->goal; ?></b>
+									</td>
+								</tr>
+							</table>
+
+							<h3 style="text-transform: uppercase"><?= $charity->name; ?></h3>
+							<?= seeMore($fundraiser->description); ?>
+							<p><?= $fundraiser->description; ?></p>
+							<br /><br />
+						</td>
+					</tr>
+					<tr>
+						<td class="purple" style="padding-top:10px; border-right: 1px solid #5a5a5d; border-bottom: 1px solid #7f7f82">
+
+							<table>
+								<tr>
+									<td>
+										<div class="arrow">
+											<div class="fill" style="width: <?= min(300,300); //, (GTW_OfferUtil::totalSaved($this->offer->id) / $this->offer->minimum) * 300); ?>px;" />
+											<div class="mask" >
+												<img src="/skins/default//image/v2/fill_arrow.png" />
+											</div>
+										</div>
+									</td>
+									<td>
+										<b><?= $offer->minimum; ?></b>
+									</td>
+								</tr>
+							</table>
+
+							<h3 style="text-transform: uppercase"><?= $company->name; ?></h3>
+							<?= seeMore($offer->description); ?>
+							<br /><br />
+
+						</td>
+					</tr>
+					<tr>
+						<td style="padding: 10px; border-right: 1px solid #5a5a5d;">
+
+
+
+							<h3>REVIEWS</h3><br />Read what the critics say:<br /><br />
+							<h4 style="color:#b9d432;">Angie's List</h4><br />
+							<p style="padding-left:10px;">Details and terms about the current deal will go here. Such as when the offer will expire as well as a unique description of the company, store or restaurant house and social responsibility issues.</p><br />
+							<a style="float:right;" href="#">&gt; read more&nbsp;</a>
+							<br /><br />
+
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+
+	
+	<div id="mb_add_comment" style="display: none; background-color: white;">
+		<form method="post" action="/Offer/Add-Comment" name="comments" id="add_comment_form">
+			<input type="hidden" name="offer_id" value="<?= $offer->id;?>" />
+			<input type="hidden" name="fundraiser_id" value="<?= $fundraiser->id;?>" />
+			<div style="color: white; padding:10px;">
+				<h2>Add Comment</h2>
+				<div class="popup-body" style="color: black; padding:10px; height: 135px;">
+					<textarea name="comments" style="margin:10px; margin-bottom: 0px; width:595px; height:95px;"></textarea><br/>
+					<div style="text-align:right; padding-top:5px; padding-right:10px;">
+						<input type="submit" value="submit" style="display:none;" />
+						<a class="greenie" href="#" onclick="$(this).getPrevious().form.submit()">Post Comment!</a>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div id="mb_map" style="display: none; background-color: white;">
+		<div style="color: white; padding:10px;">
+			<h2>Map</h2>
+			<div class="popup-body" style="color: black; padding:10px; height: 470px;">
+				<? /*<img src="http://maps.google.com/maps/api/staticmap?center=<?= $offer->map_location; ?>&zoom=14&size=620x470&maptype=roadmap
+&markers=color:blue|label:S|<?= $offer->map_location; ?>&sensor=false" />*/ ?>
+			</div>
+		</div>
+	</div>
+
+</div>

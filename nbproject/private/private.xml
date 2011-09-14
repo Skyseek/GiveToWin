@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/var/www/html/vhosts/GTW/library/GTW/Service/CitySubscription.php</file>
+        <file>file:/var/www/html/vhosts/GTW/library/GTW/Model/User.php</file>
+        <file>file:/var/www/html/vhosts/GTW/library/GTW/Model/User/Status/Mapper.php</file>
+        <file>file:/var/www/html/vhosts/GTW/library/GTW/Model/User/Status.php</file>
+        <file>file:/var/www/html/vhosts/GTW/library/GTW/Model/User/Role/Mapper.php</file>
+        <file>file:/var/www/html/vhosts/GTW/library/GTW/Service/Email.php</file>
+        <file>file:/var/www/html/vhosts/GTW/library/GTW/Service/City.php</file>
+        <file>file:/var/www/html/vhosts/GTW/library/GTW/Model/City/Mapper.php</file>
+        <file>file:/var/www/html/vhosts/GTW/tests/library/GTW/Service/GTW_Service_UserTest.php</file>
+        <file>file:/var/www/html/vhosts/GTW/tests/library/GTW/Model/GTW_Model_UserTest.php</file>
+        <file>file:/var/www/html/vhosts/GTW/library/GTW/Model/City/Subscription/Mapper.php</file>
+        <file>file:/var/www/html/vhosts/GTW/library/GTW/Model/City/Subscription.php</file>
+        <file>file:/var/www/html/vhosts/GTW/library/GTW/Model/City/Subscription/Collection.php</file>
+        <file>file:/var/www/html/vhosts/GTW/library/GTW/Model/City/Collection.php</file>
+        <file>file:/var/www/html/vhosts/GTW/library/GTW/Acl.php</file>
+        <file>file:/var/www/html/vhosts/GTW/library/GTW/Messenger.php</file>
+        <file>file:/var/www/html/vhosts/GTW/library/GTW/Model/User/Role.php</file>
+    </open-files>
 </project-private>

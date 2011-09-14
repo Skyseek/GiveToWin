@@ -1,0 +1,60 @@
+<?php
+
+$this->category = 'cities';
+$this->page = 'browseCities';
+
+$this->breadCrumbs = array(
+	array('title'=>'Admin', 'url'=>'/admin'),
+	array('title'=>'Cities', 'url'=>'/admin/cities'),
+	array('title'=>'Browse', 'url'=>'/admin/cities/browse')
+);
+
+
+$this->controlBar = <<<HTML
+<div id="control-bar" class="grey-bg clearfix" style="opacity: 1; ">
+	<div class="container_12">
+
+
+		<div class="float-left">
+			<button type="button" onclick="window.location='/admin/cities/create'"><img src="/skins/admin/assets/img/icons/fugue/plus-circle.png" width="16" height="16"> Add New City</button>
+		</div>
+	</div>
+</div>
+HTML;
+?>
+
+
+		<section class="grid_12">
+			<div class="block-border"><form class="block-content form" id="table_form" method="post" action="">
+				<h1>Cities</h1>
+				<div class="block-controls">					
+						<?php echo $this->paginationControl($this->cities, 'Elastic', 'paginatorHeader.phtml'); ?>
+				</div>			
+				<div class="no-margin"><table class="table" cellspacing="0" width="100%">				
+					<thead>
+						<tr>
+							<th width="50" scope="col">ID</th>
+							<th width="120" scope="col">State</th>
+							<th scope="col">City</th>
+							<th width="70" scope="col">Status</th>
+							<th width="70" scope="col">Actions</th>
+						</tr>
+					</thead>					
+					<tbody>			
+						<? foreach($this->cities as $city):?>			
+						<tr>
+							<td><?=$city->id;?></td>
+							<td><?=$city->state->state;?></td>
+							<td><?=$city->city;?></td>
+							<td class="with-tip" title="<?=$city->status->description;?>"><?=$city->status->status;?></td>
+							<td class="table-actions">
+								<a href="/admin/cities/edit/id/<?=$city->id;?>" title="Edit City" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/pencil.png" width="16" height="16"></a>
+								<a href="#" onClick="openDeleteCityPrompt(<?=$user->id;?>);" title="Delete City" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/cross-circle.png" width="16" height="16"></a>
+							</td>
+						</tr>
+						<? endforeach; ?>						
+					</tbody>				
+				</table></div>				
+				<?php echo $this->paginationControl($this->cities, 'Elastic', 'paginatorFooter.phtml'); ?>
+			</form></div>
+		</section>

@@ -2,94 +2,116 @@
 
 class Admin_UsersController extends Zend_Controller_Action
 {
-
+	// ====================================================================
+	//
+	// 	Properties
+	//
+	// ====================================================================
+	
 	protected $_userService;
 
-    public function init() {
+
+	// ====================================================================
+	//
+	// 	Constructor
+	//
+	// ====================================================================
+	
+	
+	public function init() 
+	{
 		$this->_userService = new GTW_Service_User();
-    }
+	}
 
-    public function indexAction() {
+
+	// ====================================================================
+	//
+	// 	Action Methods
+	//
+	// ====================================================================
+
+
+	public function indexAction() 
+	{
 		$this->_forward('browse');
-    }
+	}
 
-	public function deleteUserAction() {
+	public function deleteUserAction() 
+	{
 		$this->_forward('browse');
-    }
+	}
 
-    public function browseAction() {
-        $userCollection = new GTW_Model_User_Collection(array(
-			$this->createTestUser(),
-			$this->createTestUser(),
-			$this->createTestUser(),
-			$this->createTestUser(),
-			$this->createTestUser(),
-			$this->createTestUser(),
-			$this->createTestUser(),
-			$this->createTestUser(),
-			$this->createTestUser(),
-			$this->createTestUser(),
-			$this->createTestUser(),
-			$this->createTestUser(),
-			$this->createTestUser(),
-			$this->createTestUser(),
-			$this->createTestUser(),
-			$this->createTestUser(),
-			$this->createTestUser()
-		));
-
-		$this->view->users = $userCollection;
-    }
-
-    public function editAction() {
-		$this->view->form = $this->_userService->getEditForm();
-        $this->view->user = $this->createTestUser();
-		$this->view->form->populate($this->view->user->toArray());
-
-		$this->view->form->getElement('gender')->setMultiOptions(array("Female", "Male"));
-		$this->view->form->getElement('status')->setMultiOptions(array("Active", "Suspended"));
-		$this->view->form->getElement('role')->setMultiOptions(array("Subscriber", "Member", "Admin"));
-    }
+	public function browseAction() 
+	{
+		// ----------------------------------
+		// 	Input
+		// ----------------------------------
+		
+	
+		$page		= $this->_getParam('page', 1);
+		$perPage	= $this->_getParam('perPage', 25);
 
 
+		// ----------------------------------
+		// 	Paginator
+		// ----------------------------------
+		
+		$request	= new Skyseek_Model_Entity_Collection_Request($page, $perPage);
+		$users	= GTW_Model_User_Mapper::getInstance()->getPaginator($request);
 
-	private function createTestUser() {
-		$firstNames = array('John', 'Jack', 'Sally', 'Sue');
-		$lastNames = array('Johnson', 'Doe');
-		$genders = array('Male', 'Female');
 
-		$user = new GTW_Model_User(array(
-			'id'			=> rand(1, 100),
-			'first_name'	=> $firstNames[array_rand($firstNames)],
-			'last_name'		=> $lastNames[array_rand($lastNames)],
-			'email'			=> 'test@gmail.com',
-			'status'		=> $this->createTestStatus(),
-			'gender'		=> $genders[array_rand($genders)],
-			'birth_date'	=> "2000-12-25"
-		));
+		$this->view->users = $users;
+	}
+
+	public function editAction() 
+	{
+		$request 	= $this->getRequest();
+		$user 		= $this->_getUserFromRequest();
+		$form 		= $this->_userService->getForm($user);
+
+		if($request->isPost()) {
+			if($form->isValid($request->getPost())) {
+				$this->_userService->save($form->getUser());
+				$this->view->saveSuccess = true;
+			} else
+				$this->view->saveError = true;
+		}
+
+
+		// ----------------------------------
+		// 	View Parameters
+		// ----------------------------------
+		
+		$this->view->form = $form;
+		$this->view->user = $user;
+	}
+
+
+	protected function _getUserFromRequest() 
+	{
+		// ----------------------------------
+		// 	User ID
+		// ----------------------------------
+
+		$userId = $this->_getParam('id');
+
+		if(!$userId) {
+			GTW_Messenger::getInstance()->addMessage('No User ID given.', 'notice');
+			$this->_forward('browse');
+		}
+			
+
+		// ----------------------------------
+		// 	User
+		// ----------------------------------
+
+		$user = $this->_userService->getUserById($userId);
+
+		if(!$user) {
+			GTW_Messenger::getInstance()->addMessage("User with ID '$userId' not found.", 'notice');
+			$this->_forward('browse');
+		}
 
 		return $user;
 	}
-
-	private function createTestStatus() {
-		$statuses = array(
-			array(
-				'id'			=> 1,
-				'status'		=> 'Active',
-				'description'	=> 'User is active.'
-			),
-			array(
-				'id'			=> 2,
-				'status'		=> 'Pending',
-				'description'	=> 'User is pending.'
-			)
-		);
-
-		return new GTW_Model_User_Status($statuses[array_rand($statuses)]);
-	}
 }
-
-
-
-
-

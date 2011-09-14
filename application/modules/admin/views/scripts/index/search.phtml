@@ -1,0 +1,35 @@
+<?php
+
+function highlight($searchString, $value) {
+	return str_replace($searchString, "<strong>$searchString</strong>", $value);
+}
+
+function matchesTitle($paginator) {
+	return $paginator->getTotalItemCount() . ' ' . ($paginator->getCurrentItemCount() > 1 ? 'Matches' : 'Match');
+}
+
+?>
+<? if($this->users->getCurrentItemCount() > 0): ?>
+	<h2>Users</h2>
+	<p class="results-count"><strong><?=matchesTitle($this->users);?></p>
+	<ul class="small-files-list icon-user">
+		<? foreach($this->users as $user): ?>
+			<li>
+				<a href="#"><?=highlight($this->searchString, $user->first_name);?> <?=highlight($this->searchString, $user->last_name);?><br>
+				<small><strong>Email:</strong> <?=highlight($this->searchString, $user->email);?></small></a>
+			</li>
+		<? endforeach; ?>
+	</ul>
+	<hr>
+<? endif; ?>
+
+
+
+<h2>Images</h2>
+<p class="results-count"><strong>1</strong> match</p>
+<ul class="small-files-list icon-img">
+	<li>
+		<a href="#">Create_<strong>add</strong>-on_illustration_1.jpg<br>
+		<small><strong>Size:</strong> 320x240</small></a>
+	</li>
+</ul>

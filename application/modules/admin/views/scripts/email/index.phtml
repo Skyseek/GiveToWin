@@ -1,4 +1,54 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Email</b> and script/action name <b>index</b></p>
-</div>
+<?php
+
+$this->category = 'email';
+
+$this->breadCrumbs = array(
+	array('title'=>'Admin', 'url'=>'/admin'),
+	array('title'=>'Email', 'url'=>'/admin/email')
+);
+
+?>
+
+<section class="grid_3">
+	<div class="block-border"><div class="block-content">
+		<h1>Email Settings</h1>
+
+		<!--
+		<h3>System Mailer</h3>
+		<ul class="shortcuts-list">
+			<li><a href="#">
+				<img src="/skins/admin/assets/img/icons/web-app/48/Bar-Chart.png" width="48" height="48"> Mailer Log
+			</a></li>
+		</ul>
+		-->
+
+		<h3>Email Templates</h3>
+		<ul class="shortcuts-list">
+			<li><a href="/admin/email/browse-templates">
+				<img src="/skins/admin/assets/img/icons/web-app/48/Search.png" width="48" height="48"> Browse All
+			</a></li>
+		</ul>
+
+	</div></div>
+</section>
+
+
+<!--
+<section class="grid_9">
+	<div class="block-border">
+		<div class="block-content">
+			<div class="h1 with-menu">
+				<h1>Emailer Stats</h1>
+			</div>
+			<div class="block-controls">
+				<ul class="controls-tabs js-tabs same-height with-children-tip">
+					<li><a href="#tab-stats" title="Charts"><img src="/skins/admin/assets/img/icons/web-app/24/Bar-Chart.png" width="24" height="24"></a></li>
+				</ul>
+			</div>
+			<form class="form" id="tab-stats" method="post" action="">
+				<div id="chart_div" style="height:475px;"></div>
+			</form>
+		</div>
+	</div>
+</section>
+-->

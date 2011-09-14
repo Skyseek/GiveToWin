@@ -1,1 +1,394 @@
-<?php echo $this->layout()->content; ?>
+<?php
+
+$userService = GTW_Service_User::getInstance();
+$cityService = GTW_Service_City::getInstance();
+
+$this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+$this->headTitle()->setSeparator(' - ');
+$this->headTitle('Give to Win');
+echo $this->doctype();
+?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+<?php echo $this->headMeta(); ?>
+<?php echo $this->headTitle(); ?>
+		<link href="/skins/default/css/style.css" type="text/css" rel="stylesheet" />
+		<link href="/skins/default/css/uni-form.css" type="text/css" rel="stylesheet" />
+		<link href="/skins/default/css/gtw.uni-form.css" type="text/css" rel="stylesheet" />
+		<link href="/skins/default/css/notification.css" type="text/css" rel="stylesheet" />
+		<link type="text/css" href="/skins/default/css/dark-hive/jquery-ui-1.8.16.custom.css" rel="stylesheet" />	
+
+		<!--[if gt IE 6]>
+			<link href="/skins/default/css/ie.css" type="text/css" rel="stylesheet" />
+		<![endif]-->
+
+		<!-- Give To Win! -->
+		
+		<script type="text/javascript" src="/skins/default/js/jquery-1.6.2.min.js"></script>
+		<script type="text/javascript" src="/skins/default/js/jquery-ui-1.8.16.custom.min.js"></script>
+		<script type="text/javascript" src="/skins/default/js/uni-form-validation.jquery.js"></script>
+		<script type="text/javascript" src="/skins/default/js/notification.js"></script>
+		
+		<script src="/skins/default/js/givetowin.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			$(document).ready(function () {
+				$('.notification').notify();
+			});
+		</script>
+
+
+		<!-- Share Buttons  -->
+		<!--
+		<script type="text/javascript">var switchTo5x=true;</script>
+		<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+		<script type="text/javascript">stLight.options({publisher:'c2bd8b17-a3e0-4951-b0b6-d6a358e90643'});</script>
+		-->
+
+    </head>
+	<body>
+		<? if($this->error): ?>
+			<div class="notification notification-red hide">
+				<p><b>Error:</b> <?=$this->error;?></p>
+				<a class="close" href="javascript:"><img src="/skins/default/image/icon-close.png" /></a>
+			</div>
+		<? endif; ?>
+		<? if($this->message): ?>
+			<div class="notification notification-blue hide">
+				<p><b>Message:</b> <?=$this->message;?></p>
+				<a class="close" href="javascript:"><img src="/skins/default/image/icon-close.png" /></a>
+			</div>
+		<? endif; ?>
+		<? if($this->success): ?>
+			<div class="notification notification-green hide">
+				<p><b>Success:</b> <?=$this->success;?></p>
+				<a class="close" href="javascript:"><img src="/skins/default/image/icon-close.png" /></a>
+			</div>
+		<? endif; ?>
+		<div class="wrapper">
+			<table width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td class="ToolbarLeft"></td>
+					<td class="ToolbarContent" width="100%" align="center">
+						<table cellpadding="0" cellspacing="0">
+							<tr>
+								<td width="461">
+									<? if($cityService->hasCitySelected()): ?>
+									<form name="subscribe" id="subscribe" method="post" action="/">
+											<table cellpadding="0" cellspacing="0">
+												<tr>
+													<td>
+														<input 
+															type="image" 
+															src="/skins/default/image/v2/top_bar_input_button.png" />
+													</td>
+													<td class="ToolbarInput">
+														<input 
+															type="text" 
+															name="email" 
+															onClick="removeText(this)"
+															onFocus="removeText(this)" 
+															onBlur="addText(this)" 
+															value="Email Address" />
+													</td>
+													<td width="100">
+
+													</td>
+												</tr>
+											</table>
+										</form>
+									<? endif; ?>
+								</td>
+								<td>
+									<table cellpadding="0" cellspacing="0" height="50">
+										<tr>
+											<td>
+												<a href="/">FEATURED GOAL</a>
+											</td>
+											<td class="vr"></td>
+											<td>
+												<a href="/Index/How-It-Works">HOW IT WORKS</a>
+											</td>
+											<td class="vr"></td>
+											<td class="coming_soon">
+												<span class="disabled_a">MY PROFILE</span>
+											</td>
+
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td class="ToolbarRight"></td>
+				</tr>
+			</table>
+			<div id="outer_main">
+				<div id="inner_main">
+					<div class="page_title">
+						<table cellpadding="0" cellspacing="0">
+							<tr>
+								<td class="left"><a href="/"><img border="0" src="/skins/default/image/v2/logo_primary_white.png" /></a></td>
+								<? if($cityService->hasCitySelected()): ?>
+								<td style="padding-top: 10px;">in</td>
+								<td class="city_name">
+									<a href="/Index/Select-City"><?= $cityService->getCitySelection()->city; ?></a>
+								</td>
+								<? endif; ?>
+							</tr>
+						</table>
+					</div>
+					<table>
+						<tr valign="top">
+							<td>
+								<div class="side-bar">
+								<? if($userService->isLoggedIn()): $user = $userService->getCurrentUser(); ?>
+									<div class="profile-box">
+										<table cellpadding="0" cellspacing="0" class="">
+											<tr>
+												<? if($user->facebook_id): ?>
+												<td class="left">
+													<img 
+														width="50" height="50" 
+														src="https://graph.facebook.com/<?= $user->facebook_id; ?>/picture" />
+													</td>
+												<? else: ?>
+												<td class="left">
+													<?=$this->gravatar($user->email, array('imgSize'=>50), array('width'=>50, 'height'=>50)); ?>
+													</td>
+												<? endif; ?>
+												<td class="name">
+													<span class="first_name"><?= $user->first_name; ?></span><br />
+													<span class="last_name"><?= $user->last_name; ?></span>
+												</td>
+											</tr>
+										</table>
+										
+
+										<table cellspacing="0" cellpadding="0" style="padding-top:5px; padding-bottom:5px;">
+											<tr>
+												<td>Give&nbsp;</td>
+												<td><img src="/skins/default/image/v2/star.png" /></td>
+												<td>'s:&nbsp;</td>
+												<td><?= (double) $user->give_points;?></td>
+											</tr>
+										</table>
+
+										
+
+										<div class="amount-given" style="padding-bottom:20px;">
+											Amount Given:
+											<b style="font-size:16pt;">$<?= number_format($user->total_donated); ?></b>
+										</div>
+
+
+										<a href="/User/Account">account &gt;</a>&nbsp;&nbsp;&nbsp;
+										<a href="/User/Logout">logout &gt;</a>
+									</div>
+			<?php else: ?>
+									<div class="profile-box" style="height: 200px; width: 101px; padding-left: 50px;">
+										<a href="/User/Login">login &gt;</a>
+										<br /><br />Or<br /><br />
+										<a href="/User/Register">register &gt;</a>
+										<br /><br />Or<br /><br />
+										<fb:login-button perms="email" show-faces="false" width="200" max-rows="1"></fb:login-button>
+									</div>
+			<?php endif; ?>
+
+
+									<!--
+									<div class="comunity-box">
+										Favorite non-profits
+									</div>
+									-->
+
+								</div>
+							</td>
+							<td>
+								<div class="main-content">
+									<?= $this->layout()->content; ?>
+									<div id="mb_suggest_friend" style="display: none; background-color: white;">
+										<form method="post" action="/Index/Refer" id="suggest_friend_form">
+											<div style="color: white; padding:10px;">
+												<h2>Suggest Give To Win To A Friend!</h2>
+												<div class="popup-body" style="color: black; padding:10px; height: 270px;">
+													<b class='required'>*</b><b>Your Friend's Name:</b><br />
+													<input style="margin-left:10px; width:595px;" type='text' name='friend_name' /><br/><br/>
+
+													<b class='required'>*</b><b>Your Friend's Email:</b><br />
+													<input style="margin-left:10px; width:595px;" type='text' name='friend_email' /><br/><br/>
+
+													<b class='required'>&nbsp;&nbsp;</b><b>Personal Message to Attach</b><br />
+													<textarea name="friend_message" style="margin-left:10px; width:595px; height:100px;"></textarea><br/>
+
+													<div style="text-align:right; padding-top:5px; padding-right:10px;">
+														<input type="submit" value="submit" style="display:none;" />
+														<a class="greenie" href="#" onclick="$(this).getPrevious().form.submit()">Send to my Friend!</a>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+
+									<div id="mb_suggest_city" style="display: none; background-color: white;">
+										<form method="post" action="/Index/Suggest-City">
+											<div style="color: white; padding:10px;">
+												<h2>Suggest A City</h2>
+												<div class="popup-body" style="color: black; padding:10px; height: 270px;">
+													<b class='required'>*</b><b>City:</b><br />
+													<input style="margin-left:10px; width:575px;" type='text' name='city' /><br/><br/>
+
+													<b class='required'>*</b><b>State:</b><br />
+													<input style="margin-left:10px; width:575px;" type='text' name='state' /><br/><br/>
+
+													<b class='required'>&nbsp;&nbsp;</b><b>Please let us know why you would like this city added.</b><br />
+													<textarea name="comment" style="margin-left:10px; width:575px; height:100px;"></textarea><br/>
+
+													<div style="text-align:right; padding-top:5px; padding-right:10px;">
+														<input type="submit" value="submit" style="display:none;" />
+														<a class="greenie" href="#" onclick="$(this).getPrevious().form.submit()">Submit Suggestion</a>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+
+									<div id="mb_suggest_charity" style="display: none; background-color: white;">
+										<form method="post" action="/Charity/Suggest" id="suggest_charity_form">
+											<div style="color: white; padding:10px;">
+												<h2>Suggest A Charity!</h2>
+												<div class="popup-body" style="color: black; padding:10px; height: 470px;">
+													<b class='required'>*</b><b>Your Email:</b><br />
+													<input style="margin-left:10px; width:575px;" type='text' name='orginzation_email' /><br/><br/>
+
+													<b class='required'>*</b><b>Name of Organization:</b><br />
+													<input style="margin-left:10px; width:575px;" type='text' name='orginzation_name' /><br/><br/>
+
+													<b class='required'>*</b><b>Type of Charity:</b><br />
+													<input style="margin-left:10px; width:575px;" type='text' name='orginzation_type' /><br/><br/>
+
+													<b class='required'>&nbsp;&nbsp;</b><b>Organization's Website:</b><br />
+													<input style="margin-left:10px; width:575px;" type='text' name='orginzation_website' value="http://www." /><br/><br/>
+
+													<b class='required'>&nbsp;&nbsp;</b><b>Personal contact working with organization:</b><br />
+													<input style="margin-left:10px; width:575px;" type='text' name='orginzation_contact' /><br/><br/>
+
+													<b class='required'>&nbsp;&nbsp;</b><b>Why do you think we should help raise money for this organization?</b><br />
+													<textarea name="orginzation_comments" style="margin-left:10px; width:575px; height:100px;"></textarea><br/>
+
+													<div style="text-align:right; padding-top:5px; padding-right:10px;">
+														<input type="submit" value="submit" style="display:none;" />
+														<a class="greenie" href="#" onclick="$(this).getPrevious().form.submit()">Submit My Suggestion!</a>
+													</div>
+
+												</div>
+											</div>
+										</form>
+									</div>
+
+									<div id="mb_suggest_company" style="display: none; background-color: white;">
+										<form method="post" action="/Company/Suggest" id="suggest_business_form">
+											<div style="color: white; padding:10px;">
+												<h2>Suggest A Business!</h2>
+												<div class="popup-body" style="color: black; padding:10px; height: 470px;">
+													<b class='required'>*</b><b>Your Email:</b><br />
+													<input style="margin-left:10px; width:575px;" type='text' name='email' /><br/><br/>
+
+													<b class='required'>*</b><b>Name of Business:</b><br />
+													<input style="margin-left:10px; width:575px;" type='text' name='business_name' /><br/><br/>
+
+													<b class='required'>*</b><b>Type of Business:</b><br />
+													<input style="margin-left:10px; width:575px;" type='text' name='business_type' /><br/><br/>
+
+													<b class='required'>&nbsp;&nbsp;</b><b>Business' Website:</b><br />
+													<input style="margin-left:10px; width:575px;" type='text' name='business_website' value="http://www." /><br/><br/>
+
+													<b class='required'>&nbsp;&nbsp;</b><b>Personal Contact Working at Business:</b><br />
+													<input style="margin-left:10px; width:575px;" type='text' name='business_contact' /><br/><br/>
+
+													<b class='required'>&nbsp;&nbsp;</b><b>Why do you think we should partner with this business?</b><br />
+													<textarea name="comments" style="margin-left:10px; width:575px; height:100px;"></textarea><br/>
+
+													<div style="text-align:right; padding-top:5px; padding-right:10px;">
+														<input type="submit" value="submit" style="display:none;" />
+														<a class="greenie" href="#" onclick="$(this).getPrevious().form.submit()">Submit My Suggestion!</a>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="push"></div>
+		</div>
+		<div class="outer_footer footer">
+            <div class="inner_footer">
+				<table width="100%">
+					<tr>
+						<td width="20%"></td>
+						<td width="60%" align="center">
+							<table>
+								<tr valign="top">
+									<td>
+										<img alt="GiveToWin.com" width="94" height="92" src="/skins/default/image/v2/footer_logo.png" />
+									</td>
+									<td align="right" style="padding-right:20px;">
+										<a href="/Index/About">about us</a><br/>
+										<a href="#">jobs</a><br/>
+										<a href="/Index/Contact">contact</a><br/>
+										<a href="#">help</a><br/>
+									</td>
+									<td class="vr">
+
+									</td>
+									<td align="center" style="padding-right:20px; padding-left: 20px;">
+										<a href="/NonProfitLogin">nonprofit login</a><br/>
+										<a href="/MerchantLogin">merchant login</a><br/>
+										<a href="/User/Login">donor login</a><br/>
+										<a href="#mb_suggest_city" rel="lightbox[suggest_city 660 325]">suggest a city</a><br/>
+										<a href="#mb_suggest_friend" rel="lightbox[suggest_friend 660 325]">refer a friend</a><br/>
+									</td>
+									<td class="vr">
+									</td>
+									<td align="left" style="padding-left: 20px;">
+										<a href="/Index/Faq">FAQ</a><br/>
+										<a href="#">terms</a><br/>
+										<a href="/Index/Privacy-Policy">privacy policy</a><br/>
+										<a href="#">merchandise</a><br/>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="6" align="center" class="copyRight" style="padding-top:5px;">
+										<a href="http://www.skyseek.com"><img height="25" src="/skins/default/image/created_by.png" /></a><br />
+										<span style="font-size: 10px">(C) Copyright 2011, Give to Win, Inc. All rights reserved.</span>
+									</td>
+								</tr>
+							</table>
+						</td>
+						<td width="20%" valign="bottom" align="center">
+							
+						</td>
+					</tr>
+				</table>
+                <!--<a onclick="FB.login(function(response){console.log(response)})" href="#fb">Facebook</a>-->
+            </div>
+        </div>
+		<!-- Facebook 
+		<div id="fb-root"></div>
+		<script src="http://static.ak.fbcdn.net/connect/en_US/core.debug.js"></script>
+		<script>
+			FB.init({
+				appId  : '146287428751318',
+				status : true, // check login status
+				cookie : true, // enable cookies to allow the server to access the session
+				xfbml  : false  // parse XFBML
+			});
+		</script>
+		-->
+		<?= $this->headScript(); ?>
+	</body>
+</html>

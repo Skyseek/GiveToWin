@@ -64,6 +64,10 @@ class GTW_Model_City_Subscription_Mapper extends Skyseek_Model_Mapper {
 		return $collection;
 	}
 
+	public function getSubscriptionByCityAndUser($city) {
+
+	}
+
 	public function getSubscription($id, $lazyLoad=true, $useIdentityMap=true) {
 		if ($useIdentityMap && $this->hasIdentity($id)) {
 			return $this->getIdentityMap($id);
@@ -86,20 +90,43 @@ class GTW_Model_City_Subscription_Mapper extends Skyseek_Model_Mapper {
 		return $entity;
 	}
 
-		/**
+	/**
 	 * @return GTW_Model_City_Subscription
 	 */
 	private function createSubscriptionEntity($data, $lazyLoad) {
 
-		$entity = new GTW_Model_City_Subscription(array(
-						//Add Entity Variables
-				));
+		$entity = new GTW_Model_City_Subscription();
+		$entity->referenceId('user_id', $data['user_id']);
+		$entity->referenceId('city_id', $data['city_id']);
 
 		if (!$lazyLoad) {
 			//Add lazy loader Calls
 		}
 
 		return $entity;
+	}
+
+	/**
+	 *
+	 * @param GTW_Model_City_Subscription $subscription'
+	 *
+	 * @return GTW_Model_City_Subscription
+	 */
+	public function save(GTW_Model_City_Subscription $subscription) {
+		$data = array(
+			'user_id'		=> $subscription->getUser()->id,
+			'city_id'		=> $subscription->getCity()->id,
+		);
+
+
+		if($subscription->id === null) {
+			$subscription->id =  $this->_getGateway()->insert($data);
+		} else {
+			$this->_getGateway()->update($data, $this->getWhereSQL($subscription->id));
+		}
+
+
+		return $subscription;
 	}
 
 }

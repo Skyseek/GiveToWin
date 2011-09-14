@@ -1,34 +1,28 @@
 <?php
-/** 
+/**
  * Givetowin.org License, Version 1.0
- * 
- * You may not modify or use this file except with written permission 
- * from Givetowin.org.
- * 
+ *
+ * You may not modify or use this file except with written permission
+ * from Give to Win, Inc.
+ *
  * The Original Code and all software distributed under the License are
  * distributed on an 'AS IS' basis, WITHOUT WARRANTY OF ANY KIND, EITHER
- * EXPRESS OR IMPLIED, AND APPLE HEREBY DISCLAIMS ALL SUCH WARRANTIES,
+ * EXPRESS OR IMPLIED, AND Give to Win HEREBY DISCLAIMS ALL SUCH WARRANTIES,
  * INCLUDING WITHOUT LIMITATION, ANY WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE, QUIET ENJOYMENT OR NON-INFRINGEMENT.
  * Please see the License for the specific language governing rights and
  * limitations under the License.
- * 
+ *
  * @package    Givetowin
- * @copyright  Copyright (c) 2011, Givetowin.org
+ * @copyright  Copyright (c) 2011, Give to Win, Inc
  */
 
 
-
-
-
-
 /**
- * Mapper
+ * User Role Mapper
  *
- * @package    Skyseek
- * @subpackage SubPackage
- * @copyright  Copyright (c) 2011, Skyseek.com
- * @license    http://www.skyseek.com/License/Version1     Skyseek License, Version 1.0
+ * @package    Givetowin
+ * @copyright  Copyright (c) 2011, Give to Win, Inc
  * @author     Sean Thayne <sean@skyseek.com
  */
 class GTW_Model_User_Role_Mapper extends Skyseek_Model_Mapper {
@@ -48,12 +42,14 @@ class GTW_Model_User_Role_Mapper extends Skyseek_Model_Mapper {
 	/**
 	 * @return GTW_Model_User_Role_Collection
 	 */
-	public function getRoleCollection(Skyseek_Model_Entity_Collection_Request $request) {
+	public function getRoleCollection(Skyseek_Model_Entity_Collection_Request $request = null) {
 		$select = $this->_getGateway()->select();
 
-		$filterAdapter = new Skyseek_Model_Entity_Collection_Request_Adapter_DbSelect($request);
-		$filterAdapter->applyRequest($select);
-
+		if($request instanceof Skyseek_Model_Entity_Collection_Request) {
+			$filterAdapter = new Skyseek_Model_Entity_Collection_Request_Adapter_DbSelect($request);
+			$filterAdapter->applyRequest($select);
+		}
+		
 		$collection = new GTW_Model_User_Role_Collection();
 
 		foreach ($select->query()->fetchAll() as $data) {
@@ -65,7 +61,7 @@ class GTW_Model_User_Role_Mapper extends Skyseek_Model_Mapper {
 
 	public function getRole($id, $lazyLoad=true, $useIdentityMap=true) {
 		if ($useIdentityMap && $this->hasIdentity($id)) {
-			return $this->getIdentityMap($id);
+			return $this->getIdentity($id);
 		}
 
 
@@ -90,11 +86,9 @@ class GTW_Model_User_Role_Mapper extends Skyseek_Model_Mapper {
 	 */
 	private function createRoleEntity($data, $lazyLoad) {
 
-		$entity = new GTW_Model_User_Role(array(
-			'id'			=> $data['id'],
-			'role	'		=> $data['role'],
-			'description'	=> $data['description']
-		));
+		$entity = new GTW_Model_User_Role($data);
+
+
 
 		if (!$lazyLoad) {
 			//Add lazy loader Calls

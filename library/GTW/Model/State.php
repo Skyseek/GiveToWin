@@ -32,4 +32,5 @@
 class GTW_Model_State extends Skyseek_Model_Entity {
 	public $id;
 	public $state;
+	public $abbreviation;
 }

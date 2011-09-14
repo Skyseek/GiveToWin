@@ -41,7 +41,8 @@ class Default_ErrorController extends Zend_Controller_Action
             $this->view->exception = $errors->exception;
         }
 
-		//print_r($errors);exit;
+        print_r($errors->exception);
+        exit;
         
         $this->view->request   = $errors->request;
     }

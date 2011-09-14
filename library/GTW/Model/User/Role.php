@@ -32,10 +32,8 @@
 class GTW_Model_User_Role extends Skyseek_Model_Entity {
 	const GUEST			= 1;
 	const SUBSCRIBER	= 2;
-	const PENDING		= 3;
-	const ACTIVE		= 4;
-	const SUSPENDED		= 5;
-	const CANCELLED		= 6;
+	const MEMBER		= 3;
+	const ADMIN			= 4;
 
     protected $_mapper = 'GTW_Model_User_Role_Mapper';
 

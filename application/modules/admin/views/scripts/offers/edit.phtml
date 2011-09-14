@@ -1,0 +1,287 @@
+<?php
+
+$this->category = 'offers';
+$this->page = 'editOffers';
+$this->breadCrumbs = array(
+	array('title'=>'Admin', 'url'=>'/admin'),
+	array('title'=>'Offers', 'url'=>'/admin/offers'),
+	array('title'=>"Edit Offer ({$this->offer->title}) ", 'url'=>$this->url())
+);
+
+
+
+$resetLink = $this->url(array('time' => time()));
+
+if($this->company) {
+	$companyLink = $this->url(array(
+		'controller'	=> 'companies',
+		'action'		=> 'edit',
+		'id'			=> $this->company->id
+	)) . '#&tab-offers';
+
+	$this->breadCrumbs = array(
+			array('title'=>'Admin', 							'url'=>'/admin'),
+			array('title'=>'Companies', 						'url'=>'/admin/companies'),
+			array('title'=>"Company ({$this->company->name}) ", 'url'=>$companyLink),
+			array('title'=>"Edit Offer ({$this->offer->title}) ", 'url'=>$this->url())
+	);
+
+	$backButton = <<<HTML
+		<button onclick="window.location='$companyLink'" type="button">
+			<img src="/skins/admin/assets/img/icons/fugue/navigation-180.png" width="16" height="16"> Back to company
+		</button>
+HTML;
+} else {
+	$backButton = <<<HTML
+		<button onclick="window.location='/admin/offers/browse'" type="button">
+			<img src="/skins/admin/assets/img/icons/fugue/navigation-180.png" width="16" height="16"> Back to list
+		</button>
+HTML;
+}
+
+
+
+
+
+
+$this->controlBar = <<<HTML
+<div id="control-bar" class="grey-bg clearfix" style="opacity: 1; ">
+	<div class="container_12">
+		<div class="float-left">
+			{$backButton}
+		</div>
+
+		<div class="float-right">
+			<button onclick="window.location='/admin/offers/browse'" type="button" class="red">Cancel</button>
+			<button type="button" onclick="window.location='$resetLink'" class="grey">Reset</button>
+			<button type="button" onclick="$('#complex_form').submit()"><img src="/skins/admin/assets/img/icons/fugue/tick-circle.png" width="16" height="16"> Save Offer</button>
+		</div>
+	</div>
+</div>
+HTML;
+?>
+
+
+<? if($this->saveSuccess): ?>
+<ul class="message success grid_12">
+	<li>Offer saved  <strong>successfully</strong>.</li>
+	<li class="close-bt"></li>
+</ul>
+<? elseif($this->saveError): ?>
+<ul class="message error grid_12">
+	<li>Save was <strong>not successfully</strong>, please correct the errors below.</li>
+	<li class="close-bt"></li>
+</ul>
+<? endif; ?>
+
+<section class="grid_12">
+	<div class="block-border"><form class="block-content form" id="complex_form" method="post" action="" enctype="multipart/form-data">
+		<h1>Edit Offer</h1>
+
+		<div class="block-controls">
+			<ul class="controls-tabs js-tabs">
+				<li class="current">
+					<a href="#" title="User Settings">
+						<img src="/skins/admin/assets/img/icons/web-app/24/Info.png" width="24" height="24"/>
+					</a>
+				</li>
+				<li>
+					<a href="#" onClick="openDeleteUserPrompt(<?=$this->offer->id;?>);" title="Delete Offer">
+						<img src="/skins/admin/assets/img/icons/web-app/24/Delete.png" width="24" height="24"/>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+
+		<div class="columns">
+			<div class="col200pxL-left">
+				<h2>Offer Settings</h2>
+				<ul class="side-tabs js-tabs same-height">
+					<li><a href="#tab-settings" title="Setting">Settings</a></li>
+					<li><a href="#tab-description" title="Setting">Description</a></li>
+					<li><a href="#tab-highlights" title="Highlights">Highlights</a></li>
+					<li><a href="#tab-fine-print" title="Fine Print">Fine Print</a></li>
+					<li><a href="#tab-logo" title="Image">Image</a></li>
+					<li><a href="#tab-schedule" title="Schedule">Schedule</a></li>
+					<li><a href="#tab-donations" title="Setting">Donations</a></li>
+				</ul>
+
+			</div>
+			<div class="col200pxL-right">
+				<?=$this->form;?>
+				<div id="tab-logo" class="tabs-content" > 
+					<div class="block-content" >
+						<h1>
+							Current Image
+						</h1>
+						<img src="<?=$this->offer->imageURL;?>" width="176" height="123" style="border:1px solid #ccc">
+					</div>
+					<br /><br />
+					<div class="block-content" >
+						<h1>
+							Set New Image
+						</h1>
+						<input type='file' name='logo' />
+						Enter new image file. Make sure it's 176x123 pixels for best results.
+					</div>
+				</div>
+				<div id="tab-schedule" class="tabs-content" > 					
+						<div class="block-content" >
+							<h1>
+								Schedule
+								<a href="<?=$this->url(array('action'=>'create-schedule'));?>">
+									<img src="/skins/admin/assets/img/icons/fugue/plus-circle-blue.png" width="16" height="16"> add
+								</a>
+								
+							</h1>
+
+							<? if(count($this->schedulePlan)): ?>	
+								<div style="vertical-align:top;height:25px;" class="float-right">
+									<span style="
+										padding-left: 25px;
+										background: url(/skins/admin/assets/img/icons/silk/bullet_purple.png) no-repeat;
+										background-position: 8px -1px;
+									"> Submitted</span>
+									
+									<span style="
+										padding-left: 25px;
+										background: url(/skins/admin/assets/img/icons/silk/bullet_green.png) no-repeat;
+										background-position: 8px -1px;
+									"> Active</span>
+
+									<span style="
+										padding-left: 25px;
+										background: url(/skins/admin/assets/img/icons/silk/bullet_red.png) no-repeat;
+										background-position: 8px -1px;
+									"> Rejected</span>
+								</div>
+								<br /><br />
+
+
+								<ul class="planning">
+									<li class="planning-header">
+										<span><b>City</b></span>
+										<ul>
+											<? 
+												$dayIndex = array();
+												for($i=-2; $i<=7; $i++): 
+													$date = Zend_Date::now()->add($i, Zend_Date::DAY);
+													$dayIndex[$date->toString('D')] = $i+11;
+											  ?>
+												<li class="at-<?=11+$i;?>"><?=$date->toString('M/d');?></li>
+											<? endfor;?>
+										</ul>
+									</li>
+									
+									<? foreach($this->schedulePlan as $schedule): 
+											$startDate = new Zend_Date($schedule->start_date, Zend_Date::ISO_8601);
+											$endDate = new Zend_Date($schedule->end_date, Zend_Date::ISO_8601);
+
+											$startIndex = '8';
+											$startDayOfYear = $startDate->toString('D');
+											$percent = 0;
+
+											if(isset($dayIndex[$startDayOfYear]))
+												$startIndex = $dayIndex[$startDayOfYear];
+											
+											$endIndex = '20';
+											$endDayOfYear = $endDate->toString('D');
+
+											if(isset($dayIndex[$endDayOfYear]))
+												$endIndex = $dayIndex[$endDayOfYear];
+											
+											switch($schedule->status->id) {
+												case GTW_Model_Offer_Schedule_Status::SUBMITTED:
+													$percent 	= 100;
+													$color 		= 'event-purple';
+													break;
+												case GTW_Model_Offer_Schedule_Status::ACTIVE:
+													$color 		= 'event-green';
+													if($startIndex < 11)
+														$percent = (100 / ($endIndex - $startIndex)) * (11 - $startIndex);
+													break;
+												default:
+													$percent 	= 100;
+													$color 		= 'event-red';
+													break;
+											}
+
+											$text  = $startDate->toString('M/d/Y') . ' - ' . $endDate->toString('M/d/Y');
+											$text .= '(' . ($endDate->sub(Zend_Date::now())->toString(Zend_Date::DAY_OF_YEAR) + 1) . ' days left)';
+									?>
+										<li>
+											<a href="#">
+												<img src="/skins/admin/assets/img/icons/fugue/pin-small.png" width="16" height="16"> 
+												<?=$schedule->city->city;?>, <?=$schedule->city->state->abbreviation;?>
+											</a>
+											<ul>
+												<li class="from-<?=$startIndex;?> to-<?=$endIndex;?>">
+													<a href="#" title="<?=$text;?>" class="with-tip">
+														<?=$text;?>
+														<span class="<?=$color;?>" style="width:<?=$percent;?>%">
+															<?=$text;?>															
+														</span>
+													</a>
+												</li>
+												<li class="current-time at-11"></li>
+											</ul>
+										</li>
+									<? endforeach; ?>
+								</ul>
+							<? endif; ?>
+							
+							<table class="table" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th scope="col">ID</th>
+										<th scope="col">Start Date</th>
+										<th scope="col">End Date</th>
+										<th scope="col">Status</th>
+										<th scope="col">Actions</th>
+									</tr>
+								</thead>
+								<? if($this->schedules->getCurrentItemCount() > 0): ?>
+									<? foreach($this->schedules as $schedule): ?>
+										<tr>
+											<td><?=$schedule->id;?></td>
+											<td><?=$schedule->start_date;?></td>
+											<td><?=$schedule->end_date;?></td>
+											<td class="with-tip" title="<?=$schedule->status->description;?>">
+												<?=$schedule->status->status;?>
+											</td>
+											<td class="table-actions">
+												<a 
+													title="Edit Offer Schedule" 
+													class="with-tip"
+													href="<?=
+														$this->url(array(
+															'action'=>'edit-schedule',
+															'schedule_id'=>$schedule->id));
+													?>">
+													<img src="/skins/admin/assets/img/icons/fugue/pencil.png" width="16" height="16">
+												</a>
+												<a href="#" onClick="openDeleteOfferSchedulePrompt(<?=$schedule->id;?>);" title="Delete Offer Schedule" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/cross-circle.png" width="16" height="16"></a>
+											</td>
+										</tr>
+									<? endforeach; ?>
+								<? else: ?>
+									<tbody>
+										<tr>
+											<td style='text-align:center; font-weight:bolder;' colspan='5'>This Offer has no Schedule</td>
+										</tr>
+									</tbody>
+								<? endif; ?>
+							</table>
+
+						</div>				
+				</div>
+				<div id="tab-donations" class="tabs-content"  style="min-height:400px;"> 
+
+				</div>
+			</div>
+		</div>
+	</form></div>
+</section>
+
+

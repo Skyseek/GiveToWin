@@ -1,0 +1,132 @@
+<?php
+
+$this->category = 'cities';
+$this->page = 'createCity';
+$this->breadCrumbs = array(
+	array('title'=>'Admin', 'url'=>'/admin'),
+	array('title'=>'Cities', 'url'=>'/admin/cities'),
+	array('title'=>"Edit City ({$this->city->city}, {$this->city->state->state})", 'url'=>$this->url())
+);
+
+
+$resetLink = $this->url(array('time' => time()));
+$this->controlBar = <<<HTML
+<div id="control-bar" class="grey-bg clearfix" style="opacity: 1; ">
+	<div class="container_12">
+		<div class="float-left">
+			<button onclick="window.location='/admin/cities/browse'" type="button"><img src="/skins/admin/assets/img/icons/fugue/navigation-180.png" width="16" height="16"> Back to list</button>
+		</div>
+
+		<div class="float-right">
+			<button onclick="window.location='/admin/cities/browse'" type="button" class="red">Cancel</button>
+			<button type="button" onclick="window.location='$resetLink'" class="grey">Reset</button>
+			<button type="button" onclick="$('#complex_form').submit()"><img src="/skins/admin/assets/img/icons/fugue/tick-circle.png" width="16" height="16"> Save New City</button>
+		</div>
+	</div>
+</div>
+HTML;
+?>
+
+<? if($this->saveSuccess): ?>
+<ul class="message success grid_12">
+	<li>City saved  <strong>successfully</strong>.</li>
+	<li class="close-bt"></li>
+</ul>
+<? elseif($this->saveError): ?>
+<ul class="message error grid_12">
+	<li>Save was <strong>not successfully</strong>, please correct the errors below.</li>
+	<li class="close-bt"></li>
+</ul>
+<? endif; ?>
+
+<section class="grid_12">
+	<div class="block-border"><form class="block-content form" id="complex_form" method="post" action="">
+		<h1>Edit City</h1>
+
+		<div class="block-controls">
+			<ul class="controls-tabs js-tabs">
+				<li class="current">
+					<a href="#" title="User Settings">
+						<img src="/skins/admin/assets/img/icons/web-app/24/Add.png" width="24" height="24"/>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+
+		<div class="columns">
+			<div class="col200pxL-left">
+				<h2>City Settings</h2>
+				<ul class="side-tabs js-tabs same-height">
+					<li><a href="#tab-settings" title="Setting">Settings</a></li>
+					<li><a href="#tab-schedule" title="Schedule">Schedule</a></li>
+				</ul>
+
+			</div>
+			<div class="col200pxL-right">
+				<?=$this->form;?>
+				<div id="tab-schedule" class="tabs-content"  style="min-height:400px;"> 
+					<div class="block-content" >
+								<h1>
+									Schedule
+									<a href="/admin/fundraisers/create/charity_id/<?=$this->charity->id;?>">
+										<img src="/skins/admin/assets/img/icons/fugue/plus-circle-blue.png" width="16" height="16"> add
+									</a>
+								</h1>
+						<ul class="planning no-margin">
+							<li class="planning-header">
+								<span><b>Fundraisers / Offers</b></span>
+								<ul>
+									<li class="at-8">9/5/2011</li>
+									<li class="at-9">9/6/2011</li>
+									<li class="at-10">9/7/2011</li>
+									<li class="at-11">9/8/2011</li>
+									<li class="at-12">9/9/2011</li>
+									<li class="at-13">9/10/2011</li>
+									<li class="at-14">9/11/2011</li>
+								</ul>
+							</li>
+							
+							<li>
+								<a href="#">
+									<img src="/skins/admin/assets/img/icons/fugue/tags-label.png" width="16" height="16"> 
+									Save the Kids
+								</a>
+								<ul>
+									
+									<li class="lunch from-9 to-10">
+										<a href="#" title="Event description" class="with-tip">8:00 - 12:00
+											<span class="event-orange" style="width:95%">8:00 - 12:00</span>
+										</a>
+									</li>
+									<li class="current-time at-9-30"></li>
+									<li class="milestone at-15"><a href="#" title="Milestone description" class="with-tip"></a></li>
+								</ul>
+							</li>
+
+							<!--
+							<li>
+								<a href="#">
+									<img src="/skins/admin/assets/img/icons/fugue/tags-label.png" width="16" height="16"> 
+									Save the Kids
+								</a>
+								<ul>
+									<li class="lunch from-6 to-14"></li>
+									<li class="current-time at-9-30"></li>
+									<li class="from-8 to-12">
+										<a href="#" title="Event description" class="with-tip">8:00 - 12:00
+											<span class="event-blue" style="width:3%">8:00 - 12:00</span></a>
+										</li>
+									<li class="milestone at-15"><a href="#" title="Milestone description" class="with-tip"></a></li>
+								</ul>
+							</li> 
+							-->
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form></div>
+</section>
+
+

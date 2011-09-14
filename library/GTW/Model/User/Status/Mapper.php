@@ -29,12 +29,74 @@
  * @copyright  Copyright (c) 2011, Give to Win, Inc
  * @author     Sean Thayne <sean@skyseek.com
  */
-class GTW_Model_User_Status_Mapper extends GTW_Model_Mapper_Abstract {
+class GTW_Model_User_Status_Mapper extends Skyseek_Model_Mapper {
+
+
+	protected static $_instance;
+	protected static $_identityMap = array();
 	protected $_tableName = 'user_status';
 
-	public function find($id) {
-		$result = $this->_getGateway()->find($id)->current();
-
-		return new GTW_Model_User_Status($result->toArray());
+	/**
+	 * @return GTW_Model_User_Status_Mapper
+	 */
+	public static function getInstance() {
+		return parent::getInstance();
 	}
+
+
+	/**
+	 * @return GTW_Model_User_Status_Collection
+	 */
+	public function getStatusCollection(Skyseek_Model_Entity_Collection_Request $request = null) {
+		$select = $this->_getGateway()->select();
+
+		if($request instanceof Skyseek_Model_Entity_Collection_Request) {
+			$filterAdapter = new Skyseek_Model_Entity_Collection_Request_Adapter_DbSelect($request);
+			$filterAdapter->applyRequest($select);
+		}
+		
+		$collection = new GTW_Model_User_Status_Collection();
+
+		foreach ($select->query()->fetchAll() as $data) {
+			$collection->addItem($this->createStatusEntity($data, false));
+		}
+
+		return $collection;
+	}
+
+	public function getStatus($id, $lazyLoad=true, $useIdentityMap=true) {
+		if ($useIdentityMap && $this->hasIdentity($id)) {
+			return $this->getIdentity($id);
+		}
+
+		$result = $this->_getGateway()->find($id)->current()->toArray();
+		if (!$result) {
+			return null;
+		}
+
+
+		$entity = $this->createStatusEntity($result, $lazyLoad);
+
+
+		if ($useIdentityMap) {
+			$this->setIdentity($id, $entity);
+		}
+
+		return $entity;
+	}
+
+		/**
+	 * @return GTW_Model_User_Status
+	 */
+	private function createStatusEntity($data, $lazyLoad) {
+
+		$entity = new GTW_Model_User_Status($data);
+
+		if (!$lazyLoad) {
+			//Add lazy loader Calls
+		}
+
+		return $entity;
+	}
+
 }

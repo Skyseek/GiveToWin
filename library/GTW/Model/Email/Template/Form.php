@@ -1,24 +1,21 @@
 <?php
-/** 
+/**
  * Givetowin.org License, Version 1.0
- * 
- * You may not modify or use this file except with written permission 
- * from Givetowin.org.
- * 
+ *
+ * You may not modify or use this file except with written permission
+ * from Give to Win, Inc.
+ *
  * The Original Code and all software distributed under the License are
  * distributed on an 'AS IS' basis, WITHOUT WARRANTY OF ANY KIND, EITHER
- * EXPRESS OR IMPLIED, AND APPLE HEREBY DISCLAIMS ALL SUCH WARRANTIES,
+ * EXPRESS OR IMPLIED, AND Give to Win HEREBY DISCLAIMS ALL SUCH WARRANTIES,
  * INCLUDING WITHOUT LIMITATION, ANY WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE, QUIET ENJOYMENT OR NON-INFRINGEMENT.
  * Please see the License for the specific language governing rights and
  * limitations under the License.
- * 
+ *
  * @package    Givetowin
- * @copyright  Copyright (c) 2011, Givetowin.org
+ * @copyright  Copyright (c) 2011, Give to Win, Inc
  */
-
-
-
 
 
 
@@ -31,22 +28,44 @@
  * @license    http://www.skyseek.com/License/Version1     Skyseek License, Version 1.0
  * @author     Sean Thayne <sean@skyseek.com
  */
-class GTW_Model_Email_Template_Form extends Zend_Form {
-
+class GTW_Model_Email_Template_Form extends Zend_Form 
+{
+	// ====================================================================
+	//
+	// 	Properties
+	//
+	// ====================================================================
+	
+	
+	// ----------------------------------
+	// 	Template
+	// ----------------------------------
+	
+	
 	protected $_template;
 
-	public function setTemplate(GTW_Model_Email_Template $template) {
+	public function setTemplate(GTW_Model_Email_Template $template) 
+	{
 		$this->populate($template->toArray());
 		$this->_template = $template;
 	}
 
-	public function getTemplate() {
+	public function getTemplate() 
+	{
 		foreach($this->getValues() as $subValues)
 			$this->_template->setPropertiesFromArray($subValues);
 
 		return $this->_template;
 	}
 
+
+	// ====================================================================
+	//
+	// 	Constructor
+	//
+	// ====================================================================
+	
+	
     public function  __construct($options = null) {
 		parent::__construct($options);
 
@@ -182,47 +201,5 @@ class GTW_Model_Email_Template_Form extends Zend_Form {
 		));
 
 		return $form;
-	}
-}
-
-
-class Skyseek_Form_Message extends Zend_Form_Element_Xhtml {
-
-	protected $_showCloseButton = true;
-	protected $_messageType = 'warning';
-	protected $_message = '';
-
-
-	public function  __construct($spec, $options = null) {
-		parent::__construct($spec, $options);
-
-		if(isset($options['message']))
-			$this->_message = $options['message'];
-
-		if(isset($options['messageType']))
-			$this->_messageType = $options['messageType'];
-
-		if(isset($options['showClose']))
-			$this->_showCloseButton = (bool) $options['showClose'];
-	}
-
-	public function render() {
-		if($this->_showCloseButton)
-			return <<<HTML
-			<ul class="message {$this->_messageType} no-margin">
-				<li>{$this->_message}</li>
-				<li class="close-bt"></li>
-			</ul>
-HTML;
-		else
-			return <<<HTML
-			<ul class="message {$this->_messageType} no-margin">
-				<li>{$this->_message}</li>
-			</ul>
-HTML;
-	}
-
-	public function isValid($value){
-		return true;
 	}
 }

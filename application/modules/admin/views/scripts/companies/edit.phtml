@@ -1,0 +1,163 @@
+<?php
+
+$this->category = 'companies';
+$this->page = 'editCompanies';
+$this->breadCrumbs = array(
+	array('title'=>'Admin', 'url'=>'/admin'),
+	array('title'=>'Companies', 'url'=>'/admin/companies'),
+	array('title'=>"Edit Company ({$this->company->name}) ", 'url'=>$this->url())
+);
+
+
+$resetLink = $this->url(array('time' => time()));
+$this->controlBar = <<<HTML
+<div id="control-bar" class="grey-bg clearfix" style="opacity: 1; ">
+	<div class="container_12">
+		<div class="float-left">
+			<button onclick="window.location='/admin/companies/browse'" type="button"><img src="/skins/admin/assets/img/icons/fugue/navigation-180.png" width="16" height="16"> Back to list</button>
+		</div>
+
+		<div class="float-right">
+			<button onclick="window.location='/admin/companies/browse'" type="button" class="red">Cancel</button>
+			<button type="button" onclick="window.location='$resetLink'" class="grey">Reset</button>
+			<button type="button" onclick="$('#complex_form').submit()"><img src="/skins/admin/assets/img/icons/fugue/tick-circle.png" width="16" height="16"> Save Company</button>
+		</div>
+	</div>
+</div>
+HTML;
+?>
+
+
+<? if($this->saveSuccess): ?>
+<ul class="message success grid_12">
+	<li>Company saved  <strong>successfully</strong>.</li>
+	<li class="close-bt"></li>
+</ul>
+<? elseif($this->saveError): ?>
+<ul class="message error grid_12">
+	<li>Save was <strong>not successfully</strong>, please correct the errors below.</li>
+	<li class="close-bt"></li>
+</ul>
+<? endif; ?>
+
+<section class="grid_12">
+	<div class="block-border"><form class="block-content form" id="complex_form" method="post" action="" enctype="multipart/form-data">
+		<h1>Edit Company</h1>
+
+		<div class="block-controls">
+			<ul class="controls-tabs js-tabs">
+				<li class="current">
+					<a href="#" title="User Settings">
+						<img src="/skins/admin/assets/img/icons/web-app/24/Info.png" width="24" height="24"/>
+					</a>
+				</li>
+				<li>
+					<a href="#" onClick="openDeleteUserPrompt(<?=$this->company->id;?>);" title="Delete Company">
+						<img src="/skins/admin/assets/img/icons/web-app/24/Delete.png" width="24" height="24"/>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+
+		<div class="columns">
+			<div class="col200pxL-left">
+				<h2>Company Settings</h2>
+				<ul class="side-tabs js-tabs same-height">
+					<li><a href="#tab-settings" title="Setting">Profile</a></li>
+					<li><a href="#tab-logo" title="Logo">Logo</a></li>
+					<li><a href="#tab-coupons" title="Offers">Offers</a></li>
+				</ul>
+
+			</div>
+			<div class="col200pxL-right">
+				<?=$this->form;?>
+				<div id="tab-logo" class="tabs-content" > 
+					<div class="block-content" >
+						<h1>
+							Current Logo
+						</h1>
+						<img src="<?=$this->company->imageURL;?>" width="176" height="67" style="border:1px solid #ccc">
+					</div>
+					<br /><br />
+					<div class="block-content" >
+						<h1>
+							Set New Logo
+						</h1>
+						<input type='file' name='logo' />
+						Enter new logo file. Make sure it's 176x67 pixels for best results.
+					</div>
+				</div>
+				<div id="tab-coupons" class="tabs-content" > 
+					<div class="block-content" >
+						<h1>
+							Company Offers
+							<a href="/admin/offers/create/company_id/<?=$this->company->id;?>">
+								<img src="/skins/admin/assets/img/icons/fugue/plus-circle-blue.png" width="16" height="16"> add
+							</a>
+						</h1>
+
+						<table class="table" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th scope="col">ID</th>
+									<th scope="col">Title</th>
+									<th scope="col">Value</th>
+									<th scope="col">Minimum</th>
+									<th scope="col">Status</th>
+									<th scope="col">Actions</th>
+								</tr>
+							</thead>
+							<? if($this->offers->getCurrentItemCount() > 0): ?>
+								<? foreach($this->offers as $offer): ?>
+									<tr>
+										<td><?=$offer->id;?></td>
+										<td><?=$offer->title;?></td>
+										<td>$<?=$offer->value;?></td>
+										<td><?=$offer->minimum;?></td>
+										<td class="with-tip" title="<?=$offer->status->description;?>">
+											<?=$offer->status->status;?>
+										</td>
+										<td class="table-actions">
+											<a 
+												title="Edit Offer" 
+												class="with-tip"
+												href="<?=
+													$this->url(array(
+														'controller'	=> 'offers', 
+														'action'		=> 'edit',
+														'id'			=> $offer->id,
+														'company_id'	=> $offer->company->id));
+												?>">
+												<img src="/skins/admin/assets/img/icons/fugue/pencil.png" width="16" height="16">
+											</a>
+											<a href="#" onClick="openDeleteOfferPrompt(<?=$offer->id;?>);" title="Delete Offer" class="with-tip">
+												<img src="/skins/admin/assets/img/icons/fugue/cross-circle.png" width="16" height="16">
+											</a>
+										</td>
+									</tr>
+								<? endforeach; ?>
+							<? else: ?>
+								<tbody>
+									<tr>
+										<td style='text-align:center; font-weight:bolder;' colspan='6'>This Company has no Offers</td>
+									</tr>
+								</tbody>
+							<? endif; ?>
+						</table>
+						<div class="block-content no-title dark-bg">
+							<p class="mini-infos">
+								This list will only show a max of 25 Offers. Want a full list? Try 
+								<a href="/admin/offers/browse/company_id/<?=$this->company->id;?>">
+									browsing here »
+								</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form></div>
+</section>
+
+

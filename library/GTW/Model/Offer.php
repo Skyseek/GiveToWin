@@ -29,10 +29,15 @@
  * @copyright  Copyright (c) 2011, Give to Win, Inc
  * @author     Sean Thayne <sean@skyseek.com
  */
-class GTW_Model_Offer {
-    public $id;
-	private $_company;
-	public $status;
+class GTW_Model_Offer extends Skyseek_Model_Entity {
+
+	// ====================================================================
+	//
+	// 	Properties
+	//
+	// ====================================================================
+
+	public $id;
 	public $title;
 	public $sub_title;
 	public $description;
@@ -41,13 +46,160 @@ class GTW_Model_Offer {
 	public $value;
 	public $time_redeem;
 	public $time_expire;
+	public $minimum;
+	
+	
+	// ====================================================================
+	//
+	// 	Mapped Properties
+	//
+	// ====================================================================
+	
 
-	public function setCompany(GTW_Model_Company $company) {
+	// ----------------------------------
+	// 	Company
+	// ----------------------------------
+	
+	
+	protected $_company;
+	
+	/**
+	 * @param GTW_Model_Company $company
+	 */
+	public function setCompany(GTW_Model_Company $company) 
+	{
 		$this->_company = $company;
 	}
-
-	public function getCompany() {
+	
+	/**
+	 * @return GTW_Model_Company
+	 */
+	public function getCompany() 
+	{
+		if ($this->_company == null && $this->referenceId('company_id')) 
+		{
+			$this->_company = $this->companyMapper()->getCompany($this->referenceId('company_id'));
+		}
+	
 		return $this->_company;
+	}
+
+	// ----------------------------------
+	// 	Status
+	// ----------------------------------
+
+	protected $_status;
+	
+	/**
+	 * @param GTW_Model_Offer_Status $status
+	 */
+	public function setStatus(GTW_Model_Offer_Status $status) 
+	{
+		$this->_status = $status;
+	}
+
+	
+	/**
+	 * @return GTW_Model_Offer_Status
+	 */
+	public function getStatus() 
+	{		
+		if ($this->_status == null && $this->referenceId('status_id')) 
+		{
+			$this->_status = $this->statusMapper()->getStatus($this->referenceId('status_id'));
+		}
+
+		return $this->_status;
+	}
+	
+	// ====================================================================
+	//
+	// 	Helpers
+	//
+	// ====================================================================
+	
+	public function getImageURL()
+	{
+		if(file_exists($this->getImagePath())) {
+			return "/image/offer/{$this->id}.png";
+		} else {
+			return '/image/offer/default.png';
+		}
+	}
+
+
+	public function getImagePath()
+	{
+		$imageDir = realpath(APPLICATION_PATH . '/../public_html/image/offer');
+		return "{$imageDir}/{$this->id}.png";
+	}
+
+	public function getTotalDonationsCount()
+	{
+		return 0;
+	}
+
+
+	// ====================================================================
+	//
+	// 	Entity Mappers
+	//
+	// ====================================================================
+		
+	
+	// ----------------------------------
+	// 	Company Mapper
+	// ----------------------------------
+	
+	
+	protected $_companyMapper;
+	
+	/**
+	 * @param GTW_Model_Company_Mapper $companyMapper
+	 *
+	 * @return GTW_Model_Company_Mapper
+	 */
+	public function companyMapper(GTW_Model_Company_Mapper $companyMapper=null) 
+	{
+		if ($companyMapper) 
+		{
+			$this->_companyMapper = $companyMapper;
+		}
+	
+		if ($this->_companyMapper === null)
+		{
+			$this->_companyMapper = new GTW_Model_Company_Mapper();
+		}
+	
+		return $this->_companyMapper;
+	}
+
+
+	// ----------------------------------
+	// 	Status Mapper
+	// ----------------------------------
+	
+	
+	protected $_statusMapper;
+	
+	/**
+	 * @param GTW_Model_Offer_Status_Mapper $statusMapper
+	 *
+	 * @return GTW_Model_Offer_Status_Mapper
+	 */
+	public function statusMapper(GTW_Model_Offer_Status_Mapper $statusMapper=null) 
+	{
+		if ($statusMapper) 
+		{
+			$this->_statusMapper = $statusMapper;
+		}
+	
+		if ($this->_statusMapper === null)
+		{
+			$this->_statusMapper = new GTW_Model_Offer_Status_Mapper();
+		}
+	
+		return $this->_statusMapper;
 	}
 
 }

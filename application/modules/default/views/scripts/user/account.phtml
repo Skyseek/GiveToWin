@@ -1,4 +1,208 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>User</b> and script/action name <b>account</b></p>
+<?php
+$this->title = 'My Account';
+$this->headTitle('My Account');
+
+
+function getMinimumText(GTW_UserCouponViewVO $coupon) {
+	$offerModel = new GTW_CompanyOfferViewModel();
+	$offer = $offerModel->findById($coupon->company_offer_id);
+
+	if($offer->minimum < $offer->coupon_count) {
+		return "Minimum Has Been Met, Enjoy!";
+	} else {
+		return "Need " . ($offer->minimum - $offer->coupon_count) . " More Donations!";
+	}
+}
+
+?>
+
+<?php if ($this->bannerMessage): ?>
+<div id="main_column">
+		<div class="content_tab">
+			<span style="font-size: 20pt;">System</span>
+		</div>
+		<div class="content-box" style="padding: 15px;">
+		<?php echo $this->bannerMessage; ?>
+	</div>
 </div>
+<?php endif; ?>
+
+<!--
+
+
+<script type="text/javascript">
+	window.addEvent('domready', main);
+
+	function main() {
+		var tabs, contents;
+
+		tabs = $$('.tabs');
+		contents = $$('.contents');
+
+		var tabView = new MooTabs(tabs, contents, {startIndex:<?= $this->mootabsSelectedIndex; ?>});
+		console.log(tabView);
+
+	}
+</script>
+
+<style>
+div.contentsWindow {
+	height:500px;
+	width:700px;
+}
+</style>
+-->
+
+
+
+
+
+<div class="content-box" style="width:720px;">
+	<table width="100%" cellpadding="0" cellspacing="0" border="0">
+		<tr class="header">
+			<td class="left"></td>
+			<td class="center" width="702"></td>
+			<td class="right"></td>
+		</tr>
+		<tr>
+			<td class="title" colspan="3">
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" class="body">
+				<div id="tabs"> 
+					<ul> 
+						<li><a href="#tabs-1">My Profile</a></li> 
+						<li><a href="#tabs-2">My Password</a></li> 
+						<li><a href="#tabs-3">My Picture</a></li> 
+					</ul> 
+					<div id="tabs-1" style="width:660px"> 
+						<h3 style="border-bottom:1px solid #ccc;">My Profile</h3>
+						<br />
+						<?php echo $this->editAccountForm; ?>
+					</div> 
+					<div id="tabs-2"> 
+						<h3 style="border-bottom:1px solid #ccc;">Change Password</h3>
+						<br />
+						<?php echo $this->changePasswordForm; ?>
+					</div> 
+					<div id="tabs-3"> 
+						<h3>Gravatar</h3>
+						<hr /><br />
+						We support Gravatar. Your Gravatar is an image that follows you from site to site appearing beside your name when you do things like comment or post on a blog. Avatars help identify your posts on blogs and web forums, so why not on any site?
+						<br /><br /><a href="http://en.gravatar.com/site/signup">Click Here To Change Profile Photo</a><br /><br />We only display the PG version of the images.
+						<br />
+						<br />
+						<h3>Facebook</h3>
+						<hr /><br />
+						Another option is to link you facebook account and use your facebook profile picture as your Give to Win profile picture.
+						
+					</div> 
+				</div> 
+
+					<? /*
+				<ul class="contents">
+					<li>
+						
+					</li>
+
+					<li>
+						<h1>My Password</h1>
+						<hr /><br />
+						<?php echo $this->passwordForm; ?>
+					</li>
+					<li>
+						
+					</li>
+					<li>
+						<h1>My Coupons</h1><hr /><br />
+						<?php if(count($this->coupons->results)): ?>
+						<table width="100%">
+							<tr align="left">
+								<th>Title</th>
+								<th>Value</th>
+								<th>Deal Status</th>
+								<th>Status</th>
+							</tr>
+							<tr>
+								<td colspan="4">
+									<hr />
+								</td>
+							</tr>
+						<?php foreach ($this->coupons->results as $coupon): ?>
+							<tr>
+								<td><a style="text-transform: capitalize;" href="/Offer/View-Receipt?coupon_id=<?php echo $coupon->id; ?>"><?php echo $coupon->offer_title; ?></a></td>
+								<td>$<?php echo number_format($coupon->offer_cost, 2, '.', ','); ?></td>
+								<td><?php echo getMinimumText($coupon); ?></td>
+								<td><?php echo ($coupon->time_coupon_used == '0000-00-00 00:00:00') ? 'Not-Used' : 'Used'; ?></td>
+							</tr>
+						<?php endforeach; ?>
+						</table>
+
+							<hr />
+							<center>
+								<b><?php echo $this->coupons->stats->totalCount; ?> Coupons</b>
+							</center>
+						<?php else: ?>
+							<center>
+								<b>You have no coupons!</b> <a href="/">get one now &gt;</a>
+							</center>
+						<?php endif; ?>
+					</li>
+					<li>
+						<h1>My Subscriptions</h1><hr /><br />
+						<?php if ($this->subscriptions->stats->totalCount == 0): ?>
+							<center>
+								<b>You have no subscriptions!</b> <a href="/User/Add-Subscription">add one now &gt;</a>
+							</center>
+						<?php else: ?>
+							<table width="100%">
+								<tr align="left">
+									<th>City</th>
+									<th align="center" width="150">Remove Subscription?</th>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<hr />
+									</td>
+								</tr>
+							<?php foreach ($this->subscriptions->results as $subscription): ?>
+								<tr>
+									<td><?php echo $subscription->city; ?></td>
+									<td align="center"><a href='javascript:removeSubscription(<?php echo $subscription->id; ?>,"<?php echo $subscription->city; ?>")'>Remove Subscription</a></td>
+								</tr>
+							<?php endforeach; ?>
+							</table>
+							<hr />
+							<center>
+								<br />
+								<b><?php echo $this->subscriptions->stats->totalCount; ?> Subscriptions.</b><br /><br />
+								<a href="/User/Add-Subscription">add another &gt;</a>
+							</center>
+						<?php endif; ?>
+					</li>
+					
+				</ul>
+				*/ ?>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('form.uniForm').uniform();
+		$('#tabs').tabs();
+	});
+</script>
+
+
+<script type="text/javascript">
+
+	function removeSubscription(id, city) {
+		if(confirm("Are you sure you want to remove your " + city + " subscription?")) {
+			window.location = "/User/Account?remove_subscription=" + id;
+		}
+	}
+
+</script>

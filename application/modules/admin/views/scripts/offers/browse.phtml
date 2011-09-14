@@ -1,0 +1,92 @@
+<?php
+
+$this->category = 'offers';
+$this->page = 'browseOffers';
+$this->breadCrumbs = array(
+	array('title'=>'Admin', 'url'=>'/admin'),
+	array('title'=>'Offers', 'url'=>'/admin/offers'),
+	array('title'=>"Browse All", 'url'=>$this->url())
+);
+
+
+
+$resetLink = $this->url(array('time' => time()));
+
+if($this->company) {
+	$companyLink = $this->url(array(
+		'controller'	=> 'companies',
+		'action'		=> 'edit',
+		'id'			=> $this->company->id
+	)) . '#&tab-offers';
+
+	$this->breadCrumbs = array(
+			array('title'=>'Admin', 							'url'=>'/admin'),
+			array('title'=>'Charities', 						'url'=>'/admin/companies'),
+			array('title'=>"Company ({$this->company->name}) ", 'url'=>$companyLink),
+			array('title'=>"Create Offer", 				'url'=>$this->url())
+	);
+
+	$backButton = <<<HTML
+		<button onclick="window.location='$companyLink'" type="button">
+			<img src="/skins/admin/assets/img/icons/fugue/navigation-180.png" width="16" height="16"> Back to company
+		</button>
+HTML;
+} else {
+	$backButton = null;
+}
+
+
+$createLink = $this->url(array('action'=>'create'));
+$this->controlBar = <<<HTML
+<div id="control-bar" class="grey-bg clearfix" style="opacity: 1; ">
+	<div class="container_12">
+		<div class="float-left">
+			$backButton
+		</div>
+		<div class="float-right">
+			<button type="button" onclick="window.location='$createLink'"><img src="/skins/admin/assets/img/icons/fugue/plus-circle.png" width="16" height="16"> Add New Offer</button>
+		</div>
+	</div>
+</div>
+HTML;
+?>
+
+
+		<section class="grid_12">
+			<div class="block-border"><form class="block-content form" id="table_form" method="post" action="">
+				<h1>Offers</h1>
+				<div class="block-controls">					
+						<?php echo $this->paginationControl($this->offers, 'Elastic', 'paginatorHeader.phtml'); ?>
+				</div>			
+				<div class="no-margin"><table class="table" cellspacing="0" width="100%">				
+					<thead>
+						<tr>
+							<th width="75" scope="col">ID</th>
+							<th scope="col">Title</th>
+							<th width="100" scope="col">Value</th>
+							<th width="100" scope="col">Minimum</th>
+							<th width="100" scope="col">Status</th>
+							<th width="75" scope="col">Actions</th>
+						</tr>
+					</thead>					
+					<tbody>			
+						<? foreach($this->offers as $offer):?>			
+							<tr>
+								<td><?=$offer->id;?></td>
+								<td><?=$offer->title;?></td>
+								<td>$<?=$offer->value;?></td>
+								<td><?=$offer->minimum;?></td>
+								<td class="with-tip" title="<?=$offer->status->description;?>">
+									<?=$offer->status->status;?>
+								</td>
+								<td class="table-actions">
+									<a href="/admin/offers/edit/id/<?=$offer->id;?>" title="Edit Offer" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/pencil.png" width="16" height="16"></a>
+									<a href="#" onClick="openDeleteOfferPrompt(<?=$offer->id;?>);" title="Delete Offer" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/cross-circle.png" width="16" height="16"></a>
+								</td>
+							</tr>
+						<? endforeach; ?>						
+					</tbody>				
+				</table></div>				
+				<?php echo $this->paginationControl($this->offers, 'Elastic', 'paginatorFooter.phtml'); ?>
+			</form></div>
+		</section>

@@ -1,0 +1,60 @@
+<?php
+
+$this->category = 'companies';
+$this->page = 'browseCharities';
+
+$this->breadCrumbs = array(
+	array('title'=>'Admin', 'url'=>'/admin'),
+	array('title'=>'Companies', 'url'=>'/admin/companies'),
+	array('title'=>'Browse', 'url'=>'/admin/companies/browse')
+);
+
+
+$this->controlBar = <<<HTML
+<div id="control-bar" class="grey-bg clearfix" style="opacity: 1; ">
+	<div class="container_12">
+
+
+		<div class="float-left">
+			<button type="button" onclick="window.location='/admin/companies/create'"><img src="/skins/admin/assets/img/icons/fugue/plus-circle.png" width="16" height="16"> Add New Company</button>
+		</div>
+	</div>
+</div>
+HTML;
+?>
+
+
+		<section class="grid_12">
+			<div class="block-border"><form class="block-content form" id="table_form" method="post" action="">
+				<h1>Companies</h1>
+				<div class="block-controls">					
+						<?php echo $this->paginationControl($this->companies, 'Elastic', 'paginatorHeader.phtml'); ?>
+				</div>			
+				<div class="no-margin"><table class="table" cellspacing="0" width="100%">				
+					<thead>
+						<tr>
+							<th width="75" scope="col">ID</th>
+							<th scope="col">Name</th>
+							<th width="100" scope="col">Status</th>
+							<th width="75" scope="col">Actions</th>
+						</tr>
+					</thead>					
+					<tbody>			
+						<? foreach($this->companies as $company):?>
+						<tr>
+							<td><?=$company->id;?></td>
+							<td><?=$company->name;?></td>
+							<td class="with-tip" title="<?=$company->status->description;?>">
+								<?=$company->status->status;?>
+							</td>
+							<td class="table-actions">
+								<a href="/admin/companies/edit/id/<?=$company->id;?>" title="Edit Company" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/pencil.png" width="16" height="16"></a>
+								<a href="#" onClick="openDeleteCompanyPrompt(<?=$user->id;?>);" title="Delete Company" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/cross-circle.png" width="16" height="16"></a>
+							</td>
+						</tr>
+						<? endforeach; ?>						
+					</tbody>				
+				</table></div>				
+				<?php echo $this->paginationControl($this->companies, 'Elastic', 'paginatorFooter.phtml'); ?>
+			</form></div>
+		</section>

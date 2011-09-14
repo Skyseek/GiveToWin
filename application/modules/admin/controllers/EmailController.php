@@ -10,7 +10,7 @@ class Admin_EmailController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        // action body
+        
     }
 
     public function browseTemplatesAction() {

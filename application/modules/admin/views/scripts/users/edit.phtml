@@ -1,84 +1,98 @@
 <?php
-	$this->category = 'users';
-	$this->page = 'browse';
-	$this->breadCrumbs = array(
-		array('title'=>'Admin', 'url'=>'/admin'),
-		array('title'=>'Users', 'url'=>'/admin/users'),
-		array('title'=>'Edit', 'url'=>'/admin/users/edit')
-	);		
+
+$this->category = 'users';
+$this->page = 'browseUsers';
+$this->breadCrumbs = array(
+	array('title'=>'Admin', 'url'=>'/admin'),
+	array('title'=>'Users', 'url'=>'/admin/users'),
+	array('title'=>"Edit User ({$this->user->first_name} {$this->user->last_name}) ", 'url'=>'/admin/users/edit')
+);		
+
+
+$resetLink = $this->url(array('time' => time()));
+$this->controlBar = <<<HTML
+<div id="control-bar" class="grey-bg clearfix" style="opacity: 1; ">
+	<div class="container_12">
+		<div class="float-left">
+			<button onclick="window.location='/admin/users/browse'" type="button"><img src="/skins/admin/assets/img/icons/fugue/navigation-180.png" width="16" height="16"> Back to list</button>
+		</div>
+
+		<div class="float-right">
+			<button onclick="window.location='/admin/users/browse'" type="button" class="red">Cancel</button>
+			<button type="button" onclick="window.location='$resetLink'" class="grey">Reset</button>
+			<button type="button" onclick="$('#complex_form').submit()"><img src="/skins/admin/assets/img/icons/fugue/tick-circle.png" width="16" height="16"> Save User</button>
+		</div>
+	</div>
+</div>
+HTML;
 ?>
-		<!-- Always visible control bar -->
-		<div id="control-bar" class="grey-bg clearfix"><div class="container_12">		
-			<div class="float-left">
-				<button type="button"><img src="/skins/admin/assets/img/icons/fugue/navigation-180.png" width="16" height="16"> Back to list</button>
-			</div>			
-			<div class="float-right"> 
-				<button type="button" disabled="disabled">Disabled</button>
-				<button type="button" class="red">Cancel</button> 
-				<button type="button" class="grey">Reset</button> 
-				<button type="button"><img src="/skins/admin/assets/img/icons/fugue/tick-circle.png" width="16" height="16"> Save</button>
-			</div>				
-		</div></div>
-		<!-- End control bar -->
-		<section class="grid_12">
-			<div class="block-border"><form class="block-content form" id="complex_form" method="post" action="">
-				<h1>Edit User</h1>				
-				<div class="block-controls">					
-					<ul class="controls-tabs js-tabs">
-						<li><a href="#" title="Charts"><img src="/skins/admin/assets/img/icons/web-app/24/Bar-Chart.png" width="24" height="24"></a></li>
-						<li><a href="#" title="Comments"><img src="/skins/admin/assets/img/icons/web-app/24/Comment.png" width="24" height="24"></a></li>
-						<li><a href="#" title="Medias"><img src="/skins/admin/assets/img/icons/web-app/24/Picture.png" width="24" height="24"></a></li>
-						<li class="current"><a href="#" title="Users"><img src="/skins/admin/assets/img/icons/web-app/24/Profile.png" width="24" height="24"></a></li>
-						<li><a href="#" title="Informations"><img src="/skins/admin/assets/img/icons/web-app/24/Info.png" width="24" height="24"></a></li>
-					</ul>					
+
+
+<? if($this->saveSuccess): ?>
+<ul class="message success grid_12">
+	<li>User saved  <strong>successfully</strong>.</li>
+	<li class="close-bt"></li>
+</ul>
+<? elseif($this->saveError): ?>
+<ul class="message error grid_12">
+	<li>Save was <strong>not successfully</strong>, please correct the errors below.</li>
+	<li class="close-bt"></li>
+</ul>
+<? endif; ?>
+
+<section class="grid_12">
+	<div class="block-border"><form class="block-content form" id="complex_form" method="post" action="">
+		<h1>Edit User</h1>
+
+		<div class="block-controls">
+			<ul class="controls-tabs js-tabs">
+				<li class="current">
+					<a href="#" title="User Settings">
+						<img src="/skins/admin/assets/img/icons/web-app/24/Profile.png" width="24" height="24"/>
+					</a>
+				</li>
+				<li>
+					<a href="#" onClick="openDeleteUserPrompt(<?=$this->user->id;?>);" title="Delete User">
+						<img src="/skins/admin/assets/img/icons/web-app/24/Delete.png" width="24" height="24"/>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+
+		<div class="columns">
+			<div class="col200pxL-left">
+				<h2>User Settings</h2>
+				<ul class="side-tabs js-tabs same-height">
+					<li><a href="#tab-settings" title="Setting">Profile</a></li>
+					<li><a href="#tab-coupons" title="Setting">Coupons</a></li>
+				</ul>
+
+			</div>
+			<div class="col200pxL-right">
+				<?=$this->form;?>
+				<div id="tab-coupons" class="tabs-content" > 
+					<table class="table" cellspacing="0" width="100%">				
+						<thead>
+							<tr>
+								<th scope="col">ID</th>
+								<th scope="col">First Name</th>
+								<th scope="col">Last Name</th>
+								<th scope="col">Email</th>
+								<th scope="col">Status</th>
+								<th scope="col">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td style='text-align:center; font-weight:bolder;' colspan='6'>This User Has No Coupons</td>
+							</tr>
+						</tbody>				
+					</table>
 				</div>
-				<ul class="message warning no-margin">
-					<li>This is a <strong>warning message</strong>, inside a box</li>
-					<li class="close-bt"></li>
-				</ul>				
-				<div class="columns">
-					<div class="col200pxL-left">						
-						<h2>Side tabs</h2>						
-						<ul class="side-tabs js-tabs same-height">
-							<li><a href="#tab-info" title="User Information">User Information</a></li>
-						</ul>						
-					</div>
-					<div class="col200pxL-right">										
-						<div id="tab-info" class="tabs-content">			
-							<fieldset>				
-								<legend>User Information</legend>				
-								<div class="columns">
-									<p class="colx2-left">
-										<label for="first-name">First Name</label>
-										<input type="text" name="first-name" id="first-name" value="<?=$this->user->first_name;?>" class="full-width">
-									</p>
-									<p class="colx2-right">
-										<label for="last-name">Last Name</label>
-										<input type="text" name="last-name" id="last-name" value="<?=$this->user->last_name;?>" class="full-width">
-									</p>
-								</div>								
-								<div class="columns">
-									<p class="colx2-left">
-										<label for="user-email">Email</label>
-										<span class="relative">
-											<input type="text" name="user-email" id="user-email" value="<?=$this->user->email;?>" class="full-width error">
-											<span class="check-error"></span>
-										</span>
-									</p>
-								</div>
-								<div class="columns">
-									<div class="colx3-left">
-										<span class="label required"><?=$this->user->status->status;?></span>
-										<p class="input-height grey-bg">
-											<input type="radio" name="complex-jp-active" id="complex-jp-active-1" value="1" checked="checked">&nbsp;<label for="complex-jp-active-1">Yes</label> 
-											<input type="radio" name="complex-jp-active" id="complex-jp-active-0" value="0">&nbsp;<label for="complex-jp-active-0">No</label>
-										</p>
-									</div>
-								</div>
-							</fieldset>
-						</div>		
-					</div>
-				</div>				
-			</form></div>
-		</section>
-<?=$this->form;?>
+			</div>
+		</div>
+	</form></div>
+</section>
+
+

@@ -31,9 +31,10 @@ require_once 'Skyseek/Model/Entity.php';
  * @author     Sean Thayne <sean@skyseek.com
  */
 class GTW_Model_User_Status extends Skyseek_Model_Entity {
-	const SUBSCRIBER = 1;
-	const PENDING = 2;
-	const ACTIVE = 3;
+	const PENDING = 1;
+	const ACTIVE = 2;
+	const SUSPENDED = 2;
+	const CANCELLED = 4;
 
     public $id;
 	public $status;

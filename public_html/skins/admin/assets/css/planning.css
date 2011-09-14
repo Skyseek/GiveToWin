@@ -255,14 +255,17 @@
 .planning > li > ul .event-green,
 .planning > li > ul .event-orange,
 .planning > li > ul .event-purple,
+.planning > li > ul .event-red,
 .planning > li > ul > li.event-blue a,
 .planning > li > ul > li.event-green a,
 .planning > li > ul > li.event-orange a,
 .planning > li > ul > li.event-purple a,
+.planning > li > ul > li.event-red a,
 .planning > li > ul > li.event-blue span,
 .planning > li > ul > li.event-green span,
 .planning > li > ul > li.event-orange span,
-.planning > li > ul > li.event-purple span {
+.planning > li > ul > li.event-purple span,
+.planning > li > ul > li.event-red span {
 	color: white;
 	-webkit-background-size: 100% 100%;
 	-moz-background-size: 100% 100%;
@@ -342,6 +345,25 @@
 		to(#b543c9),
 		color-stop(0.15, #c86fe4),
 		color-stop(0.73, #a10ea8)
+	);
+}
+
+.planning > li > ul .event-red {
+	background: #c99c43 url(../img/old-browsers-bg/planning-bar-orange-bg.png) repeat-x top;
+	background: -moz-linear-gradient(
+		top,
+		#e6d4b1,
+		#e4bd6f 15%,
+		#a8750e 73%,
+		#c99c43
+	);
+	background: -webkit-gradient(
+		linear,
+		left top, left bottom,
+		from(#F50),
+		to(#F99),
+		color-stop(0.15, #e44),
+		color-stop(0.73, #C00)
 	);
 }
 

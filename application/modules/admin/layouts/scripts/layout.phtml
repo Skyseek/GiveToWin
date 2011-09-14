@@ -1,5 +1,33 @@
 <?php
 
+$assetLoader = Skyseek_Asset_Loader::getInstance();
+$assetLoader->setAssetPath('/skins/admin/assets');
+$assetLoader->compressAssets(false);
+
+
+$assetLoader->addCss('reset');
+$assetLoader->addCss('common');
+$assetLoader->addCss('form');
+$assetLoader->addCss('standard');
+$assetLoader->addCss('960.gs.fluid');
+$assetLoader->addCss('simple-lists');
+$assetLoader->addCss('block-lists');
+$assetLoader->addCss('planning');
+$assetLoader->addCss('table');
+$assetLoader->addCss('calendars');
+$assetLoader->addCss('wizard');
+$assetLoader->addCss('gallery');
+
+$assetLoader->addJs('html5');
+$assetLoader->addJs('jquery-1.4.2.min');
+$assetLoader->addJs('common');
+$assetLoader->addJs('standard');
+$assetLoader->addJs('jquery.tip');
+$assetLoader->addJs('list');
+$assetLoader->addJs('jquery.modal');
+$assetLoader->addJs('gtw/admin');
+$assetLoader->addJs('searchField');
+
 //Default Styles/Icons
 //$this->headLink()->appendStylesheet('/skins/admin/assets/css/mini.php?files=reset,common,form,standard,960.gs.fluid,simple-lists,block-lists,table');
 
@@ -7,52 +35,7 @@ $this->headLink()->headLink(array('rel' => 'shortcut', 'href' => '/favicon.ico')
 $this->headLink()->headLink(array('rel' => 'icon', 'href' => '/favicon-large.png'));
 
 
-//In Reverse Order
-$this->headScript()->prependFile(
-    '/skins/admin/assets/js/standard-ie.js',
-    'text/javascript',
-    array('conditional' => 'lt IE 8')
-);
-
-$this->headScript()->prependFile('/skins/admin/assets/js/mini.php?files=html5,jquery-1.4.2.min,common,standard,jquery.tip.js,list,jquery.modal');
-
-
-//Default Styles/Icons
-$this->headLink()->appendStylesheet('/skins/admin/assets/css/reset.css');
-$this->headLink()->appendStylesheet('/skins/admin/assets/css/common.css');
-$this->headLink()->appendStylesheet('/skins/admin/assets/css/form.css');
-$this->headLink()->appendStylesheet('/skins/admin/assets/css/standard.css');
-$this->headLink()->appendStylesheet('/skins/admin/assets/css/960.gs.fluid.css');
-$this->headLink()->appendStylesheet('/skins/admin/assets/css/simple-lists.css');
-$this->headLink()->appendStylesheet('/skins/admin/assets/css/block-lists.css');
-$this->headLink()->appendStylesheet('/skins/admin/assets/css/planning.css');
-$this->headLink()->appendStylesheet('/skins/admin/assets/css/table.css');
-$this->headLink()->appendStylesheet('/skins/admin/assets/css/calendars.css');
-$this->headLink()->appendStylesheet('/skins/admin/assets/css/wizard.css');
-$this->headLink()->appendStylesheet('/skins/admin/assets/css/gallery.css');
-//$this->headLink()->headLink(array('rel' => 'shortcut', 'href' => '/favicon.ico'));
-//$this->headLink()->headLink(array('rel' => 'icon', 'href' => '/favicon-large.png'));
-
-//In Reverse Order
-//$this->headScript()->prependFile(
-//    '/assets/js/standard-ie.js',
-//    'text/javascript',
-//    array('conditional' => 'lt IE 8')
-//);
-
-//$this->headScript()->prependFile('/assets/js/list.js');
-//$this->headScript()->prependFile('/assets/js/jquery.datepick/jquery.datepick.min.js');
-//$this->headScript()->prependFile('/assets/js/jquery.dataTables.min.js');
-//$this->headScript()->prependFile('/assets/js/jquery.modal.js');
-//$this->headScript()->prependFile('/assets/js/jquery.contextMenu.js');
-//$this->headScript()->prependFile('/assets/js/jquery.hashchange.js');
-//$this->headScript()->prependFile('/assets/js/jquery.accessibleList.js');
-//$this->headScript()->prependFile('/assets/js/jquery.tip.js');
-//$this->headScript()->prependFile('/assets/js/standard.js');
-//$this->headScript()->prependFile('/assets/js/common.js');
-//$this->headScript()->prependFile('/assets/js/old-browsers.js');
-//$this->headScript()->prependFile('/assets/js/jquery-1.4.2.min.js');
-//$this->headScript()->prependFile('/assets/js/html5.js');
+$user = GTW_Service_User::getInstance()->getCurrentUser();
 
 ?>
 <!DOCTYPE html>
@@ -62,14 +45,13 @@ $this->headLink()->appendStylesheet('/skins/admin/assets/css/gallery.css');
 	<?= $this->headTitle(); ?>
 
 	<!-- Global stylesheets -->
-	<?= $this->headLink(); ?>
+	<?= $assetLoader->getCss(); ?>
 
 
 
 
 
-	<!-- Charts library -->
-	<!--Load the AJAX API-->
+	<!-- Charts library 
 	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
 	<script type="text/javascript">
 
@@ -77,25 +59,7 @@ $this->headLink()->appendStylesheet('/skins/admin/assets/css/gallery.css');
 		google.load('visualization', '1', {'packages':['corechart']});
 
 	</script>
-
-
-	<script type="text/javascript">
-
-		// Demo modal
-		function openModal()
-		{
-			$.modal({
-				content: '<p>Give To Win Admin was created to be as easy to use & as powerful to as possible.</p>',
-				title: 'About Give To Win',
-				maxWidth: 500,
-				buttons: {
-					'Close': function(win) { win.closeModal(); }
-				}
-			});
-		}
-
-
-	</script>
+	-->
 
 </head>
 
@@ -109,8 +73,7 @@ $this->headLink()->appendStylesheet('/skins/admin/assets/css/gallery.css');
 	<!-- Server status -->
 	<header>
 		<div class="container_12">
-			<div class="server-info">GTW Version: <strong>0.9</strong></div>
-			<div class="server-info">Rev: <strong>1</strong></div>
+			<div class="server-info">Version: <strong><?=GTW_VERSION;?></strong></div>
 		</div>
 	</header>
 	<!-- End server status -->
@@ -118,14 +81,44 @@ $this->headLink()->appendStylesheet('/skins/admin/assets/css/gallery.css');
 	<!-- Main nav -->
 	<nav id="main-nav">
 		<ul class="container_12">
-			<?=$this->navCategory('home', 'Admin', '/admin/')?>
+			<li class="home current"><a href="/admin/" title="Admin">Admin</a>
 				<ul>
-					<?=$this->navLink('dashboard', 'Dashboard', '/admin/email/browse-templates');?>
-				</ul>
-			</li>
-			<?=$this->navCategory('email', 'Email', '/admin/email/')?>
-				<ul>
-					<?=$this->navLink('emailTemplates', 'Templates', '/admin/email/browse-templates');?>
+					<li class="with-menu"><a href="#" title="Give to Win settings">Settings</a>
+						<div class="menu">
+							<img src="/skins/admin/assets/img/menu-open-arrow.png" width="16" height="16">
+							<ul>
+								<li class="icon_address"><a href="#">Charities</a>
+									<ul>
+										<li class="icon_edit"><a href="/admin/charities/create">Create Charity</a></li>
+										<li class="icon_search"><a href="/admin/charities/browse">Browse Charities</a></li>
+									</ul>
+								</li>
+								<li class="icon_address"><a href="#">Cities</a>
+									<ul>
+										<li class="icon_edit"><a href="/admin/cities/create">Create City</a></li>
+										<li class="icon_search"><a href="/admin/cities/browse">Browse Cities</a></li>
+									</ul>
+								</li>
+								<li class="icon_address"><a href="#">Companies</a>
+									<ul>
+										<li class="icon_edit"><a href="/admin/companies/create">Create Company</a></li>
+										<li class="icon_search"><a href="/admin/companies/browse">Browse Companies</a></li>
+									</ul>
+								</li>
+								<li class="icon_address"><a href="/admin/email">Email</a>
+									<ul>
+										<li class="icon_search"><a href="/admin/email/browse-templates">Templates</a></li>
+									</ul>
+								</li>
+								<li class="icon_address"><a href="#">Users</a>
+									<ul>
+										<li class="icon_search"><a href="/admin/users/browse">Browse Users</a></li>
+									</ul>
+								</li>
+								
+							</ul>
+						</div>
+					</li>
 				</ul>
 			</li>
 			<!--
@@ -146,7 +139,7 @@ $this->headLink()->appendStylesheet('/skins/admin/assets/css/gallery.css');
 
 		<a href="#" title="Help" class="nav-button"><b>Help</b></a>
 
-		<form id="search-form" name="search-form" method="post" action="search.html">
+		<form id="search-form" name="search-form" method="post" action="/admin/index/search">
 			<input type="text" name="s" id="s" value="" title="Search admin..." autocomplete="off">
 		</form>
 
@@ -157,9 +150,9 @@ $this->headLink()->appendStylesheet('/skins/admin/assets/css/gallery.css');
 	<div id="status-bar"><div class="container_12">
 
 		<ul id="status-infos">
-			<li class="spaced">Logged as: <strong>Admin</strong></li>
+			<li class="spaced">Logged as: <strong><?=$user->first_name;?> <?=$user->last_name;?></strong></li>
 
-			<li><a href="/system/user/logout" class="button red" title="Logout"><span class="smaller">LOGOUT</span></a></li>
+			<li><a href="/admin/auth/logout" class="button red" title="Logout"><span class="smaller">LOGOUT</span></a></li>
 		</ul>
 
 		<? if(count($this->breadCrumbs)): ?>
@@ -194,16 +187,16 @@ $this->headLink()->appendStylesheet('/skins/admin/assets/css/gallery.css');
 	<footer>
 
 		<div class="float-left">
-			<a href="#" class="button">Help</a>
-			<a href="#" onclick="openModal()" class="button">About</a>		</div>
+			<a href="/admin/help/" class="button">Help</a>
+			<a href="#" onclick="openAboutPrompt()" class="button">About</a>		</div>
 
 		<div class="float-right">
-			<a href="#top" class="button"><img src="/assets/img/icons/fugue/navigation-090.png" width="16" height="16"> Page top</a>		</div>
+			<a href="#top" class="button"><img src="/skins/admin/assets/img/icons/fugue/navigation-090.png" width="16" height="16"> Page top</a>		</div>
 
 </footer>
 
 		<!--[if lt IE 8]></div><![endif]-->
 		<!--[if lt IE 9]></div><![endif]-->
-		<?= $this->headScript(); ?>
+		<?= $assetLoader->getJs(); ?>
 	</body>
 </html>

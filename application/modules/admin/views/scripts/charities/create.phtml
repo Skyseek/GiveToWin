@@ -1,0 +1,74 @@
+<?php
+
+$this->category = 'charities';
+$this->page = 'createCharities';
+$this->breadCrumbs = array(
+	array('title'=>'Admin', 'url'=>'/admin'),
+	array('title'=>'Charities', 'url'=>'/admin/charities'),
+	array('title'=>"Add New Charity", 'url'=>$this->url())
+);
+
+
+$resetLink = $this->url(array('time' => time()));
+$this->controlBar = <<<HTML
+<div id="control-bar" class="grey-bg clearfix" style="opacity: 1; ">
+	<div class="container_12">
+		<div class="float-left">
+			<button onclick="window.location='/admin/charities/browse'" type="button"><img src="/skins/admin/assets/img/icons/fugue/navigation-180.png" width="16" height="16"> Back to list</button>
+		</div>
+
+		<div class="float-right">
+			<button onclick="window.location='/admin/charities/browse'" type="button" class="red">Cancel</button>
+			<button type="button" onclick="window.location='$resetLink'" class="grey">Reset</button>
+			<button type="button" onclick="$('#complex_form').submit()"><img src="/skins/admin/assets/img/icons/fugue/tick-circle.png" width="16" height="16"> Save New Charity</button>
+		</div>
+	</div>
+</div>
+HTML;
+?>
+
+<? if($this->saveSuccess): ?>
+<ul class="message success grid_12">
+	<li>Charity saved  <strong>successfully</strong>.</li>
+	<li class="close-bt"></li>
+</ul>
+<? elseif($this->saveError): ?>
+<ul class="message error grid_12">
+	<li>Save was <strong>not successfully</strong>, please correct the errors below.</li>
+	<li class="close-bt"></li>
+</ul>
+<? endif; ?>
+
+<section class="grid_12">
+	<div class="block-border"><form class="block-content form" id="complex_form" method="post" action="">
+		<h1>New Charity</h1>
+
+		<div class="block-controls">
+			<ul class="controls-tabs js-tabs">
+				<li class="current">
+					<a href="#" title="Charity Settings">
+						<img src="/skins/admin/assets/img/icons/web-app/24/Add.png" width="24" height="24"/>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+
+		<div class="columns">
+			<div class="col200pxL-left">
+				<h2>Charity Settings</h2>
+				<ul class="side-tabs js-tabs same-height">
+					<li><a href="#tab-settings" title="Setting">Profile</a></li>
+					<li><a href="#tab-settings-pg2" title="Setting">Work</a></li>
+					<li><a href="#tab-settings-pg3" title="Setting">Mission</a></li>
+				</ul>
+
+			</div>
+			<div class="col200pxL-right">
+				<?=$this->form;?>
+			</div>
+		</div>
+	</form></div>
+</section>
+
+

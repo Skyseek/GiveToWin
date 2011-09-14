@@ -1,11 +1,14 @@
 <?php
-	$this->category = 'users';
-	$this->page = 'browse';
-	$this->breadCrumbs = array(
+
+$this->category = 'users';
+$this->page = 'browseUsers';
+
+$this->breadCrumbs = array(
 	array('title'=>'Admin', 'url'=>'/admin'),
 	array('title'=>'Users', 'url'=>'/admin/users'),
 	array('title'=>'Browse', 'url'=>'/admin/users/browse')
-	);
+);
+
 ?>
 
 <?php $this->headScript()->captureStart() ?>
@@ -14,14 +17,13 @@
 		console.log(id);
 		$.modal({
 			content: '<p>This user, all there subscriptions, coupons, comments will be deleted.</p>'+
-				  '<p>The plugin provides several other functions to control them, try below:</p>'+
 				  '<ul class="simple-list with-icon">'+
 				  '    <li><a href="/admin/users/delete-user/id/'+id+'">Yes, Permanently Delete User</a></li>'+
 				  '</ul>',
 			title: 'Are you sure you want to delete this user?',
 			maxWidth: 500,
 			buttons: {
-				'Close': function(win) { win.closeModal(); }
+				'Cancel': function(win) { win.closeModal(); }
 			}
 
 		});
@@ -32,15 +34,7 @@
 			<div class="block-border"><form class="block-content form" id="table_form" method="post" action="">
 				<h1>Users</h1>
 				<div class="block-controls">					
-					<ul class="controls-buttons">
-						<li><a href="#" title="Previous"><img src="/skins/admin/assets/img/icons/fugue/navigation-180.png" width="16" height="16"> Prev</a></li>
-						<li><a href="#" title="Page 1"><b>1</b></a></li>
-						<li><a href="#" title="Page 2" class="current"><b>2</b></a></li>
-						<li><a href="#" title="Page 3"><b>3</b></a></li>
-						<li><a href="#" title="Page 4"><b>4</b></a></li>
-						<li><a href="#" title="Page 5"><b>5</b></a></li>
-						<li><a href="#" title="Next">Next <img src="/skins/admin/assets/img/icons/fugue/navigation.png" width="16" height="16"></a></li>
-					</ul>					
+						<?php echo $this->paginationControl($this->users, 'Elastic', 'paginatorHeader.phtml'); ?>
 				</div>			
 				<div class="no-margin"><table class="table" cellspacing="0" width="100%">				
 					<thead>
@@ -69,8 +63,6 @@
 						<? endforeach; ?>						
 					</tbody>				
 				</table></div>				
-				<ul class="message no-margin">
-					<li>Results 1 - 5 out of 23</li>
-				</ul>
+				<?php echo $this->paginationControl($this->users, 'Elastic', 'paginatorFooter.phtml'); ?>
 			</form></div>
 		</section>

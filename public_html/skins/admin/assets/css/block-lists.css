@@ -579,6 +579,7 @@ ul.grid > li {
 	
 	.small-files-list.icon-html li, .small-files-list li.icon-html { background-image: url(../img/icons/finefiles/32/html.png); }
 	.small-files-list.icon-xml li, .small-files-list li.icon-xml { background-image: url(../img/icons/finefiles/32/xml.png); }
+	.small-files-list.icon-user li, .small-files-list li.icon-user { background-image: url(../img/icons/finefiles/32/xml.png); }
 	.small-files-list.icon-img li, .small-files-list li.icon-img { background-image: url(../img/icons/finefiles/32/other_image.png); }
 	.small-files-list.icon-music li, .small-files-list li.icon-music { background-image: url(../img/icons/finefiles/32/other_music2.png); }
 	.small-files-list.icon-movie li, .small-files-list li.icon-movie { background-image: url(../img/icons/finefiles/32/mpg.png); }

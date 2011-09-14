@@ -1,0 +1,81 @@
+<?php if ($this->pageCount): ?>
+<ul class="controls-buttons">
+	<? if (isset($this->previous)): ?>
+		<li>
+			<a href="<?= $this->url(array('page' => $this->previous)); ?>" title="Previous">
+				<img src="/skins/admin/assets/img/icons/fugue/navigation-180.png" width="16" height="16"> Prev
+			</a>
+		</li>
+	<? else: ?>
+		<li>
+			<a class="current" href="#" title="First Page">
+				<img src="/skins/admin/assets/img/icons/fugue/control-double-180.png" width="16" height="16"> First
+			</a>
+		</li>
+	<? endif; ?>
+	
+	<!-- Numbered page links -->
+	<?php foreach ($this->pagesInRange as $page): ?>
+		<?php if ($page != $this->current): ?>
+			<li><a href="<?= $this->url(array('page' => $page)); ?>" title="Page <?=$page;?>"><b><?=$page;?></b></a></li>
+		<?php else: ?>
+			<li><a class="current" href="<?= $this->url(array('page' => $page)); ?>" title="Page <?=$page;?>"><b><?=$page;?></b></a></li>
+		<?php endif; ?>
+	<?php endforeach; ?>	
+	
+	<?php if (isset($this->next)): ?>
+		<li>
+			<a href="<?= $this->url(array('page' => $this->next)); ?>" title="Next">Next 
+				<img src="/skins/admin/assets/img/icons/fugue/navigation.png" width="16" height="16">
+			</a>
+		</li>
+	<? else: ?>
+		<li>
+			<a class="current" href="#" title="Last Page">
+				<img src="/skins/admin/assets/img/icons/fugue/control-double.png" width="16" height="16"> Last
+			</a>
+		</li>
+	<? endif; ?>
+</ul>
+<?php endif; ?>
+
+<?php /*
+<!-- First page link -->
+
+  <a href="<?php echo $this->url(array('page' => $this->first)); ?>">
+    First
+  </a> |
+<?php else: ?>
+  <span class="disabled">First</span> |
+<?php endif; ?>
+ 
+<!-- Previous page link -->
+<?php if (isset($this->previous)): ?>
+  <a href="<?php echo $this->url(array('page' => $this->previous)); ?>">
+    &lt; Previous
+  </a> |
+<?php else: ?>
+  <span class="disabled">&lt; Previous</span> |
+<?php endif; ?>
+ 
+<!-- Next page link -->
+<?php if (isset($this->next)): ?>
+  <a href="<?php echo $this->url(array('page' => $this->next)); ?>">
+    Next &gt;
+  </a> |
+<?php else: ?>
+  <span class="disabled">Next &gt;</span> |
+<?php endif; ?>
+ 
+<!-- Last page link -->
+
+  <a href="<?php echo $this->url(array('page' => $this->last)); ?>">
+    Last
+  </a>
+
+  <span class="disabled">Last</span>
+<?php endif; ?>
+ 
+</div>
+*/
+

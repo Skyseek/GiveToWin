@@ -1,0 +1,92 @@
+<?php
+
+$this->category = 'fundraisers';
+$this->page = 'browseFundraisers';
+$this->breadCrumbs = array(
+	array('title'=>'Admin', 'url'=>'/admin'),
+	array('title'=>'Fundraisers', 'url'=>'/admin/fundraisers'),
+	array('title'=>"Browse All", 'url'=>$this->url())
+);
+
+
+
+$resetLink = $this->url(array('time' => time()));
+
+if($this->charity) {
+	$charityLink = $this->url(array(
+		'controller'	=> 'charities',
+		'action'		=> 'edit',
+		'id'			=> $this->charity->id
+	)) . '#&tab-fundraisers';
+
+	$this->breadCrumbs = array(
+			array('title'=>'Admin', 							'url'=>'/admin'),
+			array('title'=>'Charities', 						'url'=>'/admin/charities'),
+			array('title'=>"Charity ({$this->charity->name}) ", 'url'=>$charityLink),
+			array('title'=>"Create Fundraiser", 				'url'=>$this->url())
+	);
+
+	$backButton = <<<HTML
+		<button onclick="window.location='$charityLink'" type="button">
+			<img src="/skins/admin/assets/img/icons/fugue/navigation-180.png" width="16" height="16"> Back to charity
+		</button>
+HTML;
+} else {
+	$backButton = null;
+}
+
+
+$createLink = $this->url(array('action'=>'create'));
+$this->controlBar = <<<HTML
+<div id="control-bar" class="grey-bg clearfix" style="opacity: 1; ">
+	<div class="container_12">
+		<div class="float-left">
+			$backButton
+		</div>
+		<div class="float-right">
+			<button type="button" onclick="window.location='$createLink'"><img src="/skins/admin/assets/img/icons/fugue/plus-circle.png" width="16" height="16"> Add New Fundraiser</button>
+		</div>
+	</div>
+</div>
+HTML;
+?>
+
+
+		<section class="grid_12">
+			<div class="block-border"><form class="block-content form" id="table_form" method="post" action="">
+				<h1>Fundraisers</h1>
+				<div class="block-controls">					
+						<?php echo $this->paginationControl($this->fundraisers, 'Elastic', 'paginatorHeader.phtml'); ?>
+				</div>			
+				<div class="no-margin"><table class="table" cellspacing="0" width="100%">				
+					<thead>
+						<tr>
+							<th width="75" scope="col">ID</th>
+							<th scope="col">Title</th>
+							<th width="100" scope="col">Cost</th>
+							<th width="100" scope="col">Goal</th>
+							<th width="100" scope="col">Status</th>
+							<th width="75" scope="col">Actions</th>
+						</tr>
+					</thead>					
+					<tbody>			
+						<? foreach($this->fundraisers as $fundraiser):?>			
+							<tr>
+								<td><?=$fundraiser->id;?></td>
+								<td><?=$fundraiser->title;?></td>
+								<td>$<?=$fundraiser->cost;?></td>
+								<td>$<?=$fundraiser->goal;?></td>
+								<td class="with-tip" title="<?=$fundraiser->status->description;?>">
+									<?=$fundraiser->status->status;?>
+								</td>
+								<td class="table-actions">
+									<a href="/admin/fundraisers/edit/id/<?=$fundraiser->id;?>" title="Edit Fundraiser" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/pencil.png" width="16" height="16"></a>
+									<a href="#" onClick="openDeleteFundraiserPrompt(<?=$fundraiser->id;?>);" title="Delete Fundraiser" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/cross-circle.png" width="16" height="16"></a>
+								</td>
+							</tr>
+						<? endforeach; ?>						
+					</tbody>				
+				</table></div>				
+				<?php echo $this->paginationControl($this->fundraisers, 'Elastic', 'paginatorFooter.phtml'); ?>
+			</form></div>
+		</section>

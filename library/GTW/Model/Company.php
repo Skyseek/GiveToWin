@@ -19,9 +19,6 @@
 
 
 
-
-
-
 /**
  * Company Model
  *
@@ -29,18 +26,105 @@
  * @copyright  Copyright (c) 2011, Give to Win, Inc
  * @author     Sean Thayne <sean@skyseek.com
  */
-class GTW_Model_Company {
+class GTW_Model_Company extends Skyseek_Model_Entity 
+{
+	// ====================================================================
+	//
+	// 	Public Properties
+	//
+	// ====================================================================
+	
     public $id;
 	public $name;
 	public $website;
-
-	private $_status;
-
-	public function setStatus(GTW_Model_Company_Status $status) {
+	public $phone;
+	public $email;
+	
+	// ----------------------------------
+	// 	Status
+	// ----------------------------------
+	
+	
+	protected $_status;
+	
+	/**
+	 * @param GTW_Model_Company_Status $status
+	 */
+	public function setStatus(GTW_Model_Company_Status $status) 
+	{
 		$this->_status = $status;
 	}
+	
+	/**
+	 * @return GTW_Model_Company_Status
+	 */
+	public function getStatus() 
+	{
+		if ($this->_status == null && $this->referenceId('status_id')) 
+		{
+			$this->_status = $this->statusMapper()->getStatus($this->referenceId('status_id'));
+		}
 
-	public function getStatus() {
+	
 		return $this->_status;
 	}
+
+	// ====================================================================
+	//
+	// 	Helper Properties
+	//
+	// ====================================================================
+	
+	public function getImageURL()
+	{
+		if(file_exists($this->getImagePath())) {
+			return "/image/company/{$this->id}.png";
+		} else {
+			return '/image/company/default.png';
+		}
+	}
+
+
+	public function getImagePath()
+	{
+		$imageDir = realpath(APPLICATION_PATH . '/../public_html/image/company');
+		return "{$imageDir}/{$this->id}.png";
+	}
+	
+	
+	// ====================================================================
+	//
+	// 	Mappers
+	//
+	// ====================================================================
+	
+	
+	
+	// ----------------------------------
+	// 	Status Mapper
+	// ----------------------------------
+	
+	
+	protected $_statusMapper;
+	
+	/**
+	 * @param GTW_Model_Company_Status_Mapper $statusMapper
+	 *
+	 * @return GTW_Model_Company_Status_Mapper
+	 */
+	public function statusMapper(GTW_Model_Company_Status_Mapper $statusMapper=null) 
+	{
+		if ($statusMapper) 
+		{
+			$this->_statusMapper = $statusMapper;
+		}
+	
+		if ($this->_statusMapper === null)
+		{
+			$this->_statusMapper = new GTW_Model_Company_Status_Mapper();
+		}
+	
+		return $this->_statusMapper;
+	}
+		
 }

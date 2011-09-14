@@ -1,4 +1,86 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Index</b> and script/action name <b>index</b></p>
-</div>
+<?php
+
+$this->headTitle('Dashboard - ', 'PREPEND');
+
+$this->category = 'home';
+$this->page = 'dashboard';
+
+$this->breadCrumbs = array(
+	array('title'=>'Admin', 'url'=>'/admin'),
+	array('title'=>'Dashboard', 'url'=>'/admin/'),
+);
+
+$this->headScript()->prependFile('/assets/js/mini.php?files=gc/admin/dashboard');
+
+
+?>
+
+
+
+<section class="grid_4">
+	<!--<div class="block-border"><div class="block-content">-->
+		<h1>Control Panel</h1>
+
+		<ul class="favorites no-margin ">
+
+			<li>
+				<img src="/skins/admin/assets/img/icons/oxygen/48/view-calendar-whatsnext.png" width="48" height="48">
+				<a href="/admin/email/browse-templates">Email Templates<br>
+				<small>Email  &gt; Browse Templates</small></a>
+			</li>
+
+			<li>
+				<img src="/skins/admin/assets/img/icons/oxygen/48/system-users.png" width="48" height="48">
+				<a href="/admin/users/browse">Users<br>
+				<small>Users &gt; Browse All</small></a>
+			</li>
+
+			<li>
+				<img src="/skins/admin/assets/img/icons/oxygen/48/office-address-book.png" width="48" height="48">
+				<a href="/admin/charities/browse">Charities<br>
+				<small>Charities &gt; Browse All</small></a>
+			</li>
+
+			<li>
+				<img src="/skins/admin/assets/img/icons/oxygen/48/preferences-system-windows-actions.png" width="48" height="48">
+				<a href="/admin/cities/browse">Cities<br>
+				<small>Cities &gt; Browse All</small></a>
+			</li>
+
+			<li>
+				<img src="/skins/admin/assets/img/icons/oxygen/48/office-address-book.png" width="48" height="48">
+				<a href="/admin/companies/browse">Companies<br>
+				<small>Companies &gt; Browse All</small></a>
+			</li>
+
+			<li>
+				<img src="/skins/admin/assets/img/icons/oxygen/48/system-lock-screen.png" width="48" height="48">
+				<a href="/admin/auth/logout">Logout<br>
+				<small>Admin &gt; Logout</small></a>
+			</li>
+
+		</ul>
+	<!--</div></div>-->
+</section>
+
+
+<section class="grid_8">
+	<div class="block-border">
+		<div class="block-content">
+			<div class="h1 with-menu">
+				<h1>System stats</h1>
+			</div>
+			<div class="block-controls">
+				<ul class="controls-tabs js-tabs same-height with-children-tip">
+					<li><a href="#tab-stats" title="Charts"><img src="/assets/img/icons/web-app/24/Bar-Chart.png" width="24" height="24"></a></li>
+				</ul>
+			</div>
+			<form class="form" id="tab-stats" method="post" action="">
+				<div id="chart_div" style="height:475px;"></div>
+			</form>
+		</div>
+	</div>
+</section>
+
+
+

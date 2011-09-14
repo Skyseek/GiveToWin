@@ -36,7 +36,7 @@ h2.big, h3.big {
 
 /* 2 columns */
 .colx2-left {
-	width: 48%;
+	widerth: 48%;
 	float: left;
 	margin-bottom: 0;
 }
