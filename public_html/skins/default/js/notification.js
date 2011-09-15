@@ -17,6 +17,8 @@
                     ondemandBtn.stop(true, false).animate({ marginTop: 0 }, settings.speed);
                 }
 
+                wrapper.css('display', '');
+
                 var closeBtn = $('.close', wrapper);
                 closeBtn.click(function () {
                     if (settings.type == 'ondemand') {

@@ -78,7 +78,6 @@ class GTW_Model_User_Mapper extends Skyseek_Model_Mapper
 			return $this->getIdentity($id);
 		}
 
-
 		$result = $this->_getGateway()->find($id)->current()->toArray();
 		if (!$result) {
 			return null;
@@ -111,6 +110,7 @@ class GTW_Model_User_Mapper extends Skyseek_Model_Mapper
 
 		$entity->referenceId('status_id', $data['status_id']);
 		$entity->referenceId('role_id', $data['role_id']);
+		$entity->referenceId('city_id', $data['city_id']);
 
 		if (!$lazyLoad) {
 			$entity->getStatus();

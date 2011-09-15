@@ -94,7 +94,6 @@ class GTW_Model_City_Mapper extends Skyseek_Model_Mapper
 			return $this->getIdentity($id);
 		}
 
-
 		$result = $this->_getGateway()->find($id)->current()->toArray();
 		if(!$result) {
 			return null;

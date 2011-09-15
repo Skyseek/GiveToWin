@@ -37,12 +37,12 @@ class Default_UserController extends Zend_Controller_Action
 
 	public function loginAction()
 	{
-		// action body
+		$this->_forward('login', 'auth');
 	}
 
 	public function logoutAction()
 	{
-		// action body
+		$this->_forward('logout', 'auth');
 	}
 
 	public function accountAction()

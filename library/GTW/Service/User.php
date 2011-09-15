@@ -205,8 +205,15 @@ class GTW_Service_User
 
 	public function startSession(GTW_Model_User $user)
 	{
-		$storage = GTW_Auth::getInstance()->getStorage();
-		$storage->write($user->id);
+		GTW_Auth::getInstance()->getStorage()->write($user->id);
+
+		if(!GTW_Service_City::getInstance()->hasCitySelected())
+			GTW_Service_City::getInstance()->setCitySelection($user->city);
+	}
+
+	public function stopSession()
+	{
+		GTW_Auth::getInstance()->clearIdentity();
 	}
 	
 	public function isLoggedIn() 

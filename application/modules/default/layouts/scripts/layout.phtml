@@ -47,19 +47,19 @@ echo $this->doctype();
     </head>
 	<body>
 		<? if($this->error): ?>
-			<div class="notification notification-red hide">
+			<div class="notification notification-red hide" style="display:none" >
 				<p><b>Error:</b> <?=$this->error;?></p>
 				<a class="close" href="javascript:"><img src="/skins/default/image/icon-close.png" /></a>
 			</div>
 		<? endif; ?>
 		<? if($this->message): ?>
-			<div class="notification notification-blue hide">
+			<div class="notification notification-blue hide" style="display:none">
 				<p><b>Message:</b> <?=$this->message;?></p>
 				<a class="close" href="javascript:"><img src="/skins/default/image/icon-close.png" /></a>
 			</div>
 		<? endif; ?>
 		<? if($this->success): ?>
-			<div class="notification notification-green hide">
+			<div class="notification notification-green hide" style="display:none">
 				<p><b>Success:</b> <?=$this->success;?></p>
 				<a class="close" href="javascript:"><img src="/skins/default/image/icon-close.png" /></a>
 			</div>

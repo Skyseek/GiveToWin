@@ -33,7 +33,7 @@ class GTW_Auth_Plugin extends Zend_Controller_Plugin_Abstract
 		$user	= GTW_Service_User::getInstance()->getCurrentUser();
 		
 		$module 		= strtolower($request->module);
-		$controller	= strtolower($request->controller);
+		$controller		= strtolower($request->controller);
 		$action 		= strtolower($request->action);
 	
 		
