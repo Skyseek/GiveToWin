@@ -80,9 +80,11 @@ class GTW_Acl extends Zend_Acl
 		$this	->add(new Zend_Acl_Resource('default'))
 				->add(new Zend_Acl_Resource('default:index'), 'default')
 				->add(new Zend_Acl_Resource('default:city'), 'default')
-				->add(new Zend_Acl_Resource('default:user'), 'default');
+				->add(new Zend_Acl_Resource('default:user'), 'default')
+				->add(new Zend_Acl_Resource('default:info'), 'default');
 		
 		$this->allow(GTW_Model_User_Role::GUEST,  'default:index');
+		$this->allow(GTW_Model_User_Role::GUEST,  'default:info');
 		$this->allow(GTW_Model_User_Role::MEMBER,  'default:user', array('account', 'logout'));
 		
 		// ----------------------------------
