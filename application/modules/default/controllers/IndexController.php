@@ -62,4 +62,9 @@ class Default_IndexController extends Zend_Controller_Action
 	{
 		$this->view->cities = GTW_Service_City::getInstance()->getCityCollection();
 	}
+
+	public function selectCityAction()
+	{
+		$this->view->cities = GTW_Service_City::getInstance()->getCityCollection();
+	}
 }

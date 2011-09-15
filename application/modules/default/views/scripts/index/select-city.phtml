@@ -1,4 +1,88 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Index</b> and script/action name <b>selectCity</b></p>
-</div>
+<style>
+
+	#step1, #step2 {
+		width:400px;
+		padding:10px;
+		position:fixed;
+		left: 3000px;
+		top:250px;
+		float: left;
+	}
+
+	input.invalid {
+		border: 1px solid red;
+	}
+
+
+</style>
+
+<form method="get" id="registerForm" action="/" >
+	<div style="position:relative; width: 1000px;background-color:blue;" id="container" >
+		<div class="content-box" style="width:420px;" id="step1" class="step" onclick="centerStep1()">
+			<table width="100%" cellpadding="0" cellspacing="0" border="0">
+				<tr class="header">
+					<td class="left"></td>
+					<td class="center" width="402"></td>
+					<td class="right"></td>
+				</tr>
+				<tr>
+					<td class="title" colspan="3">
+						<b>Select Your City</b>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3" class="body">
+
+						<table width="100%">
+							<tr>
+								<td>
+									<select name="city_id" style="width:100%">
+										<?php foreach ($this->cities as $city): ?>
+											<option value="<?php echo $city->id; ?>"><?php echo $city->city; ?></option>
+										<?php endforeach; ?>
+									</select>
+								</td>
+								<td align="right"><a href="javascript:validateStep2()">Open City &gt;&gt;</a>&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+						</table>
+
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+</form>
+
+
+<script type="text/javascript">
+
+
+function centerStep1() {
+
+	$('#step1').animate({
+		'left': ($(window).width() / 2) - 200,
+		'opacity': 1
+	});
+
+}
+
+function validateStep2() {
+  
+  	$('#step1').animate({  
+		left: -2000,  
+		opacity: .3
+	}, 2000);
+
+
+	setTimeout(submitForm, 200);
+}
+
+function submitForm() {
+	$('#registerForm').submit();
+}
+
+setTimeout(centerStep1, 500);
+
+</script>
+
