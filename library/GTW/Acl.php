@@ -85,7 +85,8 @@ class GTW_Acl extends Zend_Acl
 		
 		$this->allow(GTW_Model_User_Role::GUEST,  'default:index');
 		$this->allow(GTW_Model_User_Role::GUEST,  'default:info');
-		$this->allow(GTW_Model_User_Role::MEMBER,  'default:user', array('account', 'logout'));
+		$this->allow(GTW_Model_User_Role::GUEST,  'default:user', array('login', 'register'));
+		$this->allow(GTW_Model_User_Role::MEMBER,  'default:user', array('account', 'logout', 'register-complete'));
 		
 		// ----------------------------------
 		// 	Resource: Admin Module

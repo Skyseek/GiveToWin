@@ -1,6 +1,31 @@
 START TRANSACTION;
 USE `gtw`;
 
+TRUNCATE `offer_schedule`;
+TRUNCATE `offer`;
+TRUNCATE `fundraiser_schedule`;
+TRUNCATE `fundraiser`;
+TRUNCATE `city_subscription`;
+TRUNCATE `user`;
+TRUNCATE `city`;
+TRUNCATE `charity`;
+TRUNCATE `company`;
+
+TRUNCATE `charity_status`;
+TRUNCATE `city_status`;
+TRUNCATE `company_status`;
+TRUNCATE `coupon_status`;
+TRUNCATE `fundraiser_schedule_status`;
+TRUNCATE `fundraiser_status`;
+TRUNCATE `offer_schedule_status`;
+TRUNCATE `offer_status`;
+TRUNCATE `user_status`;
+TRUNCATE `user_role`;
+TRUNCATE `email_template`;
+TRUNCATE `state`;
+
+
+
 # ***************************
 # 		Status Types
 # ***************************
@@ -85,8 +110,10 @@ INSERT INTO `user_role` (`id`, `role`, `description`) VALUES
 # ***************************
 
 INSERT INTO `email_template` (`id`, `name`, `description`, `subject`, `text_body`, `html_body`, `from_email`, `from_alias`) VALUES
-	(1, 'User New Email Confirmation', 'Email sent after a new user subscribes to a newsletter', '', '', NULL, NULL, NULL),
-	(2, 'User New Subscription', 'User New Subscription', NULL, NULL, NULL, NULL, NULL);
+	(1, 'new_subscription', 'Email sent after a new user subscribes to a newsletter', 'Welcome to Give to Win', '', NULL, NULL, NULL),
+	(2, 'new_subscription_confirm', 'Email sent after a new user subscribes to a newsletter', 'Welcome to Give to Win', '', NULL, NULL, NULL),
+	(3, 'user_registration', 'Email sent after user registers', NULL, NULL, NULL, NULL, NULL),
+	(4, 'user_registration_confirm', 'Email sent after user registers', NULL, NULL, NULL, NULL, NULL);
 
 
 # ***************************

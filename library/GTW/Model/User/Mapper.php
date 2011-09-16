@@ -78,13 +78,12 @@ class GTW_Model_User_Mapper extends Skyseek_Model_Mapper
 			return $this->getIdentity($id);
 		}
 
-		$result = $this->_getGateway()->find($id)->current()->toArray();
+		$result = $this->_getGateway()->find($id)->current();
 		if (!$result) {
 			return null;
 		}
 
-
-		$entity = $this->createUserEntity($result, $lazyLoad);
+		$entity = $this->createUserEntity($result->toArray(), $lazyLoad);
 
 
 		if ($useIdentityMap) {
@@ -131,8 +130,9 @@ class GTW_Model_User_Mapper extends Skyseek_Model_Mapper
 			'first_name'	=> $user->first_name,
 			'last_name'		=> $user->last_name,
 			'password'		=> $user->password,
-			'status_id'		=> $user->getStatus()->id,
-			'role_id'		=> $user->getRole()->id
+			'status_id'		=> $user->status->id,
+			'role_id'		=> $user->role->id,
+			'city_id'		=> $user->city->id
 		);
 
 		if($user->id == null) {

@@ -27,9 +27,13 @@
 	font-size:12px;
 }
 
-.notification-green a, .notification-blue a, .notification-red a, .notification-purple a { 
+.notification-green a.close, .notification-blue a.close, .notification-red a.close, .notification-purple a.close { 
 	float:right; 
 	margin:13px 10px 0px 0px; 
+}
+
+.notification-green a, .notification-blue a, .notification-red a, .notification-purple a { 
+	color:white;
 }
 
 

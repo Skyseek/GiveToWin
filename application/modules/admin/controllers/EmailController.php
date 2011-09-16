@@ -18,7 +18,7 @@ class Admin_EmailController extends Zend_Controller_Action
     }
 
 	public function previewTemplateAction() {
-        $id = (int) $this->_getParam('id');
+		$id = (int) $this->_getParam('id');
 		$template = $this->_emailService->getTemplate($id);
 		if(!$template)
 			$this->_forward('browse-templates');

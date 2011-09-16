@@ -77,7 +77,7 @@ class GTW_Service_City
 	 *
 	 * @return GTW_Service_City
 	 */
-	public static function getInstance() 
+	public static function getInstance()
 	{
 		if(!self::$_instance)
 			self::$_instance = new self();

@@ -160,6 +160,18 @@ class GTW_Model_User extends Skyseek_Model_Entity
 
 		return $this->_status;
 	}
+
+	// ====================================================================
+	//
+	// 	Helper Properties
+	//
+	// ====================================================================
+
+
+	public function getAlias()
+	{
+		return $this->first_name . ' ' . $this->last_name;
+	}
 	
 	
 	// ====================================================================

@@ -133,7 +133,4 @@ class GTW_Service_Charity
 
 		return $form;
 	}
-
-
-
 }

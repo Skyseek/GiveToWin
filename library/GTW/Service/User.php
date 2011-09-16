@@ -25,7 +25,7 @@
  * @copyright  Copyright (c) 2011, Give to Win, Inc
  * @author     Sean Thayne <sean@skyseek.com
  */
-class GTW_Service_User 
+class GTW_Service_User extends GTW_Service_Map
 {
 
 	// ====================================================================
@@ -50,48 +50,11 @@ class GTW_Service_User
 
 	// ====================================================================
 	//
-	// 	Properties
+	// 	Public Methods
 	//
 	// ====================================================================
 	
 
-	// ----------------------------------
-	// 	User Mapper
-	// ----------------------------------
-	
-	protected $_userMapper;
-
-	/**
-	 * Sets the User Mapper
-	 * 
-	 * @param GTW_Model_User_Mapper $userMapper
-	 */
-	public function setUserMapper(GTW_Model_User_Mapper $userMapper) 
-	{
-		$this->_userMapper = $userMapper;
-	}
-	
-	/**
-	 * Gets the User Mapper
-	 * 
-	 * @return GTW_Model_User_Mapper
-	 */
-	public function getUserMapper() 
-	{
-		if(!$this->_userMapper)
-			$this->_userMapper = GTW_Model_User_Mapper::getInstance();
-
-		return $this->_userMapper;
-	}
-		
-	
-	// ====================================================================
-	//
-	// 	Methods
-	//
-	// ====================================================================
-	
-	
 	/**
 	 * Finds/Creates Subscriber with given email address.
 	 *
@@ -123,13 +86,18 @@ class GTW_Service_User
 	public function createSubscriber($email) 
 	{
 		$emailValidator = new Zend_Validate_EmailAddress();
-
 		if(!$emailValidator->isValid($email))
 			return;
 			
-		$user = new GTW_Model_User(array('email'=>$email));
-		$user->referenceId('role_id', GTW_Model_User_Role::SUBSCRIBER);
-		$user->referenceId('status_id', GTW_Model_User_Status::PENDING);
+		$user = new GTW_Model_User(array(
+			'email'		=> $email,
+			'role_id'	=> GTW_Model_User_Role::SUBSCRIBER,
+			'status_id'	=> GTW_Model_User_Status::PENDING
+		));
+
+		if($this->getCityService()->hasCitySelected())
+			$user->city	= $this->getCityService()->getCitySelection();
+
 		$this->getUserMapper()->save($user);
 		
 		return $user;
@@ -207,8 +175,8 @@ class GTW_Service_User
 	{
 		GTW_Auth::getInstance()->getStorage()->write($user->id);
 
-		if(!GTW_Service_City::getInstance()->hasCitySelected())
-			GTW_Service_City::getInstance()->setCitySelection($user->city);
+		if($this->getCityService()->hasCitySelected())
+			$this->getCityService()->setCitySelection($user->city);
 	}
 
 	public function stopSession()
@@ -227,15 +195,23 @@ class GTW_Service_User
 	 */
 	public function getCurrentUser() 
 	{
+		$user = null;
+
 		if($this->isLoggedIn())	{
 			$userId = GTW_Auth::getInstance()->getIdentity();
-			$user	= GTW_Model_User_Mapper::getInstance()->getUser($userId);
-		} else {
+			$user	= $this->getUserMapper()->getUser($userId);
+
+			if(!$user) {
+				$this->stopSession();
+			}
+		} 
+
+		if(!$user instanceof GTW_Model_User) {
 			//Use Guest User instead.
 			$user = new GTW_Model_User();
 			$user->referenceId('role_id', GTW_Model_User_Role::GUEST);
 		}
-		
+
 		return $user;
 	}
 	
@@ -258,5 +234,55 @@ class GTW_Service_User
 	public function save(GTW_Model_User $user) 
 	{
 		return $this->getUserMapper()->save($user);
+	}
+
+	public function register(GTW_Model_User $user)
+	{
+		$existingUser = $this->getUserByEmail($user->email);
+
+		if($existingUser) {
+			if($existingUser->role->id == GTW_Model_User_Role::SUBSCRIBER) {
+				$existingUser->first_name	= $user->first_name;
+				$existingUser->last_name	= $user->last_name;
+
+				$user = $existingUser;
+			} else {
+				$urlEmail = urlencode($existingUser->email);
+
+				$messageBody  = "Email is already Registered. ";
+				$messageBody .= "<a href='/User/Forgot-Password/email/{$urlEmail}'>Click here to get recover your password.</a>";
+				GTW_Messenger::getInstance()->addMessage('Registration Failed', $messageBody, 'register-error');
+				return false;
+			}
+		} else {
+
+			if($this->getCityService()->hasCitySelected()) {
+				$user->city = $this->getCityService()->getCitySelection();
+			}
+		}
+		
+		$user->status = $user->statusMapper()->getStatus(GTW_Model_User_Status::PENDING);
+		$user->role = $user->roleMapper()->getRole(GTW_Model_User_Role::MEMBER);
+		$user->setNewPassword($user->password);
+
+		$this->getUserMapper()->save($user);
+		$this->sendRegistrationEmail($user);
+
+		return $user;
+	}
+
+
+	public function sendRegistrationEmail(GTW_Model_User $user)
+	{
+		if($user->status->id == GTW_Model_User_Status::PENDING)
+			$emailTemplate	= $this->getEmailService()->getTemplateByName('user_registration_confirm');
+		else
+			$emailTemplate	= $this->getEmailService()->getTemplateByName('user_registration');
+
+		// Assign Template Vars
+		$emailTemplate->assign('user', $user);
+
+		// Queue Rendered Email
+		$this->getEmailService()->queueEmail($emailTemplate->render($user));
 	}
 }

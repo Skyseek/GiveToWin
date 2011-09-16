@@ -49,7 +49,7 @@ class GTW_Model_Email_Mapper extends Skyseek_Model_Mapper {
 	/**
 	 * @return GTW_Model_Email_Collection
 	 */
-	public function getEmailCollection(Skyseek_Model_Entity_Collection_Request $request) {
+	public function getCollection(Skyseek_Model_Entity_Collection_Request $request) {
 		$select = $this->_getGateway()->select();
 
 		$filterAdapter = new Skyseek_Model_Entity_Collection_Request_Adapter_DbSelect($request);
@@ -115,4 +115,34 @@ class GTW_Model_Email_Mapper extends Skyseek_Model_Mapper {
 		return $entity;
 	}
 
+	/**
+	 *
+	 * @param GTW_Model_Email $email
+	 * 
+	 * @return GTW_Model_Email
+	 */
+	public function save(GTW_Model_Email $email) 
+	{
+		$data = array(
+			'subject'			=> $email->subject,
+			'text_content'		=> $email->text_content,
+			'html_content'		=> $email->html_content,
+			'to_email'			=> $email->to_email,
+			'to_alias'			=> $email->to_alias,
+			'from_email'		=> $email->from_email,
+			'from_alias'		=> $email->from_alias,
+			'time_created'		=> $email->time_created,
+			'time_sent'			=> $email->time_sent,
+			'user_id'			=> $email->user->id,
+			'email_template_id'	=> $email->emailTemplate->id
+		);
+
+		if($email->id == null) {
+			$email->id =  $this->_getGateway()->insert($data);
+		} else {
+			$this->_getGateway()->update($data, "id = {$email->id}");
+		}
+
+		return $email;
+	}
 }

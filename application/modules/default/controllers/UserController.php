@@ -45,6 +45,30 @@ class Default_UserController extends Zend_Controller_Action
 		$this->_forward('logout', 'auth');
 	}
 
+	public function registerAction()
+	{
+		$request 	= $this->getRequest();
+		$form 		= new GTW_Model_User_Form_Register();
+		
+		if($request->isPost() && $form->isValid($request->getPost())) {
+			$user = $form->getUser();
+
+			if($this->_userService->register($user)) {
+				$this->_userService->startSession($user);
+				$this->_redirect('/user/register-complete');
+			} else {
+				$this->view->message = current(GTW_Messenger::getInstance()->getMessages())->body;
+			}
+		}
+
+		$this->view->form = $form;
+	}
+
+	public function registerCompleteAction()
+	{
+		
+	}
+
 	public function accountAction()
 	{
 
@@ -87,8 +111,6 @@ class Default_UserController extends Zend_Controller_Action
 		}
 
 
-		
-		
 		$this->view->changePasswordForm = $changePasswordForm;
 		$this->view->editAccountForm = $editAccountForm;
 		$this->view->user = $user;

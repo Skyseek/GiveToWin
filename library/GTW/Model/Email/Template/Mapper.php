@@ -49,7 +49,7 @@ class GTW_Model_Email_Template_Mapper extends Skyseek_Model_Mapper {
 	/**
 	 * @return GTW_Model_Email_Template_Collection
 	 */
-	public function getTemplateCollection(Skyseek_Model_Entity_Collection_Request $request=null) {
+	public function getCollection(Skyseek_Model_Entity_Collection_Request $request=null) {
 		$select = $this->_getGateway()->select();
 
 		if($request) {

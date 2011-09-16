@@ -46,11 +46,20 @@ class GTW_Service_Email {
 	}
 
 	public function getAllTemplates() {
-		return GTW_Model_Email_Template_Mapper::getInstance()->getTemplateCollection();
+		return GTW_Model_Email_Template_Mapper::getInstance()->getCollection();
 	}
 
-	public function getTemplate($id) {
+	public function getTemplate($id) 
+	{
 		return GTW_Model_Email_Template_Mapper::getInstance()->getTemplate($id);
+	}
+
+	public function getTemplateByName($name) 
+	{
+		$request = new Skyseek_Model_Entity_Collection_Request(1, 1);
+		$request->addFilter('name', '=', $name);
+
+		return GTW_Model_Email_Template_Mapper::getInstance()->getCollection($request)->current();
 	}
 
 	/**
@@ -67,5 +76,10 @@ class GTW_Service_Email {
 
 	public function save(GTW_Model_Email_Template $template) {
 		return GTW_Model_Email_Template_Mapper::getInstance()->save($template);
+	}
+
+	public function queueEmail(GTW_Model_Email $email)
+	{
+		return GTW_Model_Email_Mapper::getInstance()->save($email);
 	}
 }
