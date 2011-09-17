@@ -275,8 +275,6 @@ class GTW_Service_User extends GTW_Service_Map
 	public function sendRegistrationEmail(GTW_Model_User $user)
 	{
 		if($user->status->id == GTW_Model_User_Status::PENDING)
-			$emailTemplate	= $this->getEmailService()->getTemplateByName('user_registration_confirm');
-		else
 			$emailTemplate	= $this->getEmailService()->getTemplateByName('user_registration');
 
 		// Assign Template Vars
