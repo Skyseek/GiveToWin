@@ -53,6 +53,21 @@ class GTW_Model_Email extends Skyseek_Model_Entity{
 	protected $_emailTemplate;
 	protected $_emailTemplateMapper;
 
+
+	public function convertToZendMail()
+	{
+		$mail = new Zend_Mail();
+		
+		$mail->setFrom($this->from_email, $this->from_alias);
+		$mail->addTo($this->to_email, $this->to_alias);
+		$mail->setSubject($this->subject);
+		$mail->setBodyText($this->text_content);
+		$mail->setBodyHtml($this->html_content);
+
+		return $mail;
+	}
+
+
 	/**
 	 * @param GTW_Model_Email_Template $emailTemplate
 	 */
@@ -83,7 +98,7 @@ class GTW_Model_Email extends Skyseek_Model_Entity{
 	 */
 	public function getUser() {
 		if ($this->_user == null && $this->referenceId('user_id')) {
-			$this->_user = $this->userMapper()->find($this->referenceId('user_id'));
+			$this->_user = $this->userMapper()->getUser($this->referenceId('user_id'));
 		}
 
 		return $this->_user;

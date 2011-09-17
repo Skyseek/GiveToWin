@@ -18,6 +18,4 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 			'pluginClass' => 'GTW_Layout_Plugin'
 		));
 	}
-
 }
-

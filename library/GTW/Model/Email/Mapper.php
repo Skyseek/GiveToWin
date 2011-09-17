@@ -132,10 +132,16 @@ class GTW_Model_Email_Mapper extends Skyseek_Model_Mapper {
 			'from_email'		=> $email->from_email,
 			'from_alias'		=> $email->from_alias,
 			'time_created'		=> $email->time_created,
-			'time_sent'			=> $email->time_sent,
-			'user_id'			=> $email->user->id,
-			'email_template_id'	=> $email->emailTemplate->id
+			'time_sent'			=> $email->time_sent
 		);
+
+		if($email->getUser()) {
+			$data['user_id'] = $email->user->id;
+		}
+
+		if($email->getEmailTemplate()) {
+			$data['email_template_id'] = $email->emailTemplate->id;
+		}
 
 		if($email->id == null) {
 			$email->id =  $this->_getGateway()->insert($data);
