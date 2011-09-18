@@ -13,7 +13,11 @@ class GTW_Emailer extends GTW_Service_Map
 	public function __construct()
 	{
 		$this->_log("Starting up..."); 
-		$this->_parentPID = getmypid(); 
+		$this->_parentPID = getmypid();
+
+
+		file_put_contents(APPLICATION_PATH . "/cli/mailer.pid", $this->_parentPID);
+
 		pcntl_signal(SIGCHLD, array($this, "childSignalHandler")); 
 	}
 
