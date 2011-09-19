@@ -49,7 +49,7 @@ HTML;
 							<td class="with-tip" title="<?=$city->status->description;?>"><?=$city->status->status;?></td>
 							<td class="table-actions">
 								<a href="/admin/cities/edit/id/<?=$city->id;?>" title="Edit City" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/pencil.png" width="16" height="16"></a>
-								<a href="#" onClick="openDeleteCityPrompt(<?=$user->id;?>);" title="Delete City" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/cross-circle.png" width="16" height="16"></a>
+								<a href="#" onClick="openDeleteCityPrompt(<?=$city->id;?>);" title="Delete City" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/cross-circle.png" width="16" height="16"></a>
 							</td>
 						</tr>
 						<? endforeach; ?>						

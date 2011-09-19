@@ -116,6 +116,11 @@ class GTW_Service_Offer
 		return $this->getOfferMapper()->save($offer);
 	}
 
+	public function delete(GTW_Model_Offer $offer) 
+	{
+		return $this->getOfferMapper()->delete($offer);
+	}
+
 
 	/**
 	 * Returns the Offer Form with loaded Offer.

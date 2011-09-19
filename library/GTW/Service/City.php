@@ -191,6 +191,11 @@ class GTW_Service_City
 		return $this->getCityMapper()->save($city);
 	}
 
+	public function delete(GTW_Model_City $city)
+	{
+		return $this->getCityMapper()->delete($city);	
+	}
+
 
 	/**
 	 * Returns the City Form with loaded City.

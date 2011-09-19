@@ -44,12 +44,12 @@ $(document).ready(function()
 			if(response.success) {
 				// Small timer to allow the 'cheking login' message to show when server is too fast
 				var receiveTimer = new Date().getTime();
-				if (receiveTimer-sendTimer < 500)
+				if (receiveTimer-sendTimer < 2000)
 				{
 					setTimeout(function()
 					{
 						document.location.href = response.data['redirect'];
-					}, 500-(receiveTimer-sendTimer));
+					}, 2000-(receiveTimer-sendTimer));
 				}
 				else
 					document.location.href = response.data['redirect'];

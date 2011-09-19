@@ -160,5 +160,11 @@ class GTW_Model_Offer_Mapper extends Skyseek_Model_Mapper
 
 		return $offer;
 	}
+
+
+	public function delete(GTW_Model_Offer $offer) 
+	{
+		$this->_getGateway()->delete("id = {$offer->id}");
+	}
 }
 

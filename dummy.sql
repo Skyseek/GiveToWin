@@ -18,7 +18,11 @@ TRUNCATE `company`;
 
 INSERT INTO  `gtw`.`city` (`id` ,`state_id` ,`status_id` ,`city`) VALUES 
 	(1 ,  '13',  '2',  'Athens'),
-	(2 ,  '13',  '1',  'Atlanta');
+	(2 ,  '13',  '1',  'Atlanta'),
+	(3 ,  '13',  '1',  'Columbus'),
+	(4 ,  '13',  '1',  'Savannah'),
+	(5 ,  '13',  '1',  'Sandy Springs'),
+	(6 ,  '13',  '1',  'Macon');
 
 
 # ***************************
@@ -75,7 +79,8 @@ INSERT INTO `company` (`id`, `status_id`, `name`, `website`, `email`, `phone`) V
 
 INSERT INTO `offer` (`id`, `company_id`, `status_id`, `value`, `title`, `sub_title`, `description`, `fine_print`, 
 					 `highlights`, `time_redeem`, `time_expire`, `minimum`) VALUES 
-	(1, '1', '1', '50', 'Free Ice Cream Cone', 'For you!', 'As a way to thank our customers for their support and to celebrate 33 years of scooping the chunkiest, funkiest ice cream, frozen yogurt and sorbet, Ben & Jerry''s chocolate frenzy.', 'An ice cream cone, poke or cornet is a dry, cone-shaped pastry, usually made of a wafer similar in texture to a waffle, allowing ice cream to be eaten without a bowl or spoon. Various types of ice-cream cones include waffle cones, cake cones (or wafer cones), pretzel cones, and sugar cones.', 'Edible cones have been mentioned in French cooking books as early as 1825, Julien Archambault describes a cone where one can roll "little waffles".[1] Another printed reference to an edible cone is in Mrs A. B. Marshall’s Cookery Book, written in 1888 by Agnes B. Marshall (1855–1905) of England. Her recipe for "Cornet with Cream" says that - "the cornets were made with almonds and baked in the oven, not pressed between irons". The influential innovator who published two recipe books and ran a school of cookery.', '2011-09-30 11:46:51', '2011-10-31 11:46:56', '1000');
+	(1, '1', '1', '50', 'Free Ice Cream Cone', 'For you!', 'As a way to thank our customers for their support and to celebrate 33 years of scooping the chunkiest, funkiest ice cream, frozen yogurt and sorbet, Ben & Jerry''s chocolate frenzy.', 'An ice cream cone, poke or cornet is a dry, cone-shaped pastry, usually made of a wafer similar in texture to a waffle, allowing ice cream to be eaten without a bowl or spoon. Various types of ice-cream cones include waffle cones, cake cones (or wafer cones), pretzel cones, and sugar cones.', 'Edible cones have been mentioned in French cooking books as early as 1825, Julien Archambault describes a cone where one can roll "little waffles".[1] Another printed reference to an edible cone is in Mrs A. B. Marshall’s Cookery Book, written in 1888 by Agnes B. Marshall (1855–1905) of England. Her recipe for "Cornet with Cream" says that - "the cornets were made with almonds and baked in the oven, not pressed between irons". The influential innovator who published two recipe books and ran a school of cookery.', '2011-09-30 11:46:51', '2011-10-31 11:46:56', '1000'),
+	(2, '1', '1', '50', 'Free Ice Cream Cone #2', 'For you!', 'As a way to thank our customers for their support and to celebrate 33 years of scooping the chunkiest, funkiest ice cream, frozen yogurt and sorbet, Ben & Jerry''s chocolate frenzy.', 'An ice cream cone, poke or cornet is a dry, cone-shaped pastry, usually made of a wafer similar in texture to a waffle, allowing ice cream to be eaten without a bowl or spoon. Various types of ice-cream cones include waffle cones, cake cones (or wafer cones), pretzel cones, and sugar cones.', 'Edible cones have been mentioned in French cooking books as early as 1825, Julien Archambault describes a cone where one can roll "little waffles".[1] Another printed reference to an edible cone is in Mrs A. B. Marshall’s Cookery Book, written in 1888 by Agnes B. Marshall (1855–1905) of England. Her recipe for "Cornet with Cream" says that - "the cornets were made with almonds and baked in the oven, not pressed between irons". The influential innovator who published two recipe books and ran a school of cookery.', '2011-09-30 11:46:51', '2011-10-31 11:46:56', '1000');
 
 INSERT INTO `gtw`.`offer_schedule` (`id`, `offer_id`, `city_id`, `status_id`, `start_date`, `end_date`) VALUES 
 	(1, 1, 1, 2, '2011-09-01', '2011-09-30');

@@ -38,6 +38,11 @@ class Admin_UsersController extends Zend_Controller_Action
 
 	public function deleteUserAction() 
 	{
+		$user 		= $this->_getUserFromRequest();
+
+		if($user)
+			$this->_userService->delete($user);
+
 		$this->_forward('browse');
 	}
 

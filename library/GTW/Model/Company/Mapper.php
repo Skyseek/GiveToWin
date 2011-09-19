@@ -155,5 +155,10 @@ class GTW_Model_Company_Mapper extends Skyseek_Model_Mapper
 
 		return $company;
 	}
+
+	public function delete(GTW_Model_Company $company) 
+	{
+		$this->_getGateway()->delete("id = {$company->id}");
+	}
 }
 

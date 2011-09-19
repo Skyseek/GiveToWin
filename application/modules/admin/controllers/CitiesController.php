@@ -15,6 +15,16 @@ class Admin_CitiesController extends Zend_Controller_Action
 		$this->_forward('browse');
 	}
 
+	public function deleteAction()
+	{
+		$city = $this->_getCityFromRequest();
+
+		if($city)
+			$this->_cityService->delete($city);
+
+		$this->_forward('browse');
+	}
+
 	public function browseAction()
 	{
 		// ----------------------------------

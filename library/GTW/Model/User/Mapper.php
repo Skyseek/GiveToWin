@@ -124,7 +124,8 @@ class GTW_Model_User_Mapper extends Skyseek_Model_Mapper
 	 * 
 	 * @return GTW_Model_User
 	 */
-	public function save(GTW_Model_User $user) {
+	public function save(GTW_Model_User $user) 
+	{
 		$data = array(
 			'email'			=> $user->email,
 			'first_name'	=> $user->first_name,
@@ -143,5 +144,9 @@ class GTW_Model_User_Mapper extends Skyseek_Model_Mapper
 
 		return $user;
 	}
-}
 
+	public function delete(GTW_Model_User $user)
+	{
+		$this->_getGateway()->delete("id='{$user->id}'");
+	}
+}

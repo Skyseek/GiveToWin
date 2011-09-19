@@ -22,6 +22,16 @@ class Admin_OffersController extends Zend_Controller_Action
 		$this->_forward('browse');
 	}
 
+	public function deleteAction()
+	{
+		$offer = $this->_getOfferFromRequest();
+
+		if($offer)
+			$this->_offerService->delete($offer);
+
+		$this->_forward('browse');
+	}
+
 	public function browseAction()
 	{
 		// ----------------------------------

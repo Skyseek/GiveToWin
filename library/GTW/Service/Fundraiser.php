@@ -116,6 +116,11 @@ class GTW_Service_Fundraiser
 		return $this->getFundraiserMapper()->save($fundraiser);
 	}
 
+	public function delete(GTW_Model_Fundraiser $fundraiser)
+	{
+		return $this->getFundraiserMapper()->delete($fundraiser);	
+	}
+
 
 	/**
 	 * Returns the Fundraiser Form with loaded Fundraiser.

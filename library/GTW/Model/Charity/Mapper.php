@@ -158,5 +158,10 @@ class GTW_Model_Charity_Mapper extends Skyseek_Model_Mapper
 
 		return $charity;
 	}
+
+	public function delete(GTW_Model_Charity $charity)
+	{
+		$this->_getGateway()->delete("id='{$charity->id}'");
+	}
 }
 

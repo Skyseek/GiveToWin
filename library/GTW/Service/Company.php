@@ -116,6 +116,11 @@ class GTW_Service_Company
 		return $this->getCompanyMapper()->save($company);
 	}
 
+	public function delete(GTW_Model_Company $company) 
+	{
+		return $this->getCompanyMapper()->delete($company);
+	}
+
 
 	/**
 	 * Returns the Company Form with loaded Company.
@@ -133,7 +138,4 @@ class GTW_Service_Company
 
 		return $form;
 	}
-
-
-
 }

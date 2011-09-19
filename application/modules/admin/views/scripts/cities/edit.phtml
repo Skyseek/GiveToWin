@@ -46,8 +46,13 @@ HTML;
 		<div class="block-controls">
 			<ul class="controls-tabs js-tabs">
 				<li class="current">
-					<a href="#" title="User Settings">
-						<img src="/skins/admin/assets/img/icons/web-app/24/Add.png" width="24" height="24"/>
+					<a href="#" title="City Settings">
+						<img src="/skins/admin/assets/img/icons/web-app/24/Info.png" width="24" height="24"/>
+					</a>
+				</li>
+				<li>
+					<a href="#" onClick="openDeleteCityPrompt(<?=$this->city->id;?>);" title="Delete City">
+						<img src="/skins/admin/assets/img/icons/web-app/24/Delete.png" width="24" height="24"/>
 					</a>
 				</li>
 			</ul>

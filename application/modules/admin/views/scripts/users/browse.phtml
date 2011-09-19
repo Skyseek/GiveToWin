@@ -57,7 +57,7 @@ $this->breadCrumbs = array(
 							<td><?=$user->status->status;?></td>
 							<td class="table-actions">
 								<a href="/admin/users/edit/id/<?=$user->id;?>" title="Edit" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/user-edit.png" width="16" height="16"></a>
-								<a href="#" onClick="openModalDelete(<?=$user->id;?>);" title="Delete" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/user-delete.png" width="16" height="16"></a>
+								<a href="#" onClick="openDeleteUserPrompt(<?=$user->id;?>);" title="Delete" class="with-tip"><img src="/skins/admin/assets/img/icons/fugue/user-delete.png" width="16" height="16"></a>
 							</td>
 						</tr>
 						<? endforeach; ?>						

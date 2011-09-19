@@ -236,6 +236,11 @@ class GTW_Service_User extends GTW_Service_Map
 		return $this->getUserMapper()->save($user);
 	}
 
+	public function delete(GTW_Model_User $user) 
+	{
+		return $this->getUserMapper()->delete($user);
+	}
+
 	public function register(GTW_Model_User $user)
 	{
 		$existingUser = $this->getUserByEmail($user->email);

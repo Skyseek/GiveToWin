@@ -14,6 +14,16 @@ class Admin_CharitiesController extends Zend_Controller_Action
 		$this->_forward('browse');
 	}
 
+	public function deleteAction()
+	{
+		$charity	= $this->_getCharityFromRequest();
+
+		if($charity)
+			$this->_charityService->delete($charity);
+
+		$this->_forward('browse');
+	}
+
 	public function browseAction()
 	{
 		// ----------------------------------

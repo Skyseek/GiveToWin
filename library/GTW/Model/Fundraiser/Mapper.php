@@ -156,5 +156,10 @@ class GTW_Model_Fundraiser_Mapper extends Skyseek_Model_Mapper
 
 		return $fundraiser;
 	}
+
+	public function delete(GTW_Model_Fundraiser $fundraiser) 
+	{
+		$this->_getGateway()->delete("id = {$fundraiser->id}");
+	}
 }
 

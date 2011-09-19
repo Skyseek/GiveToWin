@@ -14,6 +14,16 @@ class Admin_CompaniesController extends Zend_Controller_Action
 		$this->_forward('browse');
 	}
 
+	public function deleteAction()
+	{
+		$company = $this->_getCompanyFromRequest();
+
+		if($company)
+			$this->_companyService->delete($company);
+
+		$this->_forward('browse');
+	}
+
 	public function browseAction()
 	{
 		// ----------------------------------

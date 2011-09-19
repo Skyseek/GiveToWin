@@ -116,6 +116,11 @@ class GTW_Service_Charity
 		return $this->getCharityMapper()->save($charity);
 	}
 
+	public function delete(GTW_Model_Charity $charity)
+	{
+		return $this->getCharityMapper()->delete($charity);
+	}
+
 
 	/**
 	 * Returns the Charity Form with loaded Charity.

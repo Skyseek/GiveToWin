@@ -22,6 +22,16 @@ class Admin_FundraisersController extends Zend_Controller_Action
 		$this->_forward('browse');
 	}
 
+	public function deleteAction()
+	{
+		$fundraiser	= $this->_getFundraiserFromRequest();
+
+		if($fundraiser)
+			$this->_fundraiserService->delete($fundraiser);
+
+		$this->_forward('browse');
+	}
+
 	public function browseAction()
 	{
 		// ----------------------------------

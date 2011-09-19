@@ -94,13 +94,13 @@ class GTW_Model_City_Mapper extends Skyseek_Model_Mapper
 			return $this->getIdentity($id);
 		}
 
-		$result = $this->_getGateway()->find($id)->current()->toArray();
+		$result = $this->_getGateway()->find($id)->current();
 		if(!$result) {
 			return null;
 		}
 
 
-		$entity = $this->createCityEntity($result, $lazyLoad);
+		$entity = $this->createCityEntity($result->toArray(), $lazyLoad);
 		
 		if($useIdentityMap) {
 			$this->setIdentity($id, $entity);
@@ -149,5 +149,10 @@ class GTW_Model_City_Mapper extends Skyseek_Model_Mapper
 		}
 
 		return $city;
+	}
+
+	public function delete(GTW_Model_City $city) 
+	{
+		$this->_getGateway()->delete("id = {$city->id}");
 	}
 }
