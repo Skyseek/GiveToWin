@@ -115,6 +115,18 @@ class GTW_Service_CitySubscription
 			return $results->current();
 	}
 
+	public function getCitySubscriptionsForUser(GTW_Model_User $user)
+	{
+		//Create Request.
+		$request = new Skyseek_Model_Entity_Collection_Request();
+		$request->addFilter('user_id', '=', $user->id);
+
+		//Get Results
+		$results = $this->getSubscriptionMapper()->getSubscriptionCollection($request);
+
+		return $results;
+	}
+
 	/**
 	 * Adds Subscriber to City's Newsletter.
 	 *
@@ -186,6 +198,14 @@ class GTW_Service_CitySubscription
 		return $results;
 	}
 	
+	public function deleteSubscriptionById($id) 
+	{
+		$subscription = $this->getSubscriptionMapper()->getSubscription($id);
+
+		if($subscription)
+			$this->deleteSubscription($subscription);
+	}
+
 	/**
 	 * Delete a Subscription
 	 *
@@ -193,6 +213,6 @@ class GTW_Service_CitySubscription
 	 */
 	public function deleteSubscription(GTW_Model_City_Subscription $subscription) 
 	{
-		$this->getSubscriptionMapper()->deleteSubscription($subscription);
+		$this->getSubscriptionMapper()->delete($subscription);
 	}
 }

@@ -25,7 +25,7 @@
  * @copyright  Copyright (c) 2011, Give to Win, Inc
  * @author     Sean Thayne <sean@skyseek.com
  */
-class GTW_Service_Company
+class GTW_Service_Company extends GTW_Service_Map
 {
 
 	// ====================================================================
@@ -46,42 +46,6 @@ class GTW_Service_Company
 			self::$_instance = new self();
 		
 		return self::$_instance;
-	}
-	
-	// ====================================================================
-	//
-	// 	Properties
-	//
-	// ====================================================================
-	
-
-	// ----------------------------------
-	// 	Company Mapper
-	// ----------------------------------
-	
-	protected $_companyMapper;
-
-	/**
-	 * Sets the Company Mapper
-	 * 
-	 * @param GTW_Model_Company_Mapper $companyMapper
-	 */
-	public function setCompanyMapper(GTW_Model_Company_Mapper $companyMapper) 
-	{
-		$this->_companyMapper = $companyMapper;
-	}
-	
-	/**
-	 * Gets the Company Mapper
-	 * 
-	 * @return GTW_Model_Company_Mapper
-	 */
-	public function getCompanyMapper() 
-	{
-		if(!$this->_companyMapper)
-			$this->_companyMapper = GTW_Model_Company_Mapper::getInstance();
-
-		return $this->_companyMapper;
 	}
 
 
@@ -137,5 +101,36 @@ class GTW_Service_Company
 			$form->setCompany($company);
 
 		return $form;
+	}
+
+
+	public function suggestCompany(GTW_Model_Company_Suggestion $company)
+	{
+		$this->sendSuggestionEmail($company);
+	}
+
+
+	// ====================================================================
+	//
+	// 	Email Functions
+	//
+	// ====================================================================
+	
+	public function sendSuggestionEmail(GTW_Model_Company_Suggestion $company)
+	{
+		$emailTemplate	= $this->getEmailService()->getTemplateByName('suggest_company_staff');
+
+		// Assign Template Vars
+		$emailTemplate->assign('company', $company);
+
+		//Get Current Admin list
+		$admins = $this->getUserService()->getAdmins();
+
+		// Queue Rendered Email
+		foreach($admins as $admin) {
+			$emailTemplate->assign('user', $admin);
+			$this->getEmailService()->queueEmail($emailTemplate->render($admin));
+		}
+			
 	}
 }

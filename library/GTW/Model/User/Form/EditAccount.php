@@ -101,8 +101,7 @@ class GTW_Model_User_Form_EditAccount extends Skyseek_Form_UniForm
 		));
 
 		$this->addElement('Text', 'email', array(
-			'description'	=>'Use a real email address that you often check for messages',
-			'label'			=>'Email:',
+			'label'			=>'Email Address:',
 			'required'		=> true,
 			'filters'		=> array('StringTrim'),
 			'validators'	=> array(

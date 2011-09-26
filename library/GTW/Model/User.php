@@ -172,6 +172,12 @@ class GTW_Model_User extends Skyseek_Model_Entity
 	{
 		return $this->first_name . ' ' . $this->last_name;
 	}
+
+	public function getCitySubscriptions()
+	{
+		$subscriptionService = GTW_Service_CitySubscription::getInstance();	
+		return $subscriptionService->getCitySubscriptionsForUser($this);
+	}
 	
 	
 	// ====================================================================

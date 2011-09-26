@@ -25,7 +25,7 @@
  * @copyright  Copyright (c) 2011, Give to Win, Inc
  * @author     Sean Thayne <sean@skyseek.com
  */
-class GTW_Service_City
+class GTW_Service_City extends GTW_Service_Map
 {
 	// ====================================================================
 	//
@@ -212,5 +212,35 @@ class GTW_Service_City
 			$form->setCity($city);
 
 		return $form;
+	}
+
+	public function suggestCity(GTW_Model_City_Suggestion $city)
+	{
+		$this->sendSuggestionEmail($city);
+	}
+
+
+	// ====================================================================
+	//
+	// 	Email Functions
+	//
+	// ====================================================================
+	
+	public function sendSuggestionEmail(GTW_Model_City_Suggestion $city)
+	{
+		$emailTemplate	= $this->getEmailService()->getTemplateByName('suggest_city');
+
+		// Assign Template Vars
+		$emailTemplate->assign('city', $city);
+
+		//Get Current Admin list
+		$admins = $this->getUserService()->getAdmins();
+
+		// Queue Rendered Email
+		foreach($admins as $admin) {
+			$emailTemplate->assign('user', $admin);
+			$this->getEmailService()->queueEmail($emailTemplate->render($admin));
+		}
+			
 	}
 }

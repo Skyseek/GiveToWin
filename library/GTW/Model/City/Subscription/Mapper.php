@@ -34,7 +34,9 @@
 class GTW_Model_City_Subscription_Mapper extends Skyseek_Model_Mapper {
 
 
-	protected $_tableName = 'city_subscription';
+	protected $_tableName	= 'city_subscription';
+	protected $_primary		= array('id');
+
 	protected static $_instance;
 	protected static $_identityMap = array();
 
@@ -69,10 +71,10 @@ class GTW_Model_City_Subscription_Mapper extends Skyseek_Model_Mapper {
 	}
 
 	public function getSubscription($id, $lazyLoad=true, $useIdentityMap=true) {
+
 		if ($useIdentityMap && $this->hasIdentity($id)) {
 			return $this->getIdentityMap($id);
 		}
-
 
 		$result = $this->_getGateway()->find($id)->current()->toArray();
 		if (!$result) {
@@ -95,9 +97,7 @@ class GTW_Model_City_Subscription_Mapper extends Skyseek_Model_Mapper {
 	 */
 	private function createSubscriptionEntity($data, $lazyLoad) {
 
-		$entity = new GTW_Model_City_Subscription();
-		$entity->referenceId('user_id', $data['user_id']);
-		$entity->referenceId('city_id', $data['city_id']);
+		$entity = new GTW_Model_City_Subscription($data);
 
 		if (!$lazyLoad) {
 			//Add lazy loader Calls
@@ -127,6 +127,11 @@ class GTW_Model_City_Subscription_Mapper extends Skyseek_Model_Mapper {
 
 
 		return $subscription;
+	}
+
+	public function delete(GTW_Model_City_Subscription $subscription) 
+	{
+		$this->_getGateway()->delete("id='{$subscription->id}'");
 	}
 
 }

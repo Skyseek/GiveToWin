@@ -31,6 +31,71 @@ class GTW_Service_Map
 {
 	// ====================================================================
 	//
+	// 	Charities
+	//
+	// ====================================================================
+	
+	// ----------------------------------
+	// 	Charity Service
+	// ----------------------------------
+	
+	protected $_charityService;
+
+	/**
+	 * Sets the Charity Service
+	 * 
+	 * @param GTW_Service_Charity $charityService
+	 */
+	public function setCharityService(GTW_Service_Charity $charityService) 
+	{
+		$this->_charityService = $charityService;
+	}
+	
+	/**
+	 * Gets the Charity Service
+	 * 
+	 * @return GTW_Service_Charity
+	 */
+	public function getCharityService() 
+	{
+		if(!$this->_charityService)
+			$this->_charityService = GTW_Service_Charity::getInstance();
+
+		return $this->_charityService;
+	}
+
+
+	// ----------------------------------
+	// 	Charity Mapper
+	// ----------------------------------
+	
+	protected $_charityMapper;
+
+	/**
+	 * Sets the Charity Mapper
+	 * 
+	 * @param GTW_Model_Charity_Mapper $charityMapper
+	 */
+	public function setCharityMapper(GTW_Model_Charity_Mapper $charityMapper) 
+	{
+		$this->_charityMapper = $charityMapper;
+	}
+	
+	/**
+	 * Gets the Charity Mapper
+	 * 
+	 * @return GTW_Model_Charity_Mapper
+	 */
+	public function getCharityMapper() 
+	{
+		if(!$this->_charityMapper)
+			$this->_charityMapper = GTW_Model_Charity_Mapper::getInstance();
+
+		return $this->_charityMapper;
+	}
+
+	// ====================================================================
+	//
 	// 	Cities
 	//
 	// ====================================================================
@@ -93,6 +158,73 @@ class GTW_Service_Map
 
 		return $this->_cityMapper;
 	}
+
+
+	// ====================================================================
+	//
+	// 	Companies
+	//
+	// ====================================================================
+	
+	// ----------------------------------
+	// 	Company Service
+	// ----------------------------------
+	
+	protected $_companyService;
+
+	/**
+	 * Sets the Company Service
+	 * 
+	 * @param GTW_Service_Company $companyService
+	 */
+	public function setCompanyService(GTW_Service_Company $companyService) 
+	{
+		$this->_companyService = $companyService;
+	}
+	
+	/**
+	 * Gets the Company Service
+	 * 
+	 * @return GTW_Service_Company
+	 */
+	public function getCompanyService() 
+	{
+		if(!$this->_companyService)
+			$this->_companyService = GTW_Service_Company::getInstance();
+
+		return $this->_companyService;
+	}
+
+
+	// ----------------------------------
+	// 	Company Mapper
+	// ----------------------------------
+	
+	protected $_companyMapper;
+
+	/**
+	 * Sets the Company Mapper
+	 * 
+	 * @param GTW_Model_Company_Mapper $companyMapper
+	 */
+	public function setCompanyMapper(GTW_Model_Company_Mapper $companyMapper) 
+	{
+		$this->_companyMapper = $companyMapper;
+	}
+	
+	/**
+	 * Gets the Company Mapper
+	 * 
+	 * @return GTW_Model_Company_Mapper
+	 */
+	public function getCompanyMapper() 
+	{
+		if(!$this->_companyMapper)
+			$this->_companyMapper = GTW_Model_Company_Mapper::getInstance();
+
+		return $this->_companyMapper;
+	}
+
 
 
 	// ====================================================================
@@ -226,5 +358,39 @@ class GTW_Service_Map
 			$this->_userMapper = GTW_Model_User_Mapper::getInstance();
 
 		return $this->_userMapper;
+	}
+
+
+	// ====================================================================
+	//
+	// 	System Service
+	//
+	// ====================================================================
+	
+	
+
+	protected $_systemService;
+
+	/**
+	 * Sets the System Service
+	 * 
+	 * @param GTW_Service_System $systemService
+	 */
+	public function setSystemService(GTW_Service_System $systemService) 
+	{
+		$this->_systemService = $systemService;
+	}
+	
+	/**
+	 * Gets the System Service
+	 * 
+	 * @return GTW_Service_System
+	 */
+	public function getSystemService() 
+	{
+		if(!$this->_systemService)
+			$this->_systemService = GTW_Service_System::getInstance();
+
+		return $this->_systemService;
 	}
 }

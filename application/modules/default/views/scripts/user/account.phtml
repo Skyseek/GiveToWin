@@ -57,15 +57,16 @@ div.contentsWindow {
 
 
 
-<div class="content-box" style="width:720px;">
+<div class="content-box" style="width:820px;">
 	<table width="100%" cellpadding="0" cellspacing="0" border="0">
 		<tr class="header">
 			<td class="left"></td>
-			<td class="center" width="702"></td>
+			<td class="center" width="802"></td>
 			<td class="right"></td>
 		</tr>
 		<tr>
 			<td class="title" colspan="3">
+				<h1>Account</h1>
 			</td>
 		</tr>
 		<tr>
@@ -75,8 +76,9 @@ div.contentsWindow {
 						<li><a href="#tabs-1">My Profile</a></li> 
 						<li><a href="#tabs-2">My Password</a></li> 
 						<li><a href="#tabs-3">My Picture</a></li> 
+						<li><a href="#tabs-4">My Subscriptions</a></li> 
 					</ul> 
-					<div id="tabs-1" style="width:660px"> 
+					<div id="tabs-1" style="width:760px"> 
 						<h3 style="border-bottom:1px solid #ccc;">My Profile</h3>
 						<br />
 						<?php echo $this->editAccountForm; ?>
@@ -98,22 +100,47 @@ div.contentsWindow {
 						Another option is to link you facebook account and use your facebook profile picture as your Give to Win profile picture.
 						
 					</div> 
+					<div id="tabs-4"> 
+						<h3>City Newsletter Subscriptions</h3>
+						<hr /><br />
+						<? if($this->user->citySubscriptions->count() == 0): ?>
+							<center>
+								<em>You have no subscriptions! <br /><br /><a href="/user/add-city-subscription">add one now &gt;</a></em>
+							</center>
+						<? else: ?>
+							<table width="100%">
+								<tr align="left">
+									<th>City</th>
+									<th align="center" width="150">Unsubscribe?</th>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<hr />
+									</td>
+								</tr>
+							<?php foreach ($this->user->citySubscriptions as $subscription): ?>
+								<tr>
+									<td><?php echo $subscription->city->city; ?></td>
+									<td align="center"><a href='javascript:removeSubscription(<?php echo $subscription->id; ?>,"<?php echo $subscription->city->city; ?>")'>Remove Subscription</a></td>
+								</tr>
+							<?php endforeach; ?>
+							</table>
+							<hr />
+							<center>
+								<br />
+								<b><?php echo $this->user->citySubscriptions->count(); ?> Subscriptions.</b><br /><br />
+								<a href="/user/add-city-subscription">add another &gt;</a>
+							</center>
+						<? endif; ?>						
+						<br />
+						<br />
+						
+						
+					</div> 
 				</div> 
 
 					<? /*
 				<ul class="contents">
-					<li>
-						
-					</li>
-
-					<li>
-						<h1>My Password</h1>
-						<hr /><br />
-						<?php echo $this->passwordForm; ?>
-					</li>
-					<li>
-						
-					</li>
 					<li>
 						<h1>My Coupons</h1><hr /><br />
 						<?php if(count($this->coupons->results)): ?>
@@ -201,7 +228,7 @@ div.contentsWindow {
 
 	function removeSubscription(id, city) {
 		if(confirm("Are you sure you want to remove your " + city + " subscription?")) {
-			window.location = "/User/Account?remove_subscription=" + id;
+			window.location = "/user/account?remove_subscription=" + id;
 		}
 	}
 

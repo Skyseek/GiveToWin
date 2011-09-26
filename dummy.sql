@@ -18,9 +18,9 @@ TRUNCATE `company`;
 
 INSERT INTO  `gtw`.`city` (`id` ,`state_id` ,`status_id` ,`city`) VALUES 
 	(1 ,  '13',  '2',  'Athens'),
-	(2 ,  '13',  '1',  'Atlanta'),
-	(3 ,  '13',  '1',  'Columbus'),
-	(4 ,  '13',  '1',  'Savannah'),
+	(2 ,  '13',  '2',  'Atlanta'),
+	(3 ,  '13',  '2',  'Columbus'),
+	(4 ,  '13',  '2',  'Savannah'),
 	(5 ,  '13',  '1',  'Sandy Springs'),
 	(6 ,  '13',  '1',  'Macon');
 

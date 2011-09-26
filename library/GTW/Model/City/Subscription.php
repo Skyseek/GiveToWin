@@ -83,7 +83,7 @@ class GTW_Model_City_Subscription extends Skyseek_Model_Entity
 	public function getCity() 
 	{
 		if ($this->_city == null && $this->referenceId('city_id')) {
-			$this->_city = $this->cityMapper()->find($this->referenceId('city_id'));
+			$this->_city = $this->cityMapper()->getCity($this->referenceId('city_id'));
 		}
 
 		return $this->_city;

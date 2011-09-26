@@ -234,12 +234,11 @@ $timeLeft	= $endDate->sub(Zend_Date::now());
 							<?php endif; ?>
 							<a style="float:right; padding-right:15px;padding-bottom:30px;" href="/Offer/Comments?fundraiser_id=<?= $fundraiser->id; ?>&offer_id=<?= $offer->id; ?>">see all &gt;</a>
 							<h3 style="padding-top:30px;padding-bottom: 10px;">REFERRALS</h3>
-							<a href="#mb_suggest_charity" rel="lightbox[suggest_charity 660 525]"><b>SUGGEST A LOCAL CHARITY OR ORGANIZATION &gt;</b></a><br /><br />
-							<a href="#mb_suggest_company" rel="lightbox[suggest_company 660 525]"><b>SUGGEST A BUSINESS &gt;</b></a><br /><br />
-							<b style="font-size:10pt;">
-								<a href="/CompanyAdmin">OWN A BUSINESS? SIGN UP!</a>
-							</b><br /><br />
-							<a href="#mb_suggest_friend" rel="lightbox[suggest_friend 660 325]"><b>REFER A FRIEND &gt;</b></a>
+							<a href="/suggest/non-profit" style='font-size:12px'><b>SUGGEST A LOCAL CHARITY/ORGANIZATION &gt;</b></a><br /><br />
+							<a href="/suggest/merchant" style='font-size:12px'><b>SUGGEST A BUSINESS &gt;</b></a><br /><br />
+							<a href="/suggest/merchant" style='font-size:12px'>OWN A BUSINESS? SIGN UP!</a>
+							<br /><br />
+							<a href="/suggest/friend" style='font-size:12px'><b>REFER A FRIEND &gt;</b></a>
 						</td>
 					</tr>
 					<tr>

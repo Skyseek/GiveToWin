@@ -69,11 +69,31 @@ class Default_UserController extends Zend_Controller_Action
 		
 	}
 
+	public function addCitySubscriptionAction()
+	{
+		if(isset($_GET['city_id'])) {
+			$user = GTW_Service_User::getInstance()->getCurrentUser();
+			$city = GTW_Service_City::getInstance()->getCityById($_GET['city_id']);
+
+			if($user && $city) {
+				GTW_Service_CitySubscription::getInstance()->addSubscriberToCity($user, $city);
+				$this->view->message = "Successfully Subscribed.";
+				$this->_forward('account');
+			}
+		}
+
+		$this->view->cities = GTW_Service_City::getInstance()->getCityCollection();
+	}
+
 	public function accountAction()
 	{
-
 		$request 	= $this->getRequest();
 		$user 		= $this->_userService->getCurrentUser();
+
+		if(isset($_GET['remove_subscription'])) {
+			GTW_Service_CitySubscription::getInstance()->deleteSubscriptionById($_GET['remove_subscription']);
+			$this->view->message = "Successfully Unsubscribed.";
+		}
 
 		$editAccountForm 	= new GTW_Model_User_Form_EditAccount();
 		$editAccountForm->setUser($user);
@@ -83,8 +103,6 @@ class Default_UserController extends Zend_Controller_Action
 
 		//Default Selected Tab
 		$this->view->mootabsSelectedIndex = 0;
-
-		
 		
 		if($request->isPost() && isset($_POST['action'])) {
 			if($_POST['action'] == 'editAccount') {

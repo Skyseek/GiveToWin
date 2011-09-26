@@ -133,6 +133,11 @@ echo $this->doctype();
 								<td class="city_name">
 									<a href="/Index/Select-City"><?= $cityService->getCitySelection()->city; ?></a>
 								</td>
+								<? else: ?>
+								<td style="padding-top: 10px;"></td>
+								<td class="city_name" style='font-size:20px;'>
+									<a href="/Index/Select-City">&gt;&gt; Click Here to Select Your City &lt;&lt;</a>
+								</td>
 								<? endif; ?>
 							</tr>
 						</table>
@@ -226,28 +231,28 @@ echo $this->doctype();
 										<img alt="GiveToWin.com" width="94" height="92" src="/skins/default/image/v2/footer_logo.png" />
 									</td>
 									<td align="right" style="padding-right:20px;">
-										<a href="/Index/About">about us</a><br/>
-										<a href="#">jobs</a><br/>
-										<a href="/Index/Contact">contact</a><br/>
-										<a href="#">help</a><br/>
+										<a href="/info/about">about us</a><br/>
+										<a href="/info/jobs">jobs</a><br/>
+										<a href="/info/contact">contact</a><br/>
+										<a href="/info/help">help</a><br/>
 									</td>
 									<td class="vr">
 
 									</td>
 									<td align="center" style="padding-right:20px; padding-left: 20px;">
-										<a href="/NonProfitLogin">nonprofit login</a><br/>
-										<a href="/MerchantLogin">merchant login</a><br/>
-										<a href="/User/Login">donor login</a><br/>
-										<a href="#mb_suggest_city" rel="lightbox[suggest_city 660 325]">suggest a city</a><br/>
-										<a href="#mb_suggest_friend" rel="lightbox[suggest_friend 660 325]">refer a friend</a><br/>
+										<a href="/charity/index/index">nonprofit login</a><br/>
+										<a href="/company/index/index">merchant login</a><br/>
+										<a href="/user/login">donor login</a><br/>
+										<a href="/suggest/city">suggest a city</a><br/>
+										<a href="/suggest/friend">refer a friend</a><br/>
 									</td>
 									<td class="vr">
 									</td>
 									<td align="left" style="padding-left: 20px;">
-										<a href="/Index/Faq">FAQ</a><br/>
-										<a href="#">terms</a><br/>
-										<a href="/Index/Privacy-Policy">privacy policy</a><br/>
-										<a href="#">merchandise</a><br/>
+										<a href="/info/faq">FAQ</a><br/>
+										<a href="/info/terms-of-use">terms</a><br/>
+										<a href="/info/privacy-policy">privacy policy</a><br/>
+										<a href="/info/merchandise">merchandise</a><br/>
 									</td>
 								</tr>
 								<tr>

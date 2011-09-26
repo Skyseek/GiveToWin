@@ -118,6 +118,14 @@ class GTW_Service_User extends GTW_Service_Map
 		return $this->getUserMapper()->getUserCollection($request)->current();
 	}
 
+	public function getAdmins()
+	{
+		$request = new Skyseek_Model_Entity_Collection_Request(1, 100);
+		$request->addFilter('role_id', '=', GTW_Model_User_Role::ADMIN);
+
+		return $this->getUserMapper()->getUserCollection($request);
+	}
+
 	/**
 	 * Returns the User Entity with given id.
 	 *
