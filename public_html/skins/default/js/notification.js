@@ -24,11 +24,13 @@
                     if (settings.type == 'ondemand') {
                         wrapper.stop(true, false).animate({ marginTop: h }, settings.speed, function () {
                             wrapper.removeClass('visible').addClass('hide');
+							$('#toolbarContentSubscribe').css({'visibility':'visible'});
                             ondemandBtn.stop(true, false).animate({ marginTop: 0 }, settings.speed);
                         });
                     }
                     else {
                         wrapper.stop(true, false).animate({ marginTop: h }, settings.speed, function () {
+							$('#toolbarContentSubscribe').css({'visibility':'visible'});
                             wrapper.removeClass('visible').addClass('hide');
                         });
                     }
