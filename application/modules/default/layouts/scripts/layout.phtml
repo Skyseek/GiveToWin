@@ -71,7 +71,8 @@ echo $this->doctype();
 					<td class="ToolbarContent" width="100%" align="center">
 						<table cellpadding="0" cellspacing="0">
 							<tr>
-								<td width="461">
+								<td id="toolbarContentSubscribe" width="461" <?php 
+			if ($this->error || $this->message || $this->success) {echo('style="visibility:hidden;"');} ?>>
 									<? if($cityService->hasCitySelected()): ?>
 									<form name="subscribe" id="subscribe" method="post" action="/">
 											<table cellpadding="0" cellspacing="0">

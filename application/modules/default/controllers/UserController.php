@@ -121,7 +121,7 @@ class Default_UserController extends Zend_Controller_Action
 				// ----------------------------------
 
 				if($changePasswordForm->isValid($request->getPost())) {
-					$this->_userService->save($changePasswordForm->getUser());
+					csave($changePasswordForm->getUser());
 					$this->view->success = "Your password was set successfully.";
 				} else
 					$this->view->error = "We were unable to set your password.";
@@ -132,5 +132,25 @@ class Default_UserController extends Zend_Controller_Action
 		$this->view->changePasswordForm = $changePasswordForm;
 		$this->view->editAccountForm = $editAccountForm;
 		$this->view->user = $user;
+	}
+	
+	public function validateAction() 
+	{
+		$request 	= $this->getRequest();
+		if ($request->getParam('id',0) > 0) {
+			$userId = $request->getParam('id');
+			$user	= $this->_userService->getUserById($userId);
+			
+			$existingUser = $this->_userService->getUserByEmail($user->email);
+			if($existingUser) {
+				//Update the fields.
+				$user->status_id = 2;
+				$this->_userService->getUserMapper()->save($user);
+				
+				//This is an automatic login: We don't want that.
+				//$this->_userService->startSession($user);
+			}
+		} 
+		$this->_forward('login');
 	}
 }
