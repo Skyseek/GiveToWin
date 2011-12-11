@@ -183,8 +183,11 @@ class GTW_Service_User extends GTW_Service_Map
 	{
 		GTW_Auth::getInstance()->getStorage()->write($user->id);
 
-		if($this->getCityService()->hasCitySelected())
-			$this->getCityService()->setCitySelection($user->city);
+		if($this->getCityService()->hasCitySelected()) {
+			$cityID = $this->getCityService()->getCitySelection();
+			$city = $this->getCityService()->getCityById($cityID);	
+			$this->getCityService()->setCitySelection($city);
+		}
 	}
 
 	public function stopSession()
@@ -254,12 +257,16 @@ class GTW_Service_User extends GTW_Service_Map
 		$existingUser = $this->getUserByEmail($user->email);
 
 		if($existingUser) {
+			
 			if($existingUser->role->id == GTW_Model_User_Role::SUBSCRIBER) {
+				$passWd = $user->password;
 				$existingUser->first_name	= $user->first_name;
 				$existingUser->last_name	= $user->last_name;
 
 				$user = $existingUser;
+				$user->password = $passWd;
 			} else {
+
 				$urlEmail = urlencode($existingUser->email);
 
 				$messageBody  = "Email is already Registered. ";
@@ -273,7 +280,7 @@ class GTW_Service_User extends GTW_Service_Map
 				$user->city = $this->getCityService()->getCitySelection();
 			}
 		}
-		
+
 		$user->status = $user->statusMapper()->getStatus(GTW_Model_User_Status::PENDING);
 		$user->role = $user->roleMapper()->getRole(GTW_Model_User_Role::MEMBER);
 		$user->setNewPassword($user->password);
