@@ -59,6 +59,7 @@ class GTW_Model_Email extends Skyseek_Model_Entity{
 		$mail = new Zend_Mail();
 		
 		$mail->setFrom($this->from_email, $this->from_alias);
+		$mail->setReplyTo($this->from_email, $this->from_alias);
 		$mail->addTo($this->to_email, $this->to_alias);
 		$mail->setSubject($this->subject);
 		$mail->setBodyText($this->text_content);
